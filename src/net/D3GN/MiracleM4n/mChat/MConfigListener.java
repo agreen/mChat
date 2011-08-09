@@ -1,7 +1,5 @@
 package net.D3GN.MiracleM4n.mChat;
 
-import java.io.File;
-
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.config.Configuration;
 
@@ -24,10 +22,11 @@ public class MConfigListener {
 		plugin.joinMessage = config.getString("mchat-join-message", plugin.joinMessage);
 		plugin.leaveMessage = config.getString("mchat-leave-message", plugin.leaveMessage);
 		plugin.kickMessage	= config.getString("mchat-kick-message", plugin.kickMessage);
+		plugin.mAPI_Only_Mode = config.getBoolean("mchat-API-only", plugin.mAPI_Only_Mode);
 	}
 
 	protected void defaultConfig() {
-		Configuration config = new Configuration(new File(plugin.getDataFolder(), "config.yml"));
+		Configuration config = plugin.config;
 		config.save();
 		config.setHeader(
 	            "# mChat configuration file",
@@ -50,6 +49,7 @@ public class MConfigListener {
 		config.setProperty("mchat-join-message", plugin.joinMessage);
 		config.setProperty("mchat-leave-message", plugin.leaveMessage);
 		config.setProperty("mchat-kick-message", plugin.kickMessage);
+		config.setProperty("mchat-API-only", plugin.mAPI_Only_Mode);
 		config.setProperty("auto-Changed", 1);
 		config.save();
 	}
@@ -95,6 +95,10 @@ public class MConfigListener {
 			
 			if (config.getProperty("mchat-kick-message") == null) {
 				config.setProperty("mchat-kick-message", plugin.kickMessage);
+				hasChanged = true;
+			}
+			if (config.getProperty("mchat-API-only") == null) {
+				config.setProperty("mchat-API-only", plugin.mAPI_Only_Mode);
 				hasChanged = true;
 			}
 		}

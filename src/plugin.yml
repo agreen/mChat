@@ -4,11 +4,12 @@ version: 1.7.10
 author: MiracleM4n
 website: http://d3gn.net/
 thread: http://forums.bukkit.org/threads/22958/
-softdepend: [Spout, mInfo]
+softdepend: [Spout]
 commands:
     mchat:
         description: 
         usage: |
-            /<command> reload
+            /<command> reload [config/info]
             Example: /<command> - See this info.
-            Example: /<command> reload - Reload Config.
+            Example: /<command> reload config - Reload Config.
+            Example: /<command> reload info - Reload Info.
