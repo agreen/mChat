@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import org.bukkit.entity.Player;
 
 public class mChatAPI {
-
     mChat plugin;
     
     public mChatAPI(mChat plugin) {
