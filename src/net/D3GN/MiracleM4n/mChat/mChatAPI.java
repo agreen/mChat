@@ -13,7 +13,7 @@ public class mChatAPI {
         this.plugin = plugin;
     }
 
-    public String replaceVars(String format, String[] search, String[] replace) {
+    String replaceVars(String format, String[] search, String[] replace) {
         if (search.length != replace.length) {
             return "";
         }
@@ -73,7 +73,7 @@ public class mChatAPI {
         return replaceVars(format, search, replace);
     }
 
-    public String healthBar(Player player) {
+    String healthBar(Player player) {
         float maxHealth = 20;
         float barLength = 10;
         float health = player.getHealth();
@@ -184,7 +184,6 @@ public class mChatAPI {
 		plugin.otherMap.clear();
 		plugin.infoMap.clear();
 		plugin.infoMap.putAll(plugin.mIConfig.getNode("mchat").getAll());
-		plugin.mIListener.checkConfig();
 	}
 	
 	@SuppressWarnings({ "deprecation", "static-access" })

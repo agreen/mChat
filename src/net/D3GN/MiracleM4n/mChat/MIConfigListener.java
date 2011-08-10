@@ -15,7 +15,6 @@ public class MIConfigListener {
 	TreeMap<String, Object> defaultSuffix = new TreeMap<String, Object>();
 	TreeMap<String, Object> defaultGroup = new TreeMap<String, Object>();
 	
-	@SuppressWarnings("static-access")
 	protected void defaultConfig() {
 		Configuration config = plugin.mIConfig;
 		config.save();
@@ -23,7 +22,6 @@ public class MIConfigListener {
 	            "# mChat Info config",
 	            "# Only needed if using PermissionsBukkit, superperms.",
 	            "");
-		plugin.API.refreshMaps();
 		defaultGroup.put("admin", "");
 		defaultGroup.put("sadmin", "");
 		defaultGroup.put("jadmin", "");
@@ -43,12 +41,12 @@ public class MIConfigListener {
 		config.save();
 	}
 	
-	@SuppressWarnings("static-access")
 	protected void checkConfig() {
 		Configuration config = plugin.mIConfig;
 		config.load();
 		if (config.getProperty("mchat") == null) {
-			plugin.API.refreshMaps();
+			plugin.otherMap.clear();
+			plugin.infoMap.clear();
 			defaultGroup.put("admin", "");
 			defaultGroup.put("sadmin", "");
 			defaultGroup.put("jadmin", "");
