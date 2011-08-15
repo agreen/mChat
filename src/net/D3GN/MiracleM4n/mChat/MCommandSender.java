@@ -16,7 +16,6 @@ public class MCommandSender implements CommandExecutor {
 	String message = "";
 	Boolean hasTime = false;
 
-	@SuppressWarnings("static-access")
 	public boolean onCommand (CommandSender sender, Command command, String label, String[] args) {
 		String commandName = command.getName();
 		if (commandName.equalsIgnoreCase("mchat")) {
@@ -25,7 +24,7 @@ public class MCommandSender implements CommandExecutor {
 					if (args[1].equalsIgnoreCase("config")) {
 						if (sender instanceof Player) {
 							Player player = (Player) sender;
-							if (plugin.API.checkPermissions(player, "mchat.reload")) {
+							if (plugin.mAPI.checkPermissions(player, "mchat.reload")) {
 								plugin.cListener.checkConfig();
 								plugin.cListener.loadConfig();
 								sender.sendMessage(formatMessage("Config Reloaded."));
@@ -43,7 +42,7 @@ public class MCommandSender implements CommandExecutor {
 					} else if (args[1].equalsIgnoreCase("info")) {
 						if (sender instanceof Player) {
 							Player player = (Player) sender;
-							if (plugin.API.checkPermissions(player, "mchat.reload")) {
+							if (plugin.mAPI.checkPermissions(player, "mchat.reload")) {
 								plugin.mIListener.checkConfig();
 								sender.sendMessage(formatMessage("Info Reloaded."));
 								return true;
@@ -63,10 +62,9 @@ public class MCommandSender implements CommandExecutor {
 		return false;
 	}
 	
-	@SuppressWarnings("static-access")
 	private String formatMessage(String message) {
 		PluginDescriptionFile pdfFile = plugin.getDescription();
-		return(plugin.API.addColour("&4[" + (pdfFile.getName()) + "] " + message));
+		return(plugin.mAPI.addColour("&4[" + (pdfFile.getName()) + "] " + message));
 	}
 }
 

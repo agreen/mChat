@@ -1,10 +1,11 @@
 name: mChat
 main: net.D3GN.MiracleM4n.mChat.mChat
-version: 1.7.10_1
+version: 1.7.10_4
 author: MiracleM4n
 website: http://d3gn.net/
 thread: http://forums.bukkit.org/threads/22958/
 softdepend: [Spout]
+description: Chat API with more.
 commands:
     mchat:
         description: 

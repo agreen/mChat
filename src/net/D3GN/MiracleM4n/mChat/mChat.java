@@ -21,21 +21,24 @@ import org.bukkit.plugin.Plugin;
 
 public class mChat extends JavaPlugin {
     PluginManager pm;
-        
+    
+    //Listeners
     MPlayerListener pListener;
     MCommandSender cSender;
     MConfigListener cListener;
     MIConfigListener mIListener;
     
+    //API
     public static mChatAPI API = null;
+    mChatAPI mAPI = null;
     
     // Permissions
-    public static PermissionHandler permissions;
+    public PermissionHandler permissions;
 	Boolean permissions3;
     Boolean permissionsB = false;
     
     // GroupManager
-    public static AnjoPermissionsHandler gmPermissions;
+    public AnjoPermissionsHandler gmPermissions;
     Boolean gmPermissionsB = false;
     
     //superpermsBridge Fix
@@ -80,10 +83,14 @@ public class mChat extends JavaPlugin {
         cSender = new MCommandSender(this);
         cListener = new MConfigListener(this);
         mIListener = new MIConfigListener(this);
+
+        setupPermissions();
         
         // Initialize the API
         API = new mChatAPI(this);
+        mAPI = new mChatAPI(this);
 
+        //Setup Configs
         if (!(new File(getDataFolder(), "config.yml")).exists()) {
             cListener.defaultConfig();
             cListener.checkConfig();
@@ -102,16 +109,16 @@ public class mChat extends JavaPlugin {
         	API.refreshMaps();
         }
         
+        //Register Events
         if (mAPI_Only_Mode == false) {
-            pm.registerEvent(Event.Type.PLAYER_KICK, pListener, Priority.High, this);
-            pm.registerEvent(Event.Type.PLAYER_CHAT, pListener, Priority.High, this);
-            pm.registerEvent(Event.Type.PLAYER_JOIN, pListener, Priority.High, this);
-            pm.registerEvent(Event.Type.PLAYER_QUIT, pListener, Priority.High, this);
+            pm.registerEvent(Event.Type.PLAYER_KICK, pListener, Priority.Normal, this);
+            pm.registerEvent(Event.Type.PLAYER_CHAT, pListener, Priority.Normal, this);
+            pm.registerEvent(Event.Type.PLAYER_JOIN, pListener, Priority.Normal, this);
+            pm.registerEvent(Event.Type.PLAYER_QUIT, pListener, Priority.Normal, this);
         }
+        
+        //Register Commands
         getCommand("mchat").setExecutor(cSender);
-
-        setupPermissions();
-        setupGroupManager();
         
         console.sendMessage("[" + (pdfFile.getName()) + "]" + " version " + pdfFile.getVersion() + " is enabled!");
     }
@@ -123,11 +130,16 @@ public class mChat extends JavaPlugin {
     }
 
 	private void setupPermissions() {
+		Plugin bPermTest = this.getServer().getPluginManager().getPlugin("bPermissions");
 		Plugin permTest = this.getServer().getPluginManager().getPlugin("Permissions");
-		PluginDescriptionFile pdfFile = getDescription();		
+		PluginDescriptionFile pdfFile = getDescription();
 		if (permissions == null) {
 			if (permTest != null) {
 				if (superBridge = permTest.getDescription().getVersion().startsWith("2.7.7")) {
+					System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
+					permissionsB = false;
+					return;
+				} else if (bPermTest != null) {
 					System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
 					permissionsB = false;
 					return;
@@ -138,7 +150,10 @@ public class mChat extends JavaPlugin {
 					System.out.println("[" + pdfFile.getName() + "]" + " Permissions " + (permTest.getDescription().getVersion()) + " found hooking in.");
 				}
 			} else {
+				permissionsB = false;
+				permissions3 = false;
 				System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
+				setupGroupManager();
 			}
 		}
 	}
@@ -151,6 +166,7 @@ public class mChat extends JavaPlugin {
 				gmPermissionsB = true;
 				System.out.println("[" + pdfFile.getName() + "]" + " GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
 			} else {
+				gmPermissionsB = false;
 				System.out.println("[" + pdfFile.getName() + "]" + " GroupManager not found, using superperms.");
 			}
 		}

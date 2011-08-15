@@ -14,6 +14,7 @@ public class MIConfigListener {
 	TreeMap<String, Object> defaultPrefix = new TreeMap<String, Object>();
 	TreeMap<String, Object> defaultSuffix = new TreeMap<String, Object>();
 	TreeMap<String, Object> defaultGroup = new TreeMap<String, Object>();
+	TreeMap<String, Object> defaultVar = new TreeMap<String, Object>();
 	
 	protected void defaultConfig() {
 		Configuration config = plugin.mIConfig;
@@ -34,9 +35,14 @@ public class MIConfigListener {
 		defaultSuffix.put("sadmin", "");
 		defaultSuffix.put("jadmin", "");
 		defaultSuffix.put("member", "");
+		defaultVar.put("admin", "");
+		defaultVar.put("sadmin", "");
+		defaultVar.put("jadmin", "");
+		defaultVar.put("member", "");
 		plugin.infoMap.put("group", defaultGroup);
 		plugin.infoMap.put("prefix", defaultPrefix);
 		plugin.infoMap.put("suffix", defaultSuffix);
+		plugin.infoMap.put("custVar", defaultVar);
 		config.setProperty("mchat", plugin.infoMap);
 		config.save();
 	}
@@ -45,8 +51,16 @@ public class MIConfigListener {
 		Configuration config = plugin.mIConfig;
 		config.load();
 		if (config.getProperty("mchat") == null) {
-			plugin.otherMap.clear();
-			plugin.infoMap.clear();
+			if (plugin.otherMap != null) {
+				plugin.otherMap.clear();
+			}
+			if (plugin.infoMap != null) {
+				plugin.infoMap.clear();
+			}
+			config.setHeader(
+		            "# mChat Info config",
+		            "# Only needed if using PermissionsBukkit, superperms.",
+		            "");
 			defaultGroup.put("admin", "");
 			defaultGroup.put("sadmin", "");
 			defaultGroup.put("jadmin", "");
@@ -59,14 +73,15 @@ public class MIConfigListener {
 			defaultSuffix.put("sadmin", "");
 			defaultSuffix.put("jadmin", "");
 			defaultSuffix.put("member", "");
+			defaultVar.put("admin", "");
+			defaultVar.put("sadmin", "");
+			defaultVar.put("jadmin", "");
+			defaultVar.put("member", "");
 			plugin.infoMap.put("group", defaultGroup);
 			plugin.infoMap.put("prefix", defaultPrefix);
 			plugin.infoMap.put("suffix", defaultSuffix);
+			plugin.infoMap.put("custVar", defaultVar);
 			config.setProperty("mchat", plugin.infoMap);
-			config.setHeader(
-		            "# mChat Info config",
-		            "# Only needed if using PermissionsBukkit, superperms.",
-		            "");
 			config.save();
 		}
 	}
