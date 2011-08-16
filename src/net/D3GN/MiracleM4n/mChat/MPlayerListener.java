@@ -1,5 +1,6 @@
 package net.D3GN.MiracleM4n.mChat;
 
+import net.D3GN.MiracleM4n.mChat.mChat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;

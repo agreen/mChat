@@ -1,6 +1,7 @@
 package net.D3GN.MiracleM4n.mChat;
 
 import java.util.TreeMap;
+import net.D3GN.MiracleM4n.mChat.mChat;
 
 import org.bukkit.util.config.Configuration;
 

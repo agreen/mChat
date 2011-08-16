@@ -21,40 +21,40 @@ import org.bukkit.plugin.Plugin;
 
 public class mChat extends JavaPlugin {
     PluginManager pm;
-    
+
     //Listeners
     MPlayerListener pListener;
     MCommandSender cSender;
     MConfigListener cListener;
     MIConfigListener mIListener;
-    
+
     //API
     public static mChatAPI API = null;
     mChatAPI mAPI = null;
-    
+
     // Permissions
     public PermissionHandler permissions;
-	Boolean permissions3;
+    Boolean permissions3;
     Boolean permissionsB = false;
-    
+
     // GroupManager
     public AnjoPermissionsHandler gmPermissions;
     Boolean gmPermissionsB = false;
-    
+
     //superpermsBridge Fix
     Boolean superBridge;
-    
+
     // Coloring & Configuration
     ColouredConsoleSender console = null;
     Configuration config = null;
     Configuration mIConfig = null;
-    
+
     // Information
-	String infoResolve;
-	
-	//API Only Boolean
-	Boolean mAPI_Only_Mode = false;
-	
+    String infoResolve;
+
+    //API Only Boolean
+    Boolean mAPI_Only_Mode = false;
+
     // Formatting
     String chatFormat = "+hb+p+dn+s&f: +message";
     String nameFormat = "+p+dn+s&e";
@@ -63,10 +63,10 @@ public class mChat extends JavaPlugin {
     String joinMessage = "has joined the game.";
     String leaveMessage = "has left the game.";
     String kickMessage = "has been kicked from the game.";
-    
+
     //InfoHasMaps
-	TreeMap<String, Object> infoMap = new TreeMap<String, Object>();
-	TreeMap<String, Object> otherMap = new TreeMap<String, Object>();
+    TreeMap<String, Object> infoMap = new TreeMap<String, Object>();
+    TreeMap<String, Object> otherMap = new TreeMap<String, Object>();
 
     public void onEnable() {
         // Default plugin data
@@ -75,17 +75,17 @@ public class mChat extends JavaPlugin {
         mIConfig = new Configuration(new File(getDataFolder(), "info.yml"));
         console = new ColouredConsoleSender((CraftServer) getServer());
         PluginDescriptionFile pdfFile = getDescription();
-        
+
         // Initialize Listeners and Configurations
-        if (mAPI_Only_Mode == false) {
-        	pListener = new MPlayerListener(this);
-        }
+        if (mAPI_Only_Mode == false)
+            pListener = new MPlayerListener(this);
+
         cSender = new MCommandSender(this);
         cListener = new MConfigListener(this);
         mIListener = new MIConfigListener(this);
 
         setupPermissions();
-        
+
         // Initialize the API
         API = new mChatAPI(this);
         mAPI = new mChatAPI(this);
@@ -99,16 +99,16 @@ public class mChat extends JavaPlugin {
             cListener.checkConfig();
             cListener.loadConfig();
         }
-        
+
         if (!(new File(getDataFolder(), "info.yml")).exists()) {
-        	mIListener.defaultConfig();
-        	mIListener.checkConfig();
-        	API.refreshMaps();
+            mIListener.defaultConfig();
+            mIListener.checkConfig();
+            API.refreshMaps();
         } else {
-        	mIListener.checkConfig();
-        	API.refreshMaps();
+            mIListener.checkConfig();
+            API.refreshMaps();
         }
-        
+
         //Register Events
         if (mAPI_Only_Mode == false) {
             pm.registerEvent(Event.Type.PLAYER_KICK, pListener, Priority.Normal, this);
@@ -116,10 +116,10 @@ public class mChat extends JavaPlugin {
             pm.registerEvent(Event.Type.PLAYER_JOIN, pListener, Priority.Normal, this);
             pm.registerEvent(Event.Type.PLAYER_QUIT, pListener, Priority.Normal, this);
         }
-        
+
         //Register Commands
         getCommand("mchat").setExecutor(cSender);
-        
+
         console.sendMessage("[" + (pdfFile.getName()) + "]" + " version " + pdfFile.getVersion() + " is enabled!");
     }
 
@@ -129,46 +129,55 @@ public class mChat extends JavaPlugin {
         console.sendMessage("[" + (pdfFile.getName()) + "]" + " version " + pdfFile.getVersion() + " is disabled!");
     }
 
-	private void setupPermissions() {
-		Plugin bPermTest = this.getServer().getPluginManager().getPlugin("bPermissions");
-		Plugin permTest = this.getServer().getPluginManager().getPlugin("Permissions");
-		PluginDescriptionFile pdfFile = getDescription();
-		if (permissions == null) {
-			if (permTest != null) {
-				if (superBridge = permTest.getDescription().getVersion().startsWith("2.7.7")) {
-					System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
-					permissionsB = false;
-					return;
-				} else if (bPermTest != null) {
-					System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
-					permissionsB = false;
-					return;
-				} else {
-					permissions = ((Permissions)permTest).getHandler();
-					permissionsB = true;
-					permissions3 = permTest.getDescription().getVersion().startsWith("3");
-					System.out.println("[" + pdfFile.getName() + "]" + " Permissions " + (permTest.getDescription().getVersion()) + " found hooking in.");
-				}
-			} else {
-				permissionsB = false;
-				permissions3 = false;
-				System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
-				setupGroupManager();
-			}
-		}
-	}
-	
-	private void setupGroupManager() {
-		Plugin permTest = this.getServer().getPluginManager().getPlugin("GroupManager");
-		PluginDescriptionFile pdfFile = getDescription();		
-		if (permissions == null) {
-			if (permTest != null) {
-				gmPermissionsB = true;
-				System.out.println("[" + pdfFile.getName() + "]" + " GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
-			} else {
-				gmPermissionsB = false;
-				System.out.println("[" + pdfFile.getName() + "]" + " GroupManager not found, using superperms.");
-			}
-		}
-	}
+    private void setupPermissions() {
+        Plugin bPermTest = this.getServer().getPluginManager().getPlugin("bPermissions");
+        Plugin permTest = this.getServer().getPluginManager().getPlugin("Permissions");
+        PluginDescriptionFile pdfFile = getDescription();
+
+        if(permissions != null)
+            return;
+
+        if(permTest != null) {
+            if (superBridge = permTest.getDescription().getVersion().startsWith("2.7.7")) {
+                System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
+                permissionsB = false;
+
+                return;
+            }
+
+            if (bPermTest != null) {
+                System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
+                permissionsB = false;
+
+                return;
+            }
+
+            permissions = ((Permissions) permTest).getHandler();
+            permissionsB = true;
+            permissions3 = permTest.getDescription().getVersion().startsWith("3");
+
+            System.out.println("[" + pdfFile.getName() + "]" + " Permissions " + (permTest.getDescription().getVersion()) + " found hooking in.");
+        }
+
+        permissionsB = false;
+        permissions3 = false;
+        System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
+        setupGroupManager();
+    }
+
+    private void setupGroupManager() {
+        Plugin permTest = this.getServer().getPluginManager().getPlugin("GroupManager");
+        PluginDescriptionFile pdfFile = getDescription();
+
+        if(permissions != null)
+            return;
+
+        if (permTest != null) {
+            gmPermissionsB = true;
+            System.out.println("[" + pdfFile.getName() + "]" + " GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
+        } else {
+            gmPermissionsB = false;
+            System.out.println("[" + pdfFile.getName() + "]" + " GroupManager not found, using superperms.");
+        }
+    }
 }
