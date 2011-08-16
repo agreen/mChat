@@ -120,13 +120,13 @@ public class mChat extends JavaPlugin {
         //Register Commands
         getCommand("mchat").setExecutor(cSender);
 
-        console.sendMessage("[" + (pdfFile.getName()) + "]" + " version " + pdfFile.getVersion() + " is enabled!");
+        console.sendMessage("[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is enabled!");
     }
 
     public void onDisable() {
         PluginDescriptionFile pdfFile = getDescription();
 
-        console.sendMessage("[" + (pdfFile.getName()) + "]" + " version " + pdfFile.getVersion() + " is disabled!");
+        console.sendMessage("[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is disabled!");
     }
 
     private void setupPermissions() {
@@ -157,6 +157,8 @@ public class mChat extends JavaPlugin {
             permissions3 = permTest.getDescription().getVersion().startsWith("3");
 
             System.out.println("[" + pdfFile.getName() + "]" + " Permissions " + (permTest.getDescription().getVersion()) + " found hooking in.");
+            
+            return;
         }
 
         permissionsB = false;
