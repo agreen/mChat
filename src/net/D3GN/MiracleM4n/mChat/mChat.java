@@ -77,7 +77,7 @@ public class mChat extends JavaPlugin {
         PluginDescriptionFile pdfFile = getDescription();
 
         // Initialize Listeners and Configurations
-        if (mAPI_Only_Mode == false)
+        if (!mAPI_Only_Mode)
             pListener = new MPlayerListener(this);
 
         cSender = new MCommandSender(this);
@@ -110,7 +110,7 @@ public class mChat extends JavaPlugin {
         }
 
         //Register Events
-        if (mAPI_Only_Mode == false) {
+        if (!mAPI_Only_Mode) {
             pm.registerEvent(Event.Type.PLAYER_KICK, pListener, Priority.Normal, this);
             pm.registerEvent(Event.Type.PLAYER_CHAT, pListener, Priority.Normal, this);
             pm.registerEvent(Event.Type.PLAYER_JOIN, pListener, Priority.Normal, this);

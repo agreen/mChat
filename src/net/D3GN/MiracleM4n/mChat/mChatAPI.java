@@ -45,7 +45,7 @@ public class mChatAPI {
         String world = player.getWorld().getName();
 
         if (world.contains("_nether"))
-            world.replace("_nether", " Nether");
+            world = world.replace("_nether", " Nether");
 
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat(plugin.dateFormat);
@@ -141,8 +141,8 @@ public class mChatAPI {
      * Permissions Stuff
      */
     @SuppressWarnings("deprecation")
-    private String getPermissionsInfo(Player player, String info) {
-        if (info == "group")
+    String getPermissionsInfo(Player player, String info) {
+        if (info.equals("group"))
             return getPermissionsGroup(player);
 
         String pName = player.getName();
@@ -172,13 +172,12 @@ public class mChatAPI {
             if (group == null)
                 return "";
 
-            String groupString = plugin.permissions.getGroupPermissionString(world, group, info);
-            return groupString;
+            return plugin.permissions.getGroupPermissionString(world, group, info);
         }
     }
 
     @SuppressWarnings("deprecation")
-    private String getPermissionsGroup(Player player) {
+    String getPermissionsGroup(Player player) {
         String pName = player.getName();
         String world = player.getWorld().getName();
 
@@ -202,8 +201,8 @@ public class mChatAPI {
     /*
      * GroupManager Stuff
      */
-    private String getGroupManagerInfo(Player player, String info) {
-        if (info == "group")
+    String getGroupManagerInfo(Player player, String info) {
+        if (info.equals("group"))
             return getGroupManagerGroup(player);
 
         String pName = player.getName();
@@ -216,11 +215,10 @@ public class mChatAPI {
         if (group == null)
             return "";
 
-        String groupString = plugin.gmPermissions.getGroupPermissionString(group, info);
-        return groupString;
+        return plugin.gmPermissions.getGroupPermissionString(group, info);
     }
 
-    private String getGroupManagerGroup(Player player) {
+    String getGroupManagerGroup(Player player) {
         String pName = player.getName();
         String group = plugin.gmPermissions.getGroup(pName);
 
@@ -281,19 +279,15 @@ public class mChatAPI {
     }
 
     public Boolean checkPermissions(Player player, String node) {
-        if (plugin.permissionsB)
+        if (plugin.permissionsB) {
             if (plugin.permissions.has(player, node))
                 return true;
-            
-
-        if (plugin.gmPermissionsB)
+        } else if (plugin.gmPermissionsB) {
             if (plugin.gmPermissions.has(player, node))
                 return true;
-
-
-        if (player.hasPermission(node))
-            return true;
-
+        }   else if (player.hasPermission(node)) {
+              return true;
+        }
         return false;
     }
 
@@ -311,7 +305,8 @@ public class mChatAPI {
     }
 
     String parseVars(String format, Player player) {
-        Pattern pattern = Pattern.compile("\\+\\<(.*?)\\>");
+        Pattern pattern;
+        pattern = Pattern.compile("\\+\\<(.*?)\\>");
         Matcher matcher = pattern.matcher(format);
         StringBuffer sb = new StringBuffer();
 
@@ -327,7 +322,6 @@ public class mChatAPI {
     String replaceVars(String format, String[] search, String[] replace) {
         if (search.length != replace.length)
             return "";
-        
         for (int i = 0; i < search.length; i++) {
             if (search[i].contains(","))
                 for (String s : search[i].split(",")) {

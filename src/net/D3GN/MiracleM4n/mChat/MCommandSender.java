@@ -13,8 +13,6 @@ public class MCommandSender implements CommandExecutor {
     public MCommandSender(mChat plugin) {
         this.plugin = plugin;
     }
-    String message = "";
-    Boolean hasTime = false;
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         String cmd = command.getName();
