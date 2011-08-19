@@ -69,7 +69,7 @@ public class MCommandSender implements CommandExecutor {
 
     private String formatMessage(String message) {
         PluginDescriptionFile pdfFile = plugin.getDescription();
-        
+
         return (plugin.mAPI.addColour("&4[" + (pdfFile.getName()) + "] " + message));
     }
 }

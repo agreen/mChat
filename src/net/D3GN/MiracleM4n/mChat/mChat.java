@@ -41,7 +41,7 @@ public class mChat extends JavaPlugin {
     public AnjoPermissionsHandler gmPermissions;
     Boolean gmPermissionsB = false;
 
-    //superpermsBridge Fix
+    //SuperPermsBridge
     Boolean superBridge;
 
     // Coloring & Configuration
