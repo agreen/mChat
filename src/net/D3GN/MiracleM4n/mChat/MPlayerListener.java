@@ -13,7 +13,7 @@ public class MPlayerListener extends PlayerListener {
 	public MPlayerListener(mChat plugin) {
 		this.plugin = plugin;
 	}
-	
+
 	public void onPlayerChat(PlayerChatEvent event) {
 		if (event.isCancelled()) return;
 		final Player player = event.getPlayer();
