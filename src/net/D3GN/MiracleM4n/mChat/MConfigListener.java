@@ -38,9 +38,6 @@ public class MConfigListener {
             "#   usage of mchat-name-format, mchat-playerEvent-format are restricted to:",
             "#       +suffix,+s, +prefix,+p, +group,+g, +world,+w, +time,+t, +name,+n, +dname,+dn, +health,+h +healthbar,+hb",
             "#           **************",
-            "# ",
-            "# Use of mchat: is only if your using PermissionsBukkit (superperms)",
-            "# ignore it if you don't know what that is.",
             ""
         );
         config.setProperty("mchat-date-format", plugin.dateFormat);
@@ -121,9 +118,6 @@ public class MConfigListener {
                 "#   usage of mchat-name-format, mchat-playerEvent-format are restricted to:",
                 "#       +suffix,+s, +prefix,+p, +group,+g, +world,+w, +time,+t, +name,+n, +dname,+dn, +health,+h +healthbar,+hb",
                 "#           **************",
-                "# ",
-                "# Use of mchat: is only if your using PermissionsBukkit (superperms)",
-                "# ignore it if you don't know what that is.",
                 ""
             );
 

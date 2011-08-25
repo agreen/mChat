@@ -44,6 +44,9 @@ public class mChat extends JavaPlugin {
     //SuperPermsBridge
     Boolean superBridge;
 
+    //PermissionsBukkit
+    Boolean PermissionBuB = false;
+
     // Coloring & Configuration
     ColouredConsoleSender console = null;
     Configuration config = null;
@@ -103,10 +106,12 @@ public class mChat extends JavaPlugin {
         if (!(new File(getDataFolder(), "info.yml")).exists()) {
             mIListener.defaultConfig();
             mIListener.checkConfig();
-            API.refreshMaps();
+            mIListener.loadConfig();
+            mAPI.refreshMaps();
         } else {
             mIListener.checkConfig();
-            API.refreshMaps();
+            mIListener.loadConfig();
+            mAPI.refreshMaps();
         }
 
         //Register Events
@@ -141,30 +146,22 @@ public class mChat extends JavaPlugin {
             if (superBridge = permTest.getDescription().getVersion().startsWith("2.7.7")) {
                 System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
                 permissionsB = false;
-
-                return;
-            }
-
-            if (bPermTest != null) {
+            } else if (bPermTest != null) {
                 System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
                 permissionsB = false;
+            } else {
+                permissions = ((Permissions) permTest).getHandler();
+                permissionsB = true;
+                permissions3 = permTest.getDescription().getVersion().startsWith("3");
 
-                return;
+                System.out.println("[" + pdfFile.getName() + "]" + " Permissions " + (permTest.getDescription().getVersion()) + " found hooking in.");
             }
-
-            permissions = ((Permissions) permTest).getHandler();
-            permissionsB = true;
-            permissions3 = permTest.getDescription().getVersion().startsWith("3");
-
-            System.out.println("[" + pdfFile.getName() + "]" + " Permissions " + (permTest.getDescription().getVersion()) + " found hooking in.");
-            
-            return;
+        } else {
+            permissionsB = false;
+            permissions3 = false;
+            System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
+            setupGroupManager();
         }
-
-        permissionsB = false;
-        permissions3 = false;
-        System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
-        setupGroupManager();
     }
 
     private void setupGroupManager() {
@@ -179,7 +176,21 @@ public class mChat extends JavaPlugin {
             System.out.println("[" + pdfFile.getName() + "]" + " GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             gmPermissionsB = false;
-            System.out.println("[" + pdfFile.getName() + "]" + " GroupManager not found, using superperms.");
+            System.out.println("[" + pdfFile.getName() + "]" + " GroupManager not found, Checking for PermissionsBukkit.");
+            setupPermissionsBukkit();
+        }
+    }
+
+    private void setupPermissionsBukkit() {
+        Plugin PermissionsBukkitTest = this.getServer().getPluginManager().getPlugin("PermissionsBukkit");
+        PluginDescriptionFile pdfFile = getDescription();
+
+        if (PermissionsBukkitTest != null) {
+            PermissionBuB = true;
+            System.out.println("[" + pdfFile.getName() + "]" + " PermissionsBukkit " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
+        } else {
+            PermissionBuB  = false;
+            System.out.println("[" + pdfFile.getName() + "]" + " PermissionsBukkit not found, using superperms.");
         }
     }
 }

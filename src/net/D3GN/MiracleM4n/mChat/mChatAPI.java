@@ -2,12 +2,21 @@ package net.D3GN.MiracleM4n.mChat;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.avaje.ebeaninternal.server.el.ElSetValue;
+import com.platymuus.bukkit.permissions.Group;
+import com.platymuus.bukkit.permissions.PermissionInfo;
+import com.platymuus.bukkit.permissions.PermissionsMain;
+import com.platymuus.bukkit.permissions.PermissionsPlugin;
+import com.sun.deploy.config.Config;
 import org.bukkit.ChatColor;
 
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class mChatAPI {
 
@@ -60,10 +69,13 @@ public class mChatAPI {
         if (format == null) {
             return msg;
         }
-
-        search = new String[]{"+suffix,+s", "+prefix,+p", "+group,+g", "+world,+w", "+time,+t", "+name,+n", "+displayname,+dname,+dn", "+healthbar,+hb", "+health,+h", "+location,+loc", "+message,+msg,+m"};
-        replace = new String[]{suffix, prefix, group, world, time, player.getName(), player.getDisplayName(), healthbar, health, loc, msg};
-
+        if (checkPermissions(player, "mchat.coloredchat")) {
+            search = new String[]{"+suffix,+s", "+prefix,+p", "+group,+g", "+world,+w", "+time,+t", "+name,+n", "+displayname,+dname,+dn", "+healthbar,+hb", "+health,+h", "+location,+loc", "+message,+msg,+m", "+Groupname,+Gname,+G", "+Worldname,+Wname,+W"};
+            replace = new String[]{suffix, prefix, group, world, time, player.getName(), player.getDisplayName(), healthbar, health, loc, msg, getGroupName(group), getWorldName(world)};
+        } else {
+            search = new String[]{"+suffix,+s", "+prefix,+p", "+group,+g", "+world,+w", "+time,+t", "+name,+n", "+displayname,+dname,+dn", "+healthbar,+hb", "+health,+h", "+location,+loc", "+message,+msg,+m", "+Groupname,+Gname,+G", "+Worldname,+Wname,+W"};
+            replace = new String[]{suffix, prefix, group, world, time, player.getName(), player.getDisplayName(), healthbar, health, loc, addColour(msg).replaceAll("(§([a-z0-9]))", ""), getGroupName(group), getWorldName(world)};
+        }
         return replaceVars(format, search, replace);
     }
 
@@ -79,6 +91,20 @@ public class mChatAPI {
         return ParseChatMessage(player, "", plugin.joinFormat);
     }
 
+    public String getGroupName(String group) {
+       if (plugin.mIListener.groupNodeList.get(group) != null) {
+           return plugin.mIListener.groupNodeList.get(group).toString();
+       }
+       return group;
+    }
+
+    public String getWorldName(String world) {
+       if (plugin.mIListener.worldNodeList.get(world) != null) {
+           return plugin.mIListener.worldNodeList.get(world).toString();
+       }
+       return world;
+    }
+
     /*
      * Info Stuff
      */
@@ -91,22 +117,11 @@ public class mChatAPI {
         if (plugin.gmPermissionsB)
             return getGroupManagerInfo(player, info);
 
-        if (plugin.mIConfig.getNode("mchat." + info) == null)
-            return "";
-
-        plugin.otherMap.putAll(plugin.mIConfig.getNode("mchat." + info).getAll());
-        for (Entry<String, Object> entry : plugin.otherMap.entrySet()) {
-            if (player.hasPermission("mchat." + info + "." + entry.getKey())) {
-                plugin.infoResolve = entry.getValue().toString();
-
-                if (plugin.infoResolve != null && !info.isEmpty())
-                    return plugin.infoResolve;
-
-                break;
-            }
+        if (plugin.PermissionBuB) {
+            return getSuperPermsInfo(player, info);
         }
 
-        return "";
+        return getBukkitInfo(player, info);
     }
 
     public String getRawPrefix(Player player) {
@@ -135,6 +150,65 @@ public class mChatAPI {
 
     public String getGroup(Player player) {
         return getInfo(player, "group");
+    }
+
+    /*
+     * Bukkit Stuff
+     */
+    String getBukkitInfo(Player player, String info) {
+        if (plugin.mIConfig.getNode("mchat." + info) == null)
+            return "";
+
+        plugin.otherMap.putAll(plugin.mIConfig.getNode("mchat." + info).getAll());
+        for (Entry<String, Object> entry : plugin.otherMap.entrySet()) {
+            if (player.hasPermission("mchat." + info + "." + entry.getKey())) {
+                plugin.infoResolve = entry.getValue().toString();
+
+                if (plugin.infoResolve != null && !info.isEmpty())
+                    return plugin.infoResolve;
+
+                break;
+            }
+        }
+
+        return "";
+    }
+
+
+    /*
+     * SuperPerms Stuff
+     */
+     String getSuperPermsInfo(Player player, String info) {
+        if (info.equals("group"))
+            return getSuperPermsGroup(player);
+
+        if (plugin.mIConfig.getNode("mchat." + info) == null)
+            return "";
+
+        plugin.otherMap.putAll(plugin.mIConfig.getNode("mchat." + info).getAll());
+        for (Entry<String, Object> entry : plugin.otherMap.entrySet()) {
+            if (player.hasPermission("mchat." + info + "." + entry.getKey())) {
+                plugin.infoResolve = entry.getValue().toString();
+
+                if (plugin.infoResolve != null && !info.isEmpty())
+                    return plugin.infoResolve;
+
+                break;
+            }
+        }
+
+        return "";
+     }
+
+    String getSuperPermsGroup(Player player) {
+        Plugin pPlugin = plugin.pm.getPlugin("PermissionsBukkit");
+        PermissionsPlugin pBukkit = (PermissionsPlugin)pPlugin;
+        List<Group> pGroups = pBukkit.getGroups(player.getName());
+
+        if (pGroups == null)
+            return "";
+
+        return pGroups.get(0).getName();
     }
 
     /*
@@ -275,7 +349,11 @@ public class mChatAPI {
                         .replace("<rose>", "\u00A7c")                        .replace("<pink>", "\u00A7d")
                         .replace("<yellow>", "\u00A7e")                      .replace("<white>", "\u00A7f");
 
-        return string.replaceAll("(&([a-z0-9]))", "\u00A7$2").replace("&&", "&");
+        string = string.replaceAll("(§([a-z0-9]))", "\u00A7$2");
+
+        string = string.replaceAll("(&([a-z0-9]))", "\u00A7$2");
+
+        return string.replace("&&", "&");
     }
 
     public Boolean checkPermissions(Player player, String node) {
@@ -306,7 +384,7 @@ public class mChatAPI {
 
     String parseVars(String format, Player player) {
         Pattern pattern;
-        pattern = Pattern.compile("\\+\\<(.*?)\\>");
+        pattern = Pattern.compile("\\+<(.*?)>");
         Matcher matcher = pattern.matcher(format);
         StringBuffer sb = new StringBuffer();
 

@@ -20,6 +20,7 @@ public class MPlayerListener extends PlayerListener {
 		String msg = event.getMessage();
 		if (msg == null) return;
 		event.setFormat(plugin.mAPI.ParseChatMessage(player, msg));
+        System.out.println(event.getFormat());
 	}
 	
 	public void onPlayerJoin(PlayerJoinEvent event) {

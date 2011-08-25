@@ -50,6 +50,7 @@ public class MCommandSender implements CommandExecutor {
 
                     if (plugin.mAPI.checkPermissions(player, "mchat.reload")) {
                         plugin.mIListener.checkConfig();
+                        plugin.mIListener.loadConfig();
                         sender.sendMessage(formatMessage("Info Reloaded."));
                     } else {
                         sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
@@ -58,6 +59,7 @@ public class MCommandSender implements CommandExecutor {
                     return true;
                 } else {
                     plugin.mIListener.checkConfig();
+                    plugin.mIListener.loadConfig();
                     plugin.console.sendMessage(formatMessage("Info Reloaded."));
 
                     return true;

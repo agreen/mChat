@@ -1,27 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="EclipseModuleManager">
-    <libelement value="jar://$MODULE_DIR$/../Resources/bukkit-0.0.1-SNAPSHOT.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/../Resources/craftbukkit-0.0.1-SNAPSHOT.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/../Resources/PermissionsBukkit.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/../Resources/Permissions.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/../Resources/GroupManager.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/../Resources/MobDisguise.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/../Resources/SpoutAPI.jar!/" />
-    <src_description expected_position="0">
-      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
-    </src_description>
-  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/bin" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library name="bukkit-0.0.1-SNAPSHOT.jar">
+      <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../Resources/bukkit-0.0.1-SNAPSHOT.jar!/" />
         </CLASSES>
@@ -30,34 +18,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="craftbukkit-0.0.1-SNAPSHOT.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../Resources/craftbukkit-0.0.1-SNAPSHOT.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="PermissionsBukkit.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../Resources/PermissionsBukkit.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="Permissions.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../Resources/Permissions.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="GroupManager.jar">
+      <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../Resources/GroupManager.jar!/" />
         </CLASSES>
@@ -66,24 +27,41 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="MobDisguise.jar">
+      <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../Resources/MobDisguise.jar!/" />
+          <root url="jar://$MODULE_DIR$/../Resources/craftbukkit-0.0.1-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="SpoutAPI.jar">
+      <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../Resources/SpoutAPI.jar!/" />
+          <root url="jar://$MODULE_DIR$/../Resources/Permissions.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="WorldEdit" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../Resources/PermissionsBukkit.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../Resources/PermissionsEx.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
