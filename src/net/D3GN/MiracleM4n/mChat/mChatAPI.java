@@ -7,12 +7,8 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.avaje.ebeaninternal.server.el.ElSetValue;
 import com.platymuus.bukkit.permissions.Group;
-import com.platymuus.bukkit.permissions.PermissionInfo;
-import com.platymuus.bukkit.permissions.PermissionsMain;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
-import com.sun.deploy.config.Config;
 import org.bukkit.ChatColor;
 
 import org.bukkit.entity.Player;
@@ -176,7 +172,7 @@ public class mChatAPI {
 
 
     /*
-     * SuperPerms Stuff
+     * PermissionsBukkit Stuff
      */
      String getSuperPermsInfo(Player player, String info) {
         if (info.equals("group"))
