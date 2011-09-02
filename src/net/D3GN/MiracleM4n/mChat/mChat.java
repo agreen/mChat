@@ -65,7 +65,7 @@ public class mChat extends JavaPlugin {
     String dateFormat = "HH:mm:ss";
     String joinMessage = "has joined the game.";
     String leaveMessage = "has left the game.";
-    String kickMessage = "has been kicked from the game.";
+    String kickMessage = "has been kicked from the game for +r.";
 
     //InfoHasMaps
     TreeMap<String, Object> infoMap = new TreeMap<String, Object>();

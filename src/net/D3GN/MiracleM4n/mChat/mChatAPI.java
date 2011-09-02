@@ -201,8 +201,7 @@ public class mChatAPI {
         PermissionsPlugin pBukkit = (PermissionsPlugin)pPlugin;
         List<Group> pGroups = pBukkit.getGroups(player.getName());
 
-        if (pGroups == null)
-            return "";
+        if (pGroups.isEmpty()) return "";
 
         return pGroups.get(0).getName();
     }
@@ -359,8 +358,10 @@ public class mChatAPI {
         } else if (plugin.gmPermissionsB) {
             if (plugin.gmPermissions.has(player, node))
                 return true;
-        }   else if (player.hasPermission(node)) {
+        } else if (player.hasPermission(node)) {
               return true;
+        } else if (player.isOp()) {
+            return true;
         }
         return false;
     }
@@ -379,8 +380,7 @@ public class mChatAPI {
     }
 
     String parseVars(String format, Player player) {
-        Pattern pattern;
-        pattern = Pattern.compile("\\+<(.*?)>");
+        Pattern pattern = Pattern.compile("\\+<(.*?)>");
         Matcher matcher = pattern.matcher(format);
         StringBuffer sb = new StringBuffer();
 

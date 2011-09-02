@@ -20,7 +20,6 @@ public class MPlayerListener extends PlayerListener {
 		String msg = event.getMessage();
 		if (msg == null) return;
 		event.setFormat(plugin.mAPI.ParseChatMessage(player, msg));
-        System.out.println(event.getFormat());
 	}
 	
 	public void onPlayerJoin(PlayerJoinEvent event) {
@@ -34,8 +33,9 @@ public class MPlayerListener extends PlayerListener {
 		if (event.isCancelled()) return;
 		Player player = event.getPlayer();
 		String msg = event.getLeaveMessage();
+        String reason = event.getReason();
 		if (msg == null) return;
-		event.setLeaveMessage(plugin.mAPI.ParseJoinName(player) + " " + plugin.mAPI.replaceMess("kickMessage"));
+		event.setLeaveMessage(plugin.mAPI.ParseJoinName(player) + " " + plugin.mAPI.replaceVars(plugin.mAPI.replaceMess("kickMessage"), new String[]{"+reason", "+r"}, new String[]{reason}));
 	}
 	
 	public void onPlayerQuit(PlayerQuitEvent event) {
