@@ -35,7 +35,7 @@ public class MPlayerListener extends PlayerListener {
 		String msg = event.getLeaveMessage();
         String reason = event.getReason();
 		if (msg == null) return;
-		event.setLeaveMessage(plugin.mAPI.ParseJoinName(player) + " " + plugin.mAPI.replaceVars(plugin.mAPI.replaceMess("kickMessage"), new String[]{"+reason", "+r"}, new String[]{reason}));
+		event.setLeaveMessage(plugin.mAPI.ParseJoinName(player) + " " + plugin.mAPI.replaceMess("kickMessage").replace("+reason", reason).replace("+r", reason));
 	}
 	
 	public void onPlayerQuit(PlayerQuitEvent event) {

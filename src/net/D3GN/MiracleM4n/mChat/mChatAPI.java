@@ -65,13 +65,12 @@ public class mChatAPI {
         if (format == null) {
             return msg;
         }
-        if (checkPermissions(player, "mchat.coloredchat")) {
-            search = new String[]{"+suffix,+s", "+prefix,+p", "+group,+g", "+world,+w", "+time,+t", "+name,+n", "+displayname,+dname,+dn", "+healthbar,+hb", "+health,+h", "+location,+loc", "+message,+msg,+m", "+Groupname,+Gname,+G", "+Worldname,+Wname,+W"};
-            replace = new String[]{suffix, prefix, group, world, time, player.getName(), player.getDisplayName(), healthbar, health, loc, msg, getGroupName(group), getWorldName(world)};
-        } else {
-            search = new String[]{"+suffix,+s", "+prefix,+p", "+group,+g", "+world,+w", "+time,+t", "+name,+n", "+displayname,+dname,+dn", "+healthbar,+hb", "+health,+h", "+location,+loc", "+message,+msg,+m", "+Groupname,+Gname,+G", "+Worldname,+Wname,+W"};
-            replace = new String[]{suffix, prefix, group, world, time, player.getName(), player.getDisplayName(), healthbar, health, loc, addColour(msg).replaceAll("(§([a-z0-9]))", ""), getGroupName(group), getWorldName(world)};
-        }
+        if (!checkPermissions(player, "mchat.coloredchat"))
+            msg = addColour(msg).replaceAll("(§([a-z0-9]))", "");
+
+        search = new String[]{"+suffix,+s", "+prefix,+p", "+group,+g", "+world,+w", "+time,+t", "+name,+n", "+displayname,+dname,+dn", "+healthbar,+hb", "+health,+h", "+location,+loc", "+message,+msg,+m", "+Groupname,+Gname,+G", "+Worldname,+Wname,+W"};
+        replace = new String[]{suffix, prefix, group, world, time, player.getName(), player.getDisplayName(), healthbar, health, loc, msg, getGroupName(group), getWorldName(world)};
+
         return replaceVars(format, search, replace);
     }
 

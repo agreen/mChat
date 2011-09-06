@@ -32,14 +32,12 @@ public class MConfigListener {
             "# mChat configuration file",
             "# ",
             "#           **IMPORTANT**",
-            "#   usage of mchat-message-format is restricted to:",
+            "#   usage of mchat-message-format can be, but is not limited to",
             "#       +suffix,+s, +prefix,+p, +group,+g, +world,+w, +time,+t, +name,+n, +dname,+dn, +health,+h +healthbar,+hb, +message,+msg,+m",
-            "# ",
-            "#   usage of mchat-name-format, mchat-playerEvent-format are restricted to:",
-            "#       +suffix,+s, +prefix,+p, +group,+g, +world,+w, +time,+t, +name,+n, +dname,+dn, +health,+h +healthbar,+hb",
-            "#           **************",
+            "#       Suffix, Prefix, Group, World, Time, Player Name, Player Display Name, Health, Health Bar, Message",
             ""
         );
+
         config.setProperty("mchat-date-format", plugin.dateFormat);
         config.setProperty("mchat-message-format", plugin.chatFormat);
         config.setProperty("mchat-name-format", plugin.nameFormat);
@@ -57,67 +55,54 @@ public class MConfigListener {
         PluginDescriptionFile pdfFile = plugin.getDescription();
         config.load();
 
-        if (config.getProperty("auto-Changed") == null) {
-            config.setProperty("auto-Changed", 1);
-        }
-
-        if (config.getInt("auto-Changed", 1) == 1) {
-            if (config.getProperty("mchat-date-format") == null) {
-                config.setProperty("mchat-date-format", plugin.dateFormat);
-                hasChanged = true;
-            }
-
-            if (config.getProperty("mchat-message-format") == null) {
-                config.setProperty("mchat-message-format", plugin.chatFormat);
-                hasChanged = true;
-            }
-
-            if (config.getProperty("mchat-name-format") == null) {
-                config.setProperty("mchat-name-format", plugin.nameFormat);
-                hasChanged = true;
-            }
-
-            if (config.getProperty("mchat-playerEvent-format") == null) {
-                config.setProperty("mchat-playerEvent-format", plugin.joinFormat);
-                hasChanged = true;
-            }
-
-            if (config.getProperty("mchat-join-message") == null) {
-                config.setProperty("mchat-join-message", plugin.joinMessage);
-                hasChanged = true;
-            }
-
-            if (config.getProperty("mchat-leave-message") == null) {
-                config.setProperty("mchat-leave-message", plugin.leaveMessage);
-                hasChanged = true;
-            }
-
-            if (config.getProperty("mchat-kick-message") == null) {
-                config.setProperty("mchat-kick-message", plugin.kickMessage);
-                hasChanged = true;
-            }
-
-            if (config.getProperty("mchat-API-only") == null) {
-                config.setProperty("mchat-API-only", plugin.mAPI_Only_Mode);
-                hasChanged = true;
-            }
-        }
-        if (!(config.getInt("auto-Changed", 1) == 1)) {
+        if (config.getProperty("mchat-date-format") == null) {
+            config.setProperty("mchat-date-format", plugin.dateFormat);
             hasChanged = true;
-            config.setProperty("auto-Changed", 1);
+        }
+
+        if (config.getProperty("mchat-message-format") == null) {
+            config.setProperty("mchat-message-format", plugin.chatFormat);
+            hasChanged = true;
+        }
+
+        if (config.getProperty("mchat-name-format") == null) {
+            config.setProperty("mchat-name-format", plugin.nameFormat);
+            hasChanged = true;
+        }
+
+        if (config.getProperty("mchat-playerEvent-format") == null) {
+            config.setProperty("mchat-playerEvent-format", plugin.joinFormat);
+            hasChanged = true;
+        }
+
+        if (config.getProperty("mchat-join-message") == null) {
+            config.setProperty("mchat-join-message", plugin.joinMessage);
+            hasChanged = true;
+        }
+
+        if (config.getProperty("mchat-leave-message") == null) {
+            config.setProperty("mchat-leave-message", plugin.leaveMessage);
+            hasChanged = true;
+        }
+
+        if (config.getProperty("mchat-kick-message") == null) {
+            config.setProperty("mchat-kick-message", plugin.kickMessage);
+            hasChanged = true;
+        }
+
+        if (config.getProperty("mchat-API-only") == null) {
+            config.setProperty("mchat-API-only", plugin.mAPI_Only_Mode);
+            hasChanged = true;
         }
 
         if (hasChanged) {
             config.setHeader(
-                "# mChat configuration file",
-                "# ",
+            "# mChat configuration file",
+                 "# ",
                 "#           **IMPORTANT**",
-                "#   usage of mchat-message-format is restricted to:",
+                "#   usage of mchat-message-format can be, but is not limited to",
                 "#       +suffix,+s, +prefix,+p, +group,+g, +world,+w, +time,+t, +name,+n, +dname,+dn, +health,+h +healthbar,+hb, +message,+msg,+m",
-                "# ",
-                "#   usage of mchat-name-format, mchat-playerEvent-format are restricted to:",
-                "#       +suffix,+s, +prefix,+p, +group,+g, +world,+w, +time,+t, +name,+n, +dname,+dn, +health,+h +healthbar,+hb",
-                "#           **************",
+                "#       Suffix, Prefix, Group, World, Time, Player Name, Player Display Name, Health, Health Bar, Message",
                 ""
             );
 
