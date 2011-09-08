@@ -1,8 +1,7 @@
 package net.D3GN.MiracleM4n.mChat;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +12,8 @@ import org.bukkit.ChatColor;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import sun.net.idn.StringPrep;
+import sun.plugin2.applet.Plugin2Manager;
 
 public class mChatAPI {
 
@@ -49,9 +50,6 @@ public class mChatAPI {
         String health = String.valueOf(player.getHealth());
         String world = player.getWorld().getName();
 
-        if (world.contains("_nether"))
-            world = world.replace("_nether", " Nether");
-
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat(plugin.dateFormat);
         String time = dateFormat.format(now);
@@ -62,9 +60,11 @@ public class mChatAPI {
 
         msg = msg.replaceAll("%", "%%");
 
-        if (format == null) {
+        if (format == null)
             return msg;
-        }
+
+        msg = replaceCensoredWords(msg);
+
         if (!checkPermissions(player, "mchat.coloredchat"))
             msg = addColour(msg).replaceAll("(§([a-z0-9]))", "");
 
@@ -114,6 +114,10 @@ public class mChatAPI {
 
         if (plugin.PermissionBuB) {
             return getSuperPermsInfo(player, info);
+        }
+
+        if (plugin.PEXB) {
+            return getPEXInfo(player, info);
         }
 
         return getBukkitInfo(player, info);
@@ -187,8 +191,6 @@ public class mChatAPI {
 
                 if (plugin.infoResolve != null && !info.isEmpty())
                     return plugin.infoResolve;
-
-                break;
             }
         }
 
@@ -289,6 +291,35 @@ public class mChatAPI {
     String getGroupManagerGroup(Player player) {
         String pName = player.getName();
         String group = plugin.gmPermissions.getGroup(pName);
+
+        if (group == null)
+            return "";
+
+        return group;
+    }
+
+    /*
+     * PEX Stuff
+     */
+    String getPEXInfo(Player player, String info) {
+        if (info.equals("group"))
+            return getPEXGroup(player);
+
+        String pName = player.getName();
+        String world = player.getWorld().getName();
+
+        String userString = plugin.pexPermissions.getUser(pName).getOption(info, world);
+        if (userString != null && !userString.isEmpty())
+            return userString;
+
+        return "";
+    }
+
+    String getPEXGroup(Player player) {
+        String pName = player.getName();
+        String world = player.getWorld().getName();
+
+        String group = plugin.pexPermissions.getUser(pName).getGroupsNames(world)[0];
 
         if (group == null)
             return "";
@@ -400,7 +431,7 @@ public class mChatAPI {
                 for (String s : search[i].split(",")) {
                     if (s == null || replace[i] == null)
                         continue;
-                    
+
                     format = format.replace(s, replace[i]);
                 }
             else
@@ -414,6 +445,15 @@ public class mChatAPI {
         plugin.otherMap.clear();
         plugin.infoMap.clear();
         plugin.infoMap.putAll(plugin.mIConfig.getNode("mchat").getAll());
+    }
+
+    protected String replaceCensoredWords(String msg) {
+        for (Entry<String, Object> entry : plugin.censorMap.entrySet()) {
+            if (msg.toLowerCase().contains(entry.getKey().toLowerCase())) {
+                msg = msg.replaceAll(entry.getKey(), entry.getValue().toString());
+            }
+        }
+       return msg;
     }
 
     /*

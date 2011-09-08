@@ -1,9 +1,8 @@
 package net.D3GN.MiracleM4n.mChat;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.TreeMap;
-
-import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 
 import org.bukkit.craftbukkit.command.ColouredConsoleSender;
 import org.bukkit.craftbukkit.CraftServer;
@@ -13,11 +12,15 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.config.Configuration;
+import org.bukkit.plugin.Plugin;
 
 import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
-import org.bukkit.plugin.Plugin;
+import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
+
+import ru.tehkode.permissions.PermissionManager;
+import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 public class mChat extends JavaPlugin {
     PluginManager pm;
@@ -27,6 +30,7 @@ public class mChat extends JavaPlugin {
     MCommandSender cSender;
     MConfigListener cListener;
     MIConfigListener mIListener;
+    MCConfigListener mCListener;
 
     //API
     public static mChatAPI API = null;
@@ -41,6 +45,10 @@ public class mChat extends JavaPlugin {
     public AnjoPermissionsHandler gmPermissions;
     Boolean gmPermissionsB = false;
 
+    // PermissionsEX
+    public PermissionManager pexPermissions;
+    Boolean PEXB = false;
+
     //PermissionsBukkit
     Boolean PermissionBuB = false;
 
@@ -48,6 +56,7 @@ public class mChat extends JavaPlugin {
     ColouredConsoleSender console = null;
     Configuration config = null;
     Configuration mIConfig = null;
+    Configuration mCConfig = null;
 
     // Information
     String infoResolve;
@@ -68,11 +77,15 @@ public class mChat extends JavaPlugin {
     TreeMap<String, Object> infoMap = new TreeMap<String, Object>();
     TreeMap<String, Object> otherMap = new TreeMap<String, Object>();
 
+    //Censor String List
+    HashMap<String, Object> censorMap = new HashMap<String, Object>();
+
     public void onEnable() {
         // Default plugin data
         pm = getServer().getPluginManager();
         config = new Configuration(new File(getDataFolder(), "config.yml"));
         mIConfig = new Configuration(new File(getDataFolder(), "info.yml"));
+        mCConfig = new Configuration(new File(getDataFolder(), "censor.yml"));
         console = new ColouredConsoleSender((CraftServer) getServer());
         PluginDescriptionFile pdfFile = getDescription();
 
@@ -83,6 +96,7 @@ public class mChat extends JavaPlugin {
         cSender = new MCommandSender(this);
         cListener = new MConfigListener(this);
         mIListener = new MIConfigListener(this);
+        mCListener = new MCConfigListener(this);
 
         setupSuperPerms();
 
@@ -109,6 +123,13 @@ public class mChat extends JavaPlugin {
             mIListener.checkConfig();
             mIListener.loadConfig();
             mAPI.refreshMaps();
+        }
+
+        if (!(new File(getDataFolder(), "censor.yml")).exists()) {
+            mCListener.defaultConfig();
+            mCListener.loadConfig();
+        } else {
+            mCListener.loadConfig();
         }
 
         //Register Events
@@ -144,7 +165,22 @@ public class mChat extends JavaPlugin {
             System.out.println("[" + pdfFile.getName() + "]" + " bPermissions " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             PermissionBuB  = false;
-            System.out.println("[" + pdfFile.getName() + "]" + " A superperms Permissions plugin was not found, Checking for Permissions.");
+            System.out.println("[" + pdfFile.getName() + "]" + " A superperms Permissions plugin was not found, Checking for PermissionsEX.");
+            setupPEX();
+        }
+    }
+
+    private void setupPEX() {
+        Plugin pexTest = this.getServer().getPluginManager().getPlugin("PermissionsEx");
+        PluginDescriptionFile pdfFile = getDescription();
+
+        if (pexTest != null) {
+            pexPermissions = PermissionsEx.getPermissionManager();
+            PEXB = true;
+            System.out.println("[" + pdfFile.getName() + "]" + " PermissionsEx " + (pexTest.getDescription().getVersion()) + " found hooking in.");
+        } else {
+            PEXB = false;
+            System.out.println("[" + pdfFile.getName() + "]" + " PermissionsEx was not found, Checking for Permissions.");
             setupPermissions();
         }
     }

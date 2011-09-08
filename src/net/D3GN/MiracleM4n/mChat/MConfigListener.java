@@ -46,7 +46,6 @@ public class MConfigListener {
         config.setProperty("mchat-leave-message", plugin.leaveMessage);
         config.setProperty("mchat-kick-message", plugin.kickMessage);
         config.setProperty("mchat-API-only", plugin.mAPI_Only_Mode);
-        config.setProperty("auto-Changed", 1);
         config.save();
     }
 

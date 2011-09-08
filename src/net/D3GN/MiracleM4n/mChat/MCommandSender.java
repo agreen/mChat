@@ -64,6 +64,24 @@ public class MCommandSender implements CommandExecutor {
 
                     return true;
                 }
+            } else if (args[1].equalsIgnoreCase("censor")) {
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+
+                    if (plugin.mAPI.checkPermissions(player, "mchat.reload")) {
+                        plugin.mCListener.loadConfig();
+                        sender.sendMessage(formatMessage("Censor Reloaded."));
+                    } else {
+                        sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
+                    }
+
+                    return true;
+                } else {
+                    plugin.mCListener.loadConfig();
+                    plugin.console.sendMessage(formatMessage("Censor Reloaded."));
+
+                    return true;
+                }
             }
 
         return false;
