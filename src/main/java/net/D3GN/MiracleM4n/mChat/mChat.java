@@ -187,7 +187,6 @@ public class mChat extends JavaPlugin {
 
     private void setupPermissions() {
         Plugin permTest = this.getServer().getPluginManager().getPlugin("Permissions");
-        Plugin bPermTest = this.getServer().getPluginManager().getPlugin("bPermissions");
         PluginDescriptionFile pdfFile = getDescription();
 
         if(permTest != null) {

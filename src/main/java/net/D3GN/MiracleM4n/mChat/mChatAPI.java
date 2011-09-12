@@ -342,7 +342,7 @@ public class mChatAPI {
         for (int i = 0; i < barLength; i++) {
             if (i == fill)
                 out.append("&8");
-            
+
             out.append("|");
         }
 
