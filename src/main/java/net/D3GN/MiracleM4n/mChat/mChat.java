@@ -3,9 +3,9 @@ package net.D3GN.MiracleM4n.mChat;
 import java.io.File;
 import java.util.HashMap;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.bukkit.craftbukkit.command.ColouredConsoleSender;
-import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -53,7 +53,7 @@ public class mChat extends JavaPlugin {
     Boolean PermissionBuB = false;
 
     // Coloring & Configuration
-    ColouredConsoleSender console = null;
+    Logger console = null;
     Configuration config = null;
     Configuration mIConfig = null;
     Configuration mCConfig = null;
@@ -86,7 +86,7 @@ public class mChat extends JavaPlugin {
         config = new Configuration(new File(getDataFolder(), "config.yml"));
         mIConfig = new Configuration(new File(getDataFolder(), "info.yml"));
         mCConfig = new Configuration(new File(getDataFolder(), "censor.yml"));
-        console = new ColouredConsoleSender((CraftServer) getServer());
+        console = getServer().getLogger();
         PluginDescriptionFile pdfFile = getDescription();
 
         // Initialize Listeners and Configurations
@@ -143,13 +143,13 @@ public class mChat extends JavaPlugin {
         //Register Commands
         getCommand("mchat").setExecutor(cSender);
 
-        console.sendMessage("[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is enabled!");
+        console.log(Level.INFO, "[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is enabled!");
     }
 
     public void onDisable() {
         PluginDescriptionFile pdfFile = getDescription();
 
-        console.sendMessage("[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is disabled!");
+        console.log(Level.INFO, "[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is disabled!");
     }
 
     private void setupSuperPerms() {
@@ -159,13 +159,13 @@ public class mChat extends JavaPlugin {
 
         if (PermissionsBukkitTest != null) {
             PermissionBuB = true;
-            System.out.println("[" + pdfFile.getName() + "]" + " PermissionsBukkit " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " PermissionsBukkit " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
         } else if (bPermTest != null) {
             PermissionBuB = true;
-            System.out.println("[" + pdfFile.getName() + "]" + " bPermissions " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " bPermissions " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             PermissionBuB  = false;
-            System.out.println("[" + pdfFile.getName() + "]" + " A superperms Permissions plugin was not found, Checking for PermissionsEX.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " A superperms Permissions plugin was not found, Checking for PermissionsEX.");
             setupPEX();
         }
     }
@@ -177,10 +177,10 @@ public class mChat extends JavaPlugin {
         if (pexTest != null) {
             pexPermissions = PermissionsEx.getPermissionManager();
             PEXB = true;
-            System.out.println("[" + pdfFile.getName() + "]" + " PermissionsEx " + (pexTest.getDescription().getVersion()) + " found hooking in.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " PermissionsEx " + (pexTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             PEXB = false;
-            System.out.println("[" + pdfFile.getName() + "]" + " PermissionsEx was not found, Checking for Permissions.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " PermissionsEx was not found, Checking for Permissions.");
             setupPermissions();
         }
     }
@@ -193,11 +193,11 @@ public class mChat extends JavaPlugin {
             permissions = ((Permissions) permTest).getHandler();
             permissionsB = true;
             permissions3 = permTest.getDescription().getVersion().startsWith("3");
-            System.out.println("[" + pdfFile.getName() + "]" + " Permissions " + (permTest.getDescription().getVersion()) + " found hooking in.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " Permissions " + (permTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             permissionsB = false;
             permissions3 = false;
-            System.out.println("[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
             setupGroupManager();
         }
     }
@@ -208,10 +208,10 @@ public class mChat extends JavaPlugin {
 
         if (permTest != null) {
             gmPermissionsB = true;
-            System.out.println("[" + pdfFile.getName() + "]" + " GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             gmPermissionsB = false;
-            System.out.println("[" + pdfFile.getName() + "]" + " No Permissions plugins were found defaulting to permissions.yml");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " No Permissions plugins were found defaulting to permissions.yml");
         }
     }
 }
