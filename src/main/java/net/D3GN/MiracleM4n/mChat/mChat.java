@@ -22,6 +22,8 @@ import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
+import org.blockface.bukkitstats.CallHome;
+
 public class mChat extends JavaPlugin {
     PluginManager pm;
 
@@ -142,6 +144,9 @@ public class mChat extends JavaPlugin {
 
         //Register Commands
         getCommand("mchat").setExecutor(cSender);
+
+        //Call Home
+        CallHome.load(this);
 
         console.log(Level.INFO, "[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is enabled!");
     }
