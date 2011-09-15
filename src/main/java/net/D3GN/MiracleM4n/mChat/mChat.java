@@ -73,7 +73,7 @@ public class mChat extends JavaPlugin {
     String dateFormat = "HH:mm:ss";
     String joinMessage = "has joined the game.";
     String leaveMessage = "has left the game.";
-    String kickMessage = "has been kicked from the game for +r.";
+    String kickMessage = "has been kicked from the game +r.";
 
     //InfoHashMaps
     TreeMap<String, Object> infoMap = new TreeMap<String, Object>();
@@ -167,7 +167,7 @@ public class mChat extends JavaPlugin {
             console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " PermissionsBukkit " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
         } else if (bPermTest != null) {
             PermissionBuB = true;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " bPermissions " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " bPermissions " + (bPermTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             PermissionBuB  = false;
             console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " A superperms Permissions plugin was not found, Checking for PermissionsEX.");

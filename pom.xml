@@ -26,16 +26,16 @@
                 </configuration>
             </plugin>
         </plugins>
-    <resources>
-      <resource>
-        <targetPath>.</targetPath>
-        <filtering>true</filtering>
-        <directory>${basedir}/src/main/resources/</directory>
-        <includes>
-          <include>plugin.yml</include>
-        </includes>
-      </resource>
-    </resources>
+        <resources>
+            <resource>
+                <targetPath>.</targetPath>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources/</directory>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
     <dependencies>
         <dependency>
@@ -53,39 +53,39 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-          <groupId>com.nijiko</groupId>
-          <artifactId>Permissions</artifactId>
-          <version>3.1.6</version>
-          <type>jar</type>
-          <scope>compile</scope>
+            <groupId>com.nijiko</groupId>
+            <artifactId>Permissions</artifactId>
+            <version>3.1.6</version>
+            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-          <groupId>de.bananaco</groupId>
-          <artifactId>bPermissions</artifactId>
-          <version>1.4.5</version>
-          <type>jar</type>
-          <scope>compile</scope>
+            <groupId>de.bananaco</groupId>
+            <artifactId>bPermissions</artifactId>
+            <version>1.4.5</version>
+            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-          <groupId>org.anjocaido</groupId>
-          <artifactId>GroupManager</artifactId>
-          <version>1.0.alpha-5</version>
-          <type>jar</type>
-          <scope>compile</scope>
+            <groupId>org.anjocaido</groupId>
+            <artifactId>GroupManager</artifactId>
+            <version>1.0.alpha-5</version>
+            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-          <groupId>com.platymuus</groupId>
-          <artifactId>PermissionsBukkit</artifactId>
-          <version>1.2</version>
-          <type>jar</type>
-          <scope>compile</scope>
+            <groupId>com.platymuus</groupId>
+            <artifactId>PermissionsBukkit</artifactId>
+            <version>1.2</version>
+            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-          <groupId>ru.tehkode</groupId>
-          <artifactId>PermissionsEx</artifactId>
-          <version>1.14</version>
-          <type>jar</type>
-          <scope>compile</scope>
+            <groupId>ru.tehkode</groupId>
+            <artifactId>PermissionsEx</artifactId>
+            <version>1.14</version>
+            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
