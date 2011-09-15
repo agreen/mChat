@@ -166,7 +166,6 @@ public class mChat extends JavaPlugin {
             PermissionBuB = true;
             console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " PermissionsBukkit " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
         } else if (bPermTest != null) {
-            PermissionBuB = true;
             console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " bPermissions " + (bPermTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             PermissionBuB  = false;
