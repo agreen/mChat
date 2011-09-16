@@ -107,32 +107,7 @@ public class mChat extends JavaPlugin {
         mAPI = new mChatAPI(this);
 
         //Setup Configs
-        if (!(new File(getDataFolder(), "config.yml")).exists()) {
-            cListener.defaultConfig();
-            cListener.checkConfig();
-            cListener.loadConfig();
-        } else {
-            cListener.checkConfig();
-            cListener.loadConfig();
-        }
-
-        if (!(new File(getDataFolder(), "info.yml")).exists()) {
-            mIListener.defaultConfig();
-            mIListener.checkConfig();
-            mIListener.loadConfig();
-            mAPI.refreshMaps();
-        } else {
-            mIListener.checkConfig();
-            mIListener.loadConfig();
-            mAPI.refreshMaps();
-        }
-
-        if (!(new File(getDataFolder(), "censor.yml")).exists()) {
-            mCListener.defaultConfig();
-            mCListener.loadConfig();
-        } else {
-            mCListener.loadConfig();
-        }
+        setupConfigs();
 
         //Register Events
         if (!mAPI_Only_Mode) {
@@ -216,6 +191,35 @@ public class mChat extends JavaPlugin {
         } else {
             gmPermissionsB = false;
             console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " No Permissions plugins were found defaulting to permissions.yml");
+        }
+    }
+
+    private void setupConfigs() {
+        if (!(new File(getDataFolder(), "config.yml")).exists()) {
+            cListener.defaultConfig();
+            cListener.checkConfig();
+            cListener.loadConfig();
+        } else {
+            cListener.checkConfig();
+            cListener.loadConfig();
+        }
+
+        if (!(new File(getDataFolder(), "info.yml")).exists()) {
+            mIListener.defaultConfig();
+            mIListener.checkConfig();
+            mIListener.loadConfig();
+            mAPI.refreshMaps();
+        } else {
+            mIListener.checkConfig();
+            mIListener.loadConfig();
+            mAPI.refreshMaps();
+        }
+
+        if (!(new File(getDataFolder(), "censor.yml")).exists()) {
+            mCListener.defaultConfig();
+            mCListener.loadConfig();
+        } else {
+            mCListener.loadConfig();
         }
     }
 }
