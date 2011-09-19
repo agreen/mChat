@@ -38,7 +38,6 @@ public class mChatAPI {
         if (group == null)
             group = "";
 
-
         Integer locX = (int) player.getLocation().getX();
         Integer locY = (int) player.getLocation().getY();
         Integer locZ = (int) player.getLocation().getZ();
@@ -47,6 +46,14 @@ public class mChatAPI {
         String healthbar = healthBar(player);
         String health = String.valueOf(player.getHealth());
         String world = player.getWorld().getName();
+
+        String hungerLevel = String.valueOf(player.getFoodLevel());
+        String hungerBar = basicBar(player.getFoodLevel(), 20, 10);
+        String level = String.valueOf(player.getLevel());
+        String exp = String.valueOf(player.getExperience()) + " ";
+        String expBar = basicBar(player.getExperience(), ((player.getLevel() + 1) * 10), 10);
+        String tExp = String.valueOf(player.getTotalExperience());
+        String gMode = player.getGameMode().name();
 
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat(plugin.dateFormat);
@@ -66,22 +73,65 @@ public class mChatAPI {
         if (!checkPermissions(player, "mchat.coloredchat"))
             msg = addColour(msg).replaceAll("(§([a-z0-9]))", "");
 
-        search = new String[]{"+suffix,+s", "+prefix,+p", "+group,+g", "+world,+w", "+time,+t", "+name,+n", "+displayname,+dname,+dn", "+healthbar,+hb", "+health,+h", "+location,+loc", "+message,+msg,+m", "+Groupname,+Gname,+G", "+Worldname,+Wname,+W"};
-        replace = new String[]{suffix, prefix, group, world, time, player.getName(), player.getDisplayName(), healthbar, health, loc, msg, getGroupName(group), getWorldName(world)};
+        search = new String[]{
+                "+displayname,+dname,+dn",
+                "+experiencebar, +expb, +ebar, +eb",
+                "+experience, +exp",
+                "+gamemode,+gm",
+                "+group,+g",
+                "+hungerbar, +hub",
+                "+hunger",
+                "+healthbar,+hb",
+                "+health,+h",
+                "+location,+loc",
+                "+level,+l",
+                "+message,+msg,+m",
+                "+name,+n",
+                "+prefix,+p",
+                "+suffix,+s",
+                "+totalexp,+texp,+te",
+                "+time,+t",
+                "+world,+w",
+                "+Groupname,+Gname,+G",
+                "+Worldname,+Wname,+W"
+                };
+
+        replace = new String[]{
+                player.getDisplayName(),
+                expBar,
+                exp,
+                gMode,
+                group,
+                hungerBar,
+                hungerLevel,
+                healthbar,
+                health,
+                loc,
+                level,
+                msg,
+                player.getName(),
+                prefix,
+                suffix,
+                tExp,
+                time,
+                world,
+                getGroupName(group),
+                getWorldName(world),
+                };
 
         return replaceVars(format, search, replace);
     }
 
     public String ParseChatMessage(Player player, String msg) {
-        return ParseChatMessage(player, msg, plugin.chatFormat);
+        return ParseChatMessage(player, msg, " " + plugin.chatFormat);
     }
 
     public String ParsePlayerName(Player player) {
-        return ParseChatMessage(player, "", plugin.nameFormat);
+        return ParseChatMessage(player, "", " " + plugin.nameFormat);
     }
 
     public String ParseJoinName(Player player) {
-        return ParseChatMessage(player, "", plugin.joinFormat);
+        return ParseChatMessage(player, "", " " + plugin.joinFormat);
     }
 
     public String getGroupName(String group) {
@@ -332,9 +382,14 @@ public class mChatAPI {
         float maxHealth = 20;
         float barLength = 10;
         float health = player.getHealth();
-        int fill = Math.round((health / maxHealth) * barLength);
 
-        String barColor = (fill <= 4) ? "&4" : (fill <= 7) ? "&e" : "&2";
+        return basicBar(health, maxHealth, barLength);
+    }
+
+    public String basicBar(float currentValue, float maxValue, float barLength) {
+        int fill = Math.round((currentValue / maxValue) * barLength);
+
+        String barColor = (fill <= (barLength/4)) ? "&4" : (fill <= (barLength/7)) ? "&e" : "&2";
 
         StringBuilder out = new StringBuilder();
         out.append(barColor);
