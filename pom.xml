@@ -4,6 +4,10 @@
     <version>DEV</version>
     <name>mChat</name>
     <url>http://d3gn.net/</url>
+    <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <api.version>unknown</api.version>
+    </properties>
     <repositories>
         <repository>
             <id>bukkit-repo</id>
@@ -50,23 +54,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>com.nijiko</groupId>
             <artifactId>Permissions</artifactId>
             <version>3.1.6</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.bananaco</groupId>
-            <artifactId>bPermissions</artifactId>
-            <version>1.4.5</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
