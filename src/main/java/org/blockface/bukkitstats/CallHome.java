@@ -30,7 +30,6 @@ import org.bukkit.util.config.Configuration;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -55,13 +54,9 @@ public class CallHome{
     private static Boolean verifyConfig(Plugin plugin) {
         Boolean ret = true;
         File config = new File("plugins/mChat/stats.yml");
-        if(!config.getParentFile().exists()) config.getParentFile().mkdir();
-        if(!config.exists()) try {
-            config.createNewFile();
+        if(!config.exists()) {
             ret = false;
             System.out.println("[" + plugin.getDescription().getName() + "]" + " BukkitStats has initialized for the first time. To opt-out check stats.yml.");
-        } catch (IOException e) {
-            return false;
         }
         cfg=new Configuration(config);
         cfg.load();

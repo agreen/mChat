@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
+import net.D3GN.MiracleM4n.mChannel.mChannel;
 import org.bukkit.ChatColor;
 
 import org.bukkit.entity.Player;
@@ -47,6 +48,7 @@ public class mChatAPI {
         String health = String.valueOf(player.getHealth());
         String world = player.getWorld().getName();
 
+        // 1.8 Vars
         String hungerLevel = String.valueOf(player.getFoodLevel());
         String hungerBar = basicBar(player.getFoodLevel(), 20, 10);
         String level = String.valueOf(player.getLevel());
@@ -55,9 +57,24 @@ public class mChatAPI {
         String tExp = String.valueOf(player.getTotalExperience());
         String gMode = player.getGameMode().name();
 
+        // Time Var
         Date now = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat(plugin.dateFormat);
         String time = dateFormat.format(now);
+
+        // mChannel Vars
+        String mCName = "";
+        String mCPref = "";
+        String mCSuf = "";
+        String mCType = "";
+
+        if (plugin.mChannelB) {
+            mCName = mChannel.API.getPlayersChannel(player);
+            mCPref = mChannel.API.getChannelPrefix(mCName);
+            mCSuf = mChannel.API.getChannelSuffix(mCName);
+            mCType = mChannel.API.getChannelType(mCName);
+        }
+
 
         String format = parseVars(formatAll, player);
         String[] search;
@@ -92,6 +109,10 @@ public class mChatAPI {
                 "+totalexp,+texp,+te",
                 "+time,+t",
                 "+world,+w",
+                "+Cname,+Cn",
+                "+Cprefix,+Cp",
+                "+Csuffix,+Cs",
+                "+Ctype,+Ct",
                 "+Groupname,+Gname,+G",
                 "+Worldname,+Wname,+W"
                 };
@@ -115,9 +136,15 @@ public class mChatAPI {
                 tExp,
                 time,
                 world,
+                mCName,
+                mCPref,
+                mCSuf,
+                mCType,
                 getGroupName(group),
                 getWorldName(world),
                 };
+
+
 
         return replaceVars(format, search, replace);
     }
@@ -447,16 +474,11 @@ public class mChatAPI {
             if (plugin.pexPermissions.has(player, node))
                 return true;
 
-        if (player.hasPermission(node))
-              return true;
+        return player.hasPermission(node) || player.isOp();
 
-        if (player.isOp())
-            return true;
-
-        return false;
     }
 
-    public String replaceMess(String string) {
+    String replaceMess(String string) {
         if (string.equals("joinMessage"))
             string = plugin.joinMessage;
 
@@ -509,28 +531,11 @@ public class mChatAPI {
 
     protected String replaceCensoredWords(String msg) {
         for (Entry<String, Object> entry : plugin.censorMap.entrySet()) {
-            if (msg.toLowerCase().contains(entry.getKey().toLowerCase())) {
-                msg = msg.toLowerCase().replaceAll(entry.getKey().toLowerCase(), entry.getValue().toString());
+            if (msg.matches("(?i)" + entry.getKey())) {
+                msg = msg.replaceAll("(?i)" + entry.getKey(), entry.getValue().toString());
             }
         }
-       return msg;
-    }
 
-    /*
-     * Depreciated Stuff
-     */
-    @Deprecated
-    public String parseName(Player player) {
-        return ParsePlayerName(player);
-    }
-
-    @Deprecated
-    public String parseJoin(Player player) {
-        return ParseJoinName(player);
-    }
-
-    @Deprecated
-    public String parseChat(Player player, String msg) {
-        return ParseChatMessage(player, msg, plugin.chatFormat);
+        return msg;
     }
 }

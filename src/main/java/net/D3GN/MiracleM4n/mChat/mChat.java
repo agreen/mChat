@@ -54,6 +54,9 @@ public class mChat extends JavaPlugin {
     // PermissionsBukkit
     Boolean PermissionBuB = false;
 
+    // mChannel
+    Boolean mChannelB = false;
+
     // Coloring & Configuration
     Logger console = null;
     Configuration mConfig = null;
@@ -102,6 +105,7 @@ public class mChat extends JavaPlugin {
         mCListener = new MCConfigListener(this);
 
         setupSuperPerms();
+        setupmChannel();
 
         // Initialize the API
         API = new mChatAPI(this);
@@ -134,8 +138,8 @@ public class mChat extends JavaPlugin {
     }
 
     private void setupSuperPerms() {
-        Plugin bPermTest = this.getServer().getPluginManager().getPlugin("bPermissions");
-        Plugin PermissionsBukkitTest = this.getServer().getPluginManager().getPlugin("PermissionsBukkit");
+        Plugin bPermTest = getServer().getPluginManager().getPlugin("bPermissions");
+        Plugin PermissionsBukkitTest = getServer().getPluginManager().getPlugin("PermissionsBukkit");
         PluginDescriptionFile pdfFile = getDescription();
 
         if (PermissionsBukkitTest != null) {
@@ -151,7 +155,7 @@ public class mChat extends JavaPlugin {
     }
 
     private void setupPEX() {
-        Plugin pexTest = this.getServer().getPluginManager().getPlugin("PermissionsEx");
+        Plugin pexTest = getServer().getPluginManager().getPlugin("PermissionsEx");
         PluginDescriptionFile pdfFile = getDescription();
 
         if (pexTest != null) {
@@ -166,7 +170,7 @@ public class mChat extends JavaPlugin {
     }
 
     private void setupPermissions() {
-        Plugin permTest = this.getServer().getPluginManager().getPlugin("Permissions");
+        Plugin permTest = getServer().getPluginManager().getPlugin("Permissions");
         PluginDescriptionFile pdfFile = getDescription();
 
         if(permTest != null) {
@@ -183,7 +187,7 @@ public class mChat extends JavaPlugin {
     }
 
     private void setupGroupManager() {
-        Plugin permTest = this.getServer().getPluginManager().getPlugin("GroupManager");
+        Plugin permTest = getServer().getPluginManager().getPlugin("GroupManager");
         PluginDescriptionFile pdfFile = getDescription();
 
         if (permTest != null) {
@@ -191,7 +195,20 @@ public class mChat extends JavaPlugin {
             console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             gmPermissionsB = false;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " No Permissions plugins were found defaulting to permissions.yml");
+            console.log( Level.INFO, "[" + pdfFile.getName() + "]" + " No Permissions plugins were found defaulting to permissions.yml");
+        }               
+    }
+    
+    private void setupmChannel() {
+        Plugin mChannelTest = getServer().getPluginManager().getPlugin("mChannel");
+        PluginDescriptionFile pdfFile = getDescription();
+
+        if (mChannelTest != null) {
+            mChannelB = true;
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] " +  mChannelTest.getDescription().getName() + " " + (mChannelTest.getDescription().getVersion()) + " found hooking in.");
+        } else {
+            mChannelB = false;
+            console.log( Level.INFO, "[" + pdfFile.getName() + "] " +  mChannelTest.getDescription().getName() + " not found not using.");
         }
     }
 

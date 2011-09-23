@@ -21,7 +21,7 @@
         </repository>
         <repository>
             <id>d3gn</id>
-            <url>http://repo.d3gn.net/repository</url>
+            <url>http://dev.d3gn.net/repository</url>
             <releases>
                 <updatePolicy>always</updatePolicy>
             </releases>
@@ -96,6 +96,13 @@
             <groupId>ru.tehkode</groupId>
             <artifactId>PermissionsEx</artifactId>
             <version>1.14</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.D3GN</groupId>
+            <artifactId>mChannel</artifactId>
+            <version>DEV</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
