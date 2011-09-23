@@ -36,9 +36,6 @@ public class MPlayerListener extends PlayerListener {
 
         String reason = event.getReason();
 
-        if(!(reason == null) || !reason.isEmpty())
-            reason = ("for " + reason);
-
         String kickMsg = plugin.mAPI.replaceMess("kickMessage");
         kickMsg = plugin.mAPI.addColour(kickMsg.replace("+reason", reason).replace("+r", reason));
 
