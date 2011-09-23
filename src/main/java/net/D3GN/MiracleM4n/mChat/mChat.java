@@ -27,14 +27,14 @@ import org.blockface.bukkitstats.CallHome;
 public class mChat extends JavaPlugin {
     PluginManager pm;
 
-    //Listeners
+    // Listeners
     MPlayerListener pListener;
     MCommandSender cSender;
     MConfigListener cListener;
     MIConfigListener mIListener;
     MCConfigListener mCListener;
 
-    //API
+    // API
     public static mChatAPI API = null;
     mChatAPI mAPI = null;
 
@@ -51,19 +51,19 @@ public class mChat extends JavaPlugin {
     public PermissionManager pexPermissions;
     Boolean PEXB = false;
 
-    //PermissionsBukkit
+    // PermissionsBukkit
     Boolean PermissionBuB = false;
 
     // Coloring & Configuration
     Logger console = null;
-    Configuration config = null;
+    Configuration mConfig = null;
     Configuration mIConfig = null;
     Configuration mCConfig = null;
 
     // Information
     String infoResolve;
 
-    //API Only Boolean
+    // API Only Boolean
     Boolean mAPI_Only_Mode = false;
 
     // Formatting
@@ -75,19 +75,20 @@ public class mChat extends JavaPlugin {
     String leaveMessage = "has left the game.";
     String kickMessage = "has been kicked from the game +r.";
 
-    //InfoHashMaps
+    // InfoHashMaps
     TreeMap<String, Object> infoMap = new TreeMap<String, Object>();
     TreeMap<String, Object> otherMap = new TreeMap<String, Object>();
 
-    //Censor String List
+    // Censor String List
     HashMap<String, Object> censorMap = new HashMap<String, Object>();
 
     public void onEnable() {
         // Default plugin data
         pm = getServer().getPluginManager();
-        config = new Configuration(new File(getDataFolder(), "config.yml"));
+        mConfig = new Configuration(new File(getDataFolder(), "config.yml"));
         mIConfig = new Configuration(new File(getDataFolder(), "info.yml"));
         mCConfig = new Configuration(new File(getDataFolder(), "censor.yml"));
+
         console = getServer().getLogger();
         PluginDescriptionFile pdfFile = getDescription();
 
@@ -106,10 +107,10 @@ public class mChat extends JavaPlugin {
         API = new mChatAPI(this);
         mAPI = new mChatAPI(this);
 
-        //Setup Configs
+        // Setup Configs
         setupConfigs();
 
-        //Register Events
+        // Register Events
         if (!mAPI_Only_Mode) {
             pm.registerEvent(Event.Type.PLAYER_KICK, pListener, Priority.Normal, this);
             pm.registerEvent(Event.Type.PLAYER_CHAT, pListener, Priority.Normal, this);
@@ -117,10 +118,10 @@ public class mChat extends JavaPlugin {
             pm.registerEvent(Event.Type.PLAYER_QUIT, pListener, Priority.Normal, this);
         }
 
-        //Register Commands
+        // Register Commands
         getCommand("mchat").setExecutor(cSender);
 
-        //Call Home
+        // Call Home
         CallHome.load(this);
 
         console.log(Level.INFO, "[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is enabled!");

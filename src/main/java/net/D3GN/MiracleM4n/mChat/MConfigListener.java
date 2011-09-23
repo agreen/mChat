@@ -14,7 +14,7 @@ public class MConfigListener {
     }
 
     protected void loadConfig() {
-        Configuration config = plugin.config;
+        Configuration config = plugin.mConfig;
         config.load();
 
         plugin.chatFormat = config.getString("mchat-message-format", plugin.chatFormat);
@@ -28,7 +28,7 @@ public class MConfigListener {
     }
 
     protected void defaultConfig() {
-        Configuration config = plugin.config;
+        Configuration config = plugin.mConfig;
         config.save();
         config.setHeader(
             "# mChat configuration file",
@@ -52,7 +52,7 @@ public class MConfigListener {
     }
 
     protected void checkConfig() {
-        Configuration config = plugin.config;
+        Configuration config = plugin.mConfig;
         PluginDescriptionFile pdfFile = plugin.getDescription();
         config.load();
 

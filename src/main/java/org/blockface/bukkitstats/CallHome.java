@@ -44,22 +44,22 @@ public class CallHome{
 
     public static void load(Plugin plugin) {
         if(cfg==null) {
-            if(!verifyConfig()) return;
+            if(!verifyConfig(plugin)) return;
         }
         if(cfg.getBoolean("opt-out",false)) return;
         plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(plugin,new CallTask(plugin,cfg.getBoolean("list-server",true)),0L,20L*60L*60);
-        System.out.println(plugin.getDescription().getName() + " is keeping usage stats an. To opt-out for whatever bizarre reason, check plugins/stats.");
+        System.out.println("[" + plugin.getDescription().getName() + "]" + " BukkitStats Logging currently Activated. To opt-out check stats.yml.");
 
     }
 
-    private static Boolean verifyConfig() {
+    private static Boolean verifyConfig(Plugin plugin) {
         Boolean ret = true;
-        File config = new File("plugins/stats/config.yml");
+        File config = new File("plugins/mChat/stats.yml");
         if(!config.getParentFile().exists()) config.getParentFile().mkdir();
         if(!config.exists()) try {
             config.createNewFile();
             ret = false;
-            System.out.println("BukkitStats has initialized for the first time. To opt-out check plugins/stats");
+            System.out.println("[" + plugin.getDescription().getName() + "]" + " BukkitStats has initialized for the first time. To opt-out check stats.yml.");
         } catch (IOException e) {
             return false;
         }

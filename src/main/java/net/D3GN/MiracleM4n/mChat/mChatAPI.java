@@ -50,7 +50,7 @@ public class mChatAPI {
         String hungerLevel = String.valueOf(player.getFoodLevel());
         String hungerBar = basicBar(player.getFoodLevel(), 20, 10);
         String level = String.valueOf(player.getLevel());
-        String exp = String.valueOf(player.getExperience()) + " ";
+        String exp = String.valueOf(player.getExperience());
         String expBar = basicBar(player.getExperience(), ((player.getLevel() + 1) * 10), 10);
         String tExp = String.valueOf(player.getTotalExperience());
         String gMode = player.getGameMode().name();
@@ -75,11 +75,11 @@ public class mChatAPI {
 
         search = new String[]{
                 "+displayname,+dname,+dn",
-                "+experiencebar, +expb, +ebar, +eb",
-                "+experience, +exp",
+                "+experiencebar,+expb,+ebar,+eb",
+                "+experience,+exp",
                 "+gamemode,+gm",
                 "+group,+g",
-                "+hungerbar, +hub",
+                "+hungerbar,+hub",
                 "+hunger",
                 "+healthbar,+hb",
                 "+health,+h",
@@ -123,28 +123,28 @@ public class mChatAPI {
     }
 
     public String ParseChatMessage(Player player, String msg) {
-        return ParseChatMessage(player, msg, " " + plugin.chatFormat);
+        return ParseChatMessage(player, msg, plugin.chatFormat);
     }
 
     public String ParsePlayerName(Player player) {
-        return ParseChatMessage(player, "", " " + plugin.nameFormat);
+        return ParseChatMessage(player, "", plugin.nameFormat);
     }
 
     public String ParseJoinName(Player player) {
-        return ParseChatMessage(player, "", " " + plugin.joinFormat);
+        return ParseChatMessage(player, "", plugin.joinFormat);
     }
 
     public String getGroupName(String group) {
-       if (plugin.mIListener.groupNodeList.get(group) != null) {
+       if (plugin.mIListener.groupNodeList.get(group) != null)
            return plugin.mIListener.groupNodeList.get(group).toString();
-       }
+
        return group;
     }
 
     public String getWorldName(String world) {
-       if (plugin.mIListener.worldNodeList.get(world) != null) {
+       if (plugin.mIListener.worldNodeList.get(world) != null)
            return plugin.mIListener.worldNodeList.get(world).toString();
-       }
+
        return world;
     }
 
@@ -435,20 +435,23 @@ public class mChatAPI {
     }
 
     public Boolean checkPermissions(Player player, String node) {
-        if (plugin.permissionsB) {
+        if (plugin.permissionsB)
             if (plugin.permissions.has(player, node))
                 return true;
-        } else if (plugin.gmPermissionsB) {
+
+        if (plugin.gmPermissionsB)
             if (plugin.gmPermissions.has(player, node))
                 return true;
-        } else if (plugin.PEXB){
+
+        if (plugin.PEXB)
             if (plugin.pexPermissions.has(player, node))
                 return true;
-        } else if (player.hasPermission(node)) {
+
+        if (player.hasPermission(node))
               return true;
-        } else if (player.isOp()) {
+
+        if (player.isOp())
             return true;
-        }
 
         return false;
     }
@@ -507,7 +510,7 @@ public class mChatAPI {
     protected String replaceCensoredWords(String msg) {
         for (Entry<String, Object> entry : plugin.censorMap.entrySet()) {
             if (msg.toLowerCase().contains(entry.getKey().toLowerCase())) {
-                msg = msg.replaceAll(entry.getKey(), entry.getValue().toString());
+                msg = msg.toLowerCase().replaceAll(entry.getKey().toLowerCase(), entry.getValue().toString());
             }
         }
        return msg;
