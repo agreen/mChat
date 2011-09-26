@@ -66,6 +66,9 @@ public class mChat extends JavaPlugin {
     // Information
     String infoResolve;
 
+    // Optional mChat only Info Support
+    Boolean mChat_Info_Only = false;
+
     // API Only Boolean
     Boolean mAPI_Only_Mode = false;
 

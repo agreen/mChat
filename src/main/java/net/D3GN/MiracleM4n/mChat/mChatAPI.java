@@ -181,19 +181,20 @@ public class mChatAPI {
     public String getRawInfo(Player player, String info) {
         refreshMaps();
 
+        if (plugin.mChat_Info_Only)
+            return getBukkitInfo(player, info);
+
         if (plugin.permissionsB)
             return getPermissionsInfo(player, info);
 
         if (plugin.gmPermissionsB)
             return getGroupManagerInfo(player, info);
 
-        if (plugin.PermissionBuB) {
+        if (plugin.PermissionBuB)
             return getSuperPermsInfo(player, info);
-        }
 
-        if (plugin.PEXB) {
+        if (plugin.PEXB)
             return getPEXInfo(player, info);
-        }
 
         return getBukkitInfo(player, info);
     }
@@ -475,6 +476,26 @@ public class mChatAPI {
                 return true;
 
         return player.hasPermission(node) || player.isOp();
+
+    }
+
+    public Boolean checkPermissions(Player player, String node, Boolean useOp) {
+        if (plugin.permissionsB)
+            if (plugin.permissions.has(player, node))
+                return true;
+
+        if (plugin.gmPermissionsB)
+            if (plugin.gmPermissions.has(player, node))
+                return true;
+
+        if (plugin.PEXB)
+            if (plugin.pexPermissions.has(player, node))
+                return true;
+
+        if (useOp)
+            return player.isOp();
+
+        return player.hasPermission(node);
 
     }
 
