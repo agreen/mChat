@@ -153,10 +153,10 @@ public class mChat extends JavaPlugin {
 
         if (PermissionsBukkitTest != null) {
             PermissionBuB = true;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " PermissionsBukkit " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] PermissionsBukkit " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             PermissionBuB  = false;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " PermissionsBukkit was not found, Checking for bPermissions.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] PermissionsBukkit was not found, Checking for bPermissions.");
             setupbPerms();
         }
     }
@@ -167,10 +167,10 @@ public class mChat extends JavaPlugin {
 
         if (bPermTest != null) {
             bPermB = true;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " bPermissions " + (bPermTest.getDescription().getVersion()) + " found hooking in.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] bPermissions " + (bPermTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             bPermB  = false;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " bPermissions was not found, Checking for PermissionsEX.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] bPermissions was not found, Checking for PermissionsEX.");
             setupPEX();
         }
     }
@@ -182,10 +182,10 @@ public class mChat extends JavaPlugin {
         if (pexTest != null) {
             pexPermissions = PermissionsEx.getPermissionManager();
             PEXB = true;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " PermissionsEx " + (pexTest.getDescription().getVersion()) + " found hooking in.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] PermissionsEx " + (pexTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             PEXB = false;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " PermissionsEx was not found, Checking for Permissions.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] PermissionsEx was not found, Checking for Permissions.");
             setupPermissions();
         }
     }
@@ -198,11 +198,11 @@ public class mChat extends JavaPlugin {
             permissions = ((Permissions) permTest).getHandler();
             permissionsB = true;
             permissions3 = permTest.getDescription().getVersion().startsWith("3");
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " Permissions " + (permTest.getDescription().getVersion()) + " found hooking in.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] Permissions " + (permTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             permissionsB = false;
             permissions3 = false;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " Permissions not found, Checking for GroupManager.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] Permissions not found, Checking for GroupManager.");
             setupGroupManager();
         }
     }
@@ -213,10 +213,10 @@ public class mChat extends JavaPlugin {
 
         if (permTest != null) {
             gmPermissionsB = true;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             gmPermissionsB = false;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " No Permissions plugins were found defaulting to permissions.yml");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] No Permissions plugins were found defaulting to permissions.yml");
         }               
     }
     
@@ -229,7 +229,7 @@ public class mChat extends JavaPlugin {
             console.log(Level.INFO, "[" + pdfFile.getName() + "] " +  mChannelTest.getDescription().getName() + " " + (mChannelTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             mChannelB = false;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "] " +  mChannelTest.getDescription().getName() + " not found not using.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] mChannel not found not using.");
         }
     }
 
