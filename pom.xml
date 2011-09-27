@@ -119,7 +119,7 @@
         <dependency>
             <groupId>de.bananaco</groupId>
             <artifactId>bPermissions</artifactId>
-            <version>SNAPSHOT</version>
+            <version>1337-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>

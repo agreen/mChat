@@ -11,6 +11,7 @@ import com.platymuus.bukkit.permissions.PermissionsPlugin;
 import net.D3GN.MiracleM4n.mChannel.mChannel;
 import org.bukkit.ChatColor;
 
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -421,7 +422,7 @@ public class mChatAPI {
     }
 
     String getbPermGroup(Player player) {
-        String group = plugin.bPermS.getGroups(player).get(0);
+        String group = plugin.bPermS.getPermissionSet(player.getWorld()).getGroups(player).get(0);
 
         if (group == null)
             return "";

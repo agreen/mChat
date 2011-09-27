@@ -6,8 +6,6 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.bananaco.permissions.info.InfoReader;
-import de.bananaco.permissions.interfaces.PermissionSet;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -23,6 +21,9 @@ import org.anjocaido.groupmanager.permissions.AnjoPermissionsHandler;
 
 import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
+
+import de.bananaco.permissions.info.InfoReader;
+import de.bananaco.permissions.worlds.WorldPermissionsManager;
 
 import org.blockface.bukkitstats.CallHome;
 
@@ -57,8 +58,8 @@ public class mChat extends JavaPlugin {
     Boolean PermissionBuB = false;
 
     // bPermissions
+    public WorldPermissionsManager bPermS;
     public InfoReader bInfoR;
-    public PermissionSet bPermS;
     Boolean bPermB;
 
     // mChannel
@@ -167,6 +168,8 @@ public class mChat extends JavaPlugin {
 
         if (bPermTest != null) {
             bPermB = true;
+            bInfoR = de.bananaco.permissions.Permissions.getInfoReader();
+            bPermS = de.bananaco.permissions.Permissions.getWorldPermissionsManager();
             console.log(Level.INFO, "[" + pdfFile.getName() + "] bPermissions " + (bPermTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             bPermB  = false;
