@@ -10,6 +10,16 @@
     </properties>
     <repositories>
         <repository>
+            <id>bperm-repo</id>
+            <url>http://star.aquitros.info:8080/plugin/repository/project/bPermissions/LastSuccessful/repository</url>
+            <releases>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
             <id>bukkit-repo</id>
             <url>http://repo.bukkit.org/artifactory/repo</url>
             <releases>
@@ -20,7 +30,7 @@
             </snapshots>
         </repository>
         <repository>
-            <id>d3gn</id>
+            <id>blockface-repo</id>
             <url>http://repo.blockface.org/repository</url>
             <releases>
                 <updatePolicy>always</updatePolicy>
@@ -103,6 +113,13 @@
             <groupId>net.D3GN</groupId>
             <artifactId>mChannel</artifactId>
             <version>DEV</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.bananaco</groupId>
+            <artifactId>bPermissions</artifactId>
+            <version>SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>

@@ -6,6 +6,8 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import de.bananaco.permissions.info.InfoReader;
+import de.bananaco.permissions.interfaces.PermissionSet;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -53,6 +55,11 @@ public class mChat extends JavaPlugin {
 
     // PermissionsBukkit
     Boolean PermissionBuB = false;
+
+    // bPermissions
+    public InfoReader bInfoR;
+    public PermissionSet bPermS;
+    Boolean bPermB;
 
     // mChannel
     Boolean mChannelB = false;
@@ -141,18 +148,29 @@ public class mChat extends JavaPlugin {
     }
 
     private void setupSuperPerms() {
-        Plugin bPermTest = getServer().getPluginManager().getPlugin("bPermissions");
         Plugin PermissionsBukkitTest = getServer().getPluginManager().getPlugin("PermissionsBukkit");
         PluginDescriptionFile pdfFile = getDescription();
 
         if (PermissionsBukkitTest != null) {
             PermissionBuB = true;
             console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " PermissionsBukkit " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
-        } else if (bPermTest != null) {
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " bPermissions " + (bPermTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             PermissionBuB  = false;
-            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " A superperms Permissions plugin was not found, Checking for PermissionsEX.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " PermissionsBukkit was not found, Checking for bPermissions.");
+            setupbPerms();
+        }
+    }
+
+    private void setupbPerms() {
+        Plugin bPermTest = getServer().getPluginManager().getPlugin("bPermissions");
+        PluginDescriptionFile pdfFile = getDescription();
+
+        if (bPermTest != null) {
+            bPermB = true;
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " bPermissions " + (bPermTest.getDescription().getVersion()) + " found hooking in.");
+        } else {
+            bPermB  = false;
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " bPermissions was not found, Checking for PermissionsEX.");
             setupPEX();
         }
     }

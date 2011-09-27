@@ -196,6 +196,9 @@ public class mChatAPI {
         if (plugin.PEXB)
             return getPEXInfo(player, info);
 
+        if (plugin.bPermB)
+            return getbPermInfo(player, info);
+
         return getBukkitInfo(player, info);
     }
 
@@ -404,6 +407,29 @@ public class mChatAPI {
     }
 
     /*
+     * bPermissions Stuff
+     */
+    String getbPermInfo(Player player, String info) {
+        if (info.equals("group"))
+            return getbPermGroup(player);
+
+        String userString = plugin.bInfoR.getValue(player, info);
+        if (userString != null && !userString.isEmpty())
+            return userString;
+
+        return "";
+    }
+
+    String getbPermGroup(Player player) {
+        String group = plugin.bPermS.getGroups(player).get(0);
+
+        if (group == null)
+            return "";
+
+        return group;
+    }
+
+    /*
      * Misc Stuff
      */
     public String healthBar(Player player) {
@@ -475,6 +501,10 @@ public class mChatAPI {
             if (plugin.pexPermissions.has(player, node))
                 return true;
 
+        if (plugin.bPermB)
+            if (plugin.bPermS.has(player, node))
+                return true;
+
         return player.hasPermission(node) || player.isOp();
 
     }
@@ -490,6 +520,10 @@ public class mChatAPI {
 
         if (plugin.PEXB)
             if (plugin.pexPermissions.has(player, node))
+                return true;
+
+        if (plugin.bPermB)
+            if (plugin.bPermS.has(player, node))
                 return true;
 
         if (useOp)
