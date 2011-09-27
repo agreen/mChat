@@ -501,10 +501,6 @@ public class mChatAPI {
             if (plugin.pexPermissions.has(player, node))
                 return true;
 
-        if (plugin.bPermB)
-            if (plugin.bPermS.has(player, node))
-                return true;
-
         return player.hasPermission(node) || player.isOp();
 
     }
@@ -520,10 +516,6 @@ public class mChatAPI {
 
         if (plugin.PEXB)
             if (plugin.pexPermissions.has(player, node))
-                return true;
-
-        if (plugin.bPermB)
-            if (plugin.bPermS.has(player, node))
                 return true;
 
         if (useOp)
