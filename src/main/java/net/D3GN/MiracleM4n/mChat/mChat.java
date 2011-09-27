@@ -216,7 +216,7 @@ public class mChat extends JavaPlugin {
             console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             gmPermissionsB = false;
-            console.log( Level.INFO, "[" + pdfFile.getName() + "]" + " No Permissions plugins were found defaulting to permissions.yml");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " No Permissions plugins were found defaulting to permissions.yml");
         }               
     }
     
@@ -229,7 +229,7 @@ public class mChat extends JavaPlugin {
             console.log(Level.INFO, "[" + pdfFile.getName() + "] " +  mChannelTest.getDescription().getName() + " " + (mChannelTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             mChannelB = false;
-            console.log( Level.INFO, "[" + pdfFile.getName() + "] " +  mChannelTest.getDescription().getName() + " not found not using.");
+            console.log(Level.INFO, "[" + pdfFile.getName() + "] " +  mChannelTest.getDescription().getName() + " not found not using.");
         }
     }
 
