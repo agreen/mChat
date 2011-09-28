@@ -11,7 +11,6 @@ import com.platymuus.bukkit.permissions.PermissionsPlugin;
 import net.D3GN.MiracleM4n.mChannel.mChannel;
 import org.bukkit.ChatColor;
 
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -82,6 +81,7 @@ public class mChatAPI {
         String[] replace;
 
         msg = msg.replaceAll("%", "%%");
+        format = format.replaceAll("%", "%%");
 
         if (format == null)
             return msg;

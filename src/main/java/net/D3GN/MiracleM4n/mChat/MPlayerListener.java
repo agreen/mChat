@@ -27,7 +27,7 @@ public class MPlayerListener extends PlayerListener {
 		String msg = event.getJoinMessage();
 		if (msg == null) return;
 		event.setJoinMessage(plugin.mAPI.ParseJoinName(player) + " " + plugin.mAPI.replaceMess("joinMessage"));
-	}
+    }
 	
 	public void onPlayerKick(PlayerKickEvent event) {
 		if (event.isCancelled()) return;

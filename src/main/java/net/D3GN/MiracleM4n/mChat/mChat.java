@@ -80,6 +80,9 @@ public class mChat extends JavaPlugin {
     // API Only Boolean
     Boolean mAPI_Only_Mode = false;
 
+    // Fomatting Event Messages Boolean
+    Boolean mFormat_Events = true;
+
     // Formatting
     String chatFormat = "+p+dn+s&f: +m";
     String nameFormat = "+p+dn+s&e";
@@ -127,10 +130,12 @@ public class mChat extends JavaPlugin {
 
         // Register Events
         if (!mAPI_Only_Mode) {
-            pm.registerEvent(Event.Type.PLAYER_KICK, pListener, Priority.Normal, this);
             pm.registerEvent(Event.Type.PLAYER_CHAT, pListener, Priority.Normal, this);
-            pm.registerEvent(Event.Type.PLAYER_JOIN, pListener, Priority.Normal, this);
-            pm.registerEvent(Event.Type.PLAYER_QUIT, pListener, Priority.Normal, this);
+            if (mFormat_Events) {
+                pm.registerEvent(Event.Type.PLAYER_KICK, pListener, Priority.Normal, this);
+                pm.registerEvent(Event.Type.PLAYER_JOIN, pListener, Priority.Normal, this);
+                pm.registerEvent(Event.Type.PLAYER_QUIT, pListener, Priority.Normal, this);
+            }
         }
 
         // Register Commands

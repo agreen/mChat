@@ -26,6 +26,7 @@ public class MConfigListener {
         plugin.kickMessage = config.getString("mchat-kick-message", plugin.kickMessage);
         plugin.mAPI_Only_Mode = config.getBoolean("mchat-API-only", plugin.mAPI_Only_Mode);
         plugin.mChat_Info_Only = config.getBoolean("mchat-info-only", plugin.mChat_Info_Only);
+        plugin.mFormat_Events = config.getBoolean("mchat-format-events", plugin.mFormat_Events);
     }
 
     protected void defaultConfig() {
@@ -50,6 +51,7 @@ public class MConfigListener {
         config.setProperty("mchat-kick-message", plugin.kickMessage);
         config.setProperty("mchat-API-only", plugin.mAPI_Only_Mode);
         config.setProperty("mchat-info-only", plugin.mChat_Info_Only);
+        config.setProperty("mchat-format-events", plugin.mFormat_Events);
         config.save();
     }
 
@@ -100,6 +102,11 @@ public class MConfigListener {
 
         if (config.getProperty("mchat-info-only") == null) {
             config.setProperty("mchat-info-only", plugin.mChat_Info_Only);
+            hasChanged = true;
+        }
+
+        if (config.getProperty("mchat-format-events") == null) {
+            config.setProperty("mchat-format-events", plugin.mFormat_Events);
             hasChanged = true;
         }
 
