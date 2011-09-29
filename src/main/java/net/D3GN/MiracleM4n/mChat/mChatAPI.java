@@ -571,19 +571,19 @@ public class mChatAPI {
         return addColour(format);
     }
 
-    protected void refreshMaps() {
-        plugin.otherMap.clear();
-        plugin.infoMap.clear();
-        plugin.infoMap.putAll(plugin.mIConfig.getNode("mchat").getAll());
-    }
-
     protected String replaceCensoredWords(String msg) {
         for (Entry<String, Object> entry : plugin.censorMap.entrySet()) {
             if (msg.matches("(?i)" + entry.getKey())) {
-                msg = msg.replaceAll("(?i)" + entry.getKey(), entry.getValue().toString());
+                msg = msg.replaceAll("(?i)" + entry.getKey(), addColour(entry.getValue().toString()));
             }
         }
 
         return msg;
+    }
+
+    protected void refreshMaps() {
+        plugin.otherMap.clear();
+        plugin.infoMap.clear();
+        plugin.infoMap.putAll(plugin.mIConfig.getNode("mchat").getAll());
     }
 }

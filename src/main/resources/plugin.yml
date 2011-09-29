@@ -1,6 +1,6 @@
 name: mChat
 main: net.D3GN.MiracleM4n.mChat.mChat
-version: 1.8.2_4
+version: 1.8.2_5
 author: MiracleM4n
 website: http://d3gn.net/
 thread: http://forums.bukkit.org/threads/22958/
@@ -8,9 +8,17 @@ softdepend: [Permissions, GroupManager, PermissionsBukkit, bPermissions, Spout, 
 description: Chat API with more.
 commands:
     mchat:
-        description: 
+        description:
+        permissions:
         usage: |
-            /<command> reload [config/info]
+            /<command> reload [config/info/censor/all]
             Example: /<command> - See this info.
             Example: /<command> reload config - Reload Config.
             Example: /<command> reload info - Reload Info.
+            Example: /<command> reload censor - Reload Info.
+            Example: /<command> reload all - Reload All Configs.
+
+permissions:
+    mchat.reload:
+        description: Allow usage of /mchat reload '[config/info/censor/all]'
+        default: true
