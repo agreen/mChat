@@ -3,8 +3,6 @@ package net.D3GN.MiracleM4n.mChat;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.config.Configuration;
 
-import java.util.logging.Level;
-
 public class MConfigListener {
     mChat plugin;
     Boolean hasChanged = false;
@@ -27,6 +25,7 @@ public class MConfigListener {
         plugin.mAPI_Only_Mode = config.getBoolean("mchat-API-only", plugin.mAPI_Only_Mode);
         plugin.mChat_Info_Only = config.getBoolean("mchat-info-only", plugin.mChat_Info_Only);
         plugin.mFormat_Events = config.getBoolean("mchat-format-events", plugin.mFormat_Events);
+        plugin.chatDistance = config.getDouble("mchat-chat-distance", plugin.chatDistance);
     }
 
     protected void defaultConfig() {
@@ -52,6 +51,7 @@ public class MConfigListener {
         config.setProperty("mchat-API-only", plugin.mAPI_Only_Mode);
         config.setProperty("mchat-info-only", plugin.mChat_Info_Only);
         config.setProperty("mchat-format-events", plugin.mFormat_Events);
+        config.setProperty("mchat-chat-distance", plugin.chatDistance);
         config.save();
     }
 
@@ -60,55 +60,18 @@ public class MConfigListener {
         PluginDescriptionFile pdfFile = plugin.getDescription();
         config.load();
 
-        if (config.getProperty("mchat-date-format") == null) {
-            config.setProperty("mchat-date-format", plugin.dateFormat);
-            hasChanged = true;
-        }
+        checkCOption(config, "mchat-date-format", plugin.dateFormat);
+        checkCOption(config, "mchat-message-format", plugin.chatFormat);
+        checkCOption(config, "mchat-name-format", plugin.nameFormat);
+        checkCOption(config, "mchat-playerEvent-format", plugin.joinFormat);
+        checkCOption(config, "mchat-join-message", plugin.joinMessage);
+        checkCOption(config, "mchat-leave-message", plugin.leaveMessage);
+        checkCOption(config, "mchat-kick-message", plugin.kickMessage);
+        checkCOption(config, "mchat-API-only", plugin.mAPI_Only_Mode);
+        checkCOption(config, "mchat-info-only", plugin.mChat_Info_Only);
+        checkCOption(config, "mchat-format-events", plugin.mFormat_Events);
+        checkCOption(config, "mchat-chat-distance", plugin.chatDistance);
 
-        if (config.getProperty("mchat-message-format") == null) {
-            config.setProperty("mchat-message-format", plugin.chatFormat);
-            hasChanged = true;
-        }
-
-        if (config.getProperty("mchat-name-format") == null) {
-            config.setProperty("mchat-name-format", plugin.nameFormat);
-            hasChanged = true;
-        }
-
-        if (config.getProperty("mchat-playerEvent-format") == null) {
-            config.setProperty("mchat-playerEvent-format", plugin.joinFormat);
-            hasChanged = true;
-        }
-
-        if (config.getProperty("mchat-join-message") == null) {
-            config.setProperty("mchat-join-message", plugin.joinMessage);
-            hasChanged = true;
-        }
-
-        if (config.getProperty("mchat-leave-message") == null) {
-            config.setProperty("mchat-leave-message", plugin.leaveMessage);
-            hasChanged = true;
-        }
-
-        if (config.getProperty("mchat-kick-message") == null) {
-            config.setProperty("mchat-kick-message", plugin.kickMessage);
-            hasChanged = true;
-        }
-
-        if (config.getProperty("mchat-API-only") == null) {
-            config.setProperty("mchat-API-only", plugin.mAPI_Only_Mode);
-            hasChanged = true;
-        }
-
-        if (config.getProperty("mchat-info-only") == null) {
-            config.setProperty("mchat-info-only", plugin.mChat_Info_Only);
-            hasChanged = true;
-        }
-
-        if (config.getProperty("mchat-format-events") == null) {
-            config.setProperty("mchat-format-events", plugin.mFormat_Events);
-            hasChanged = true;
-        }
 
         if (hasChanged) {
             config.setHeader(
@@ -121,8 +84,15 @@ public class MConfigListener {
                 ""
             );
 
-            plugin.console.log(Level.INFO, "[" + pdfFile.getName() + "]" + " config.yml has been updated.");
+            plugin.mAPI.log("[" + pdfFile.getName() + "]" + " config.yml has been updated.");
             config.save();
+        }
+    }
+
+    protected void checkCOption(Configuration config, String option, Object dOption) {
+        if (config.getProperty(option) == null) {
+            config.setProperty(option, dOption);
+            hasChanged = true;
         }
     }
 }

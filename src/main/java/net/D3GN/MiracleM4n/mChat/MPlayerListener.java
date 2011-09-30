@@ -20,8 +20,14 @@ public class MPlayerListener extends PlayerListener {
 		String msg = event.getMessage();
 		if (msg == null) return;
 		event.setFormat(plugin.mAPI.ParseChatMessage(player, msg));
+
+        // For Dragonslife
+        if (plugin.chatDistance > 0)
+            for (Player players : plugin.getServer().getOnlinePlayers())
+                if (players.getLocation().distance(player.getLocation()) > plugin.chatDistance)
+					event.getRecipients().remove(players);
 	}
-	
+
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		String msg = event.getJoinMessage();

@@ -6,8 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-import java.util.logging.Level;
-
 public class MCommandSender implements CommandExecutor {
 
     mChat plugin;
@@ -42,7 +40,7 @@ public class MCommandSender implements CommandExecutor {
                 } else {
                     plugin.cListener.checkConfig();
                     plugin.cListener.loadConfig();
-                    plugin.console.log(Level.INFO, formatMessage("Config Reloaded."));
+                    plugin.mAPI.log(formatMessage("Config Reloaded."));
 
                     return true;
                 }
@@ -62,7 +60,7 @@ public class MCommandSender implements CommandExecutor {
                 } else {
                     plugin.mIListener.checkConfig();
                     plugin.mIListener.loadConfig();
-                    plugin.console.log(Level.INFO, formatMessage("Info Reloaded."));
+                    plugin.mAPI.log(formatMessage("Info Reloaded."));
 
                     return true;
                 }
@@ -80,7 +78,7 @@ public class MCommandSender implements CommandExecutor {
                     return true;
                 } else {
                     plugin.mCListener.loadConfig();
-                    plugin.console.log(Level.INFO, formatMessage("Censor Reloaded."));
+                    plugin.mAPI.log(formatMessage("Censor Reloaded."));
 
                     return true;
                 }
@@ -106,7 +104,7 @@ public class MCommandSender implements CommandExecutor {
                     plugin.cListener.loadConfig();
                     plugin.mIListener.checkConfig();
                     plugin.mIListener.loadConfig();
-                    plugin.console.log(Level.INFO, formatMessage("All Config's Reloaded."));
+                    plugin.mAPI.log(formatMessage("All Config's Reloaded."));
 
                     return true;
                 }

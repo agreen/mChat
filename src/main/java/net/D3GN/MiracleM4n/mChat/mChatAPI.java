@@ -3,6 +3,7 @@ package net.D3GN.MiracleM4n.mChat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -571,7 +572,7 @@ public class mChatAPI {
         return addColour(format);
     }
 
-    protected String replaceCensoredWords(String msg) {
+    String replaceCensoredWords(String msg) {
         for (Entry<String, Object> entry : plugin.censorMap.entrySet()) {
             if (msg.matches("(?i)" + entry.getKey())) {
                 msg = msg.replaceAll("(?i)" + entry.getKey(), addColour(entry.getValue().toString()));
@@ -580,6 +581,11 @@ public class mChatAPI {
 
         return msg;
     }
+
+    public void log(String loggedString) {
+        plugin.getServer().getLogger().log(Level.INFO, loggedString);
+    }
+
 
     protected void refreshMaps() {
         plugin.otherMap.clear();
