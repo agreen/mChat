@@ -1,13 +1,11 @@
 package net.D3GN.MiracleM4n.mChat;
 
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.config.Configuration;
 
 import java.io.File;
 
 public class MCConfigListener {
     mChat plugin;
-    Boolean hasChanged = false;
 
     public MCConfigListener(mChat plugin) {
         this.plugin = plugin;

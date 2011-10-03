@@ -52,6 +52,9 @@ public class mChat extends JavaPlugin {
     public PermissionManager pexPermissions;
     Boolean PEXB = false;
 
+    // PermissionsBukkit
+    Boolean PermissionBuB = false;
+
     // bPermissions
     public WorldPermissionsManager bPermS;
     public InfoReader bInfoR;
@@ -64,9 +67,6 @@ public class mChat extends JavaPlugin {
     Configuration mConfig = null;
     Configuration mIConfig = null;
     Configuration mCConfig = null;
-
-    // Information
-    String infoResolve;
 
     // Optional mChat only Info Support
     Boolean mChat_Info_Only = false;
@@ -119,7 +119,7 @@ public class mChat extends JavaPlugin {
         mAPI = new mChatAPI(this);
 
         // Setup Permissions
-        setupbPerms();
+        setupSuperPerms();
 
         // Setup mChannel
         setupmChannel();
@@ -150,6 +150,19 @@ public class mChat extends JavaPlugin {
         PluginDescriptionFile pdfFile = getDescription();
 
         mAPI.log("[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is disabled!");
+    }
+
+    private void setupSuperPerms() {
+        Plugin PermissionsBukkitTest = getServer().getPluginManager().getPlugin("PermissionsBukkit");
+        PluginDescriptionFile pdfFile = getDescription();
+
+        if (PermissionsBukkitTest != null) {
+            PermissionBuB = true;
+            mAPI.log("[" + pdfFile.getName() + "] PermissionsBukkit " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
+        } else {
+            PermissionBuB  = false;
+            setupbPerms();
+        }
     }
 
     protected void setupbPerms() {
