@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.TreeMap;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -144,6 +145,10 @@ public class mChat extends JavaPlugin {
         CallHome.load(this);
 
         mAPI.log("[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is enabled!");
+
+        for (Player players : getServer().getOnlinePlayers())
+            if (usersMap.get("users." + players.getName()) == null)
+                mIListener.addDefaultPlayer(players);
     }
 
     public void onDisable() {
