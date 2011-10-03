@@ -52,9 +52,6 @@ public class mChat extends JavaPlugin {
     public PermissionManager pexPermissions;
     Boolean PEXB = false;
 
-    // PermissionsBukkit
-    Boolean PermissionBuB = false;
-
     // bPermissions
     public WorldPermissionsManager bPermS;
     public InfoReader bInfoR;
@@ -93,8 +90,8 @@ public class mChat extends JavaPlugin {
     Double chatDistance = -1.0;
 
     // InfoHashMaps
-    TreeMap<String, Object> infoMap = new TreeMap<String, Object>();
-    TreeMap<String, Object> otherMap = new TreeMap<String, Object>();
+    TreeMap<String, Object> usersMap = new TreeMap<String, Object>();
+    TreeMap<String, Object> groupsMap = new TreeMap<String, Object>();
 
     // Censor String List
     HashMap<String, Object> censorMap = new HashMap<String, Object>();
@@ -122,7 +119,7 @@ public class mChat extends JavaPlugin {
         mAPI = new mChatAPI(this);
 
         // Setup Permissions
-        setupSuperPerms();
+        setupbPerms();
 
         // Setup mChannel
         setupmChannel();
@@ -155,21 +152,7 @@ public class mChat extends JavaPlugin {
         mAPI.log("[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is disabled!");
     }
 
-    private void setupSuperPerms() {
-        Plugin PermissionsBukkitTest = getServer().getPluginManager().getPlugin("PermissionsBukkit");
-        PluginDescriptionFile pdfFile = getDescription();
-
-        if (PermissionsBukkitTest != null) {
-            PermissionBuB = true;
-            mAPI.log("[" + pdfFile.getName() + "] PermissionsBukkit " + (PermissionsBukkitTest.getDescription().getVersion()) + " found hooking in.");
-        } else {
-            PermissionBuB  = false;
-            mAPI.log("[" + pdfFile.getName() + "] PermissionsBukkit was not found, Checking for bPermissions.");
-            setupbPerms();
-        }
-    }
-
-    private void setupbPerms() {
+    protected void setupbPerms() {
         Plugin bPermTest = getServer().getPluginManager().getPlugin("bPermissions");
         PluginDescriptionFile pdfFile = getDescription();
 
@@ -180,12 +163,11 @@ public class mChat extends JavaPlugin {
             mAPI.log("[" + pdfFile.getName() + "] bPermissions " + (bPermTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             bPermB  = false;
-            mAPI.log("[" + pdfFile.getName() + "] bPermissions was not found, Checking for PermissionsEX.");
             setupPEX();
         }
     }
 
-    private void setupPEX() {
+    protected void setupPEX() {
         Plugin pexTest = getServer().getPluginManager().getPlugin("PermissionsEx");
         PluginDescriptionFile pdfFile = getDescription();
 
@@ -195,12 +177,11 @@ public class mChat extends JavaPlugin {
             mAPI.log("[" + pdfFile.getName() + "] PermissionsEx " + (pexTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             PEXB = false;
-            mAPI.log("[" + pdfFile.getName() + "] PermissionsEx was not found, Checking for Permissions.");
             setupPermissions();
         }
     }
 
-    private void setupPermissions() {
+    protected void setupPermissions() {
         Plugin permTest = getServer().getPluginManager().getPlugin("Permissions");
         PluginDescriptionFile pdfFile = getDescription();
 
@@ -212,12 +193,11 @@ public class mChat extends JavaPlugin {
         } else {
             permissionsB = false;
             permissions3 = false;
-            mAPI.log("[" + pdfFile.getName() + "] Permissions not found, Checking for GroupManager.");
             setupGroupManager();
         }
     }
 
-    private void setupGroupManager() {
+    protected void setupGroupManager() {
         Plugin permTest = getServer().getPluginManager().getPlugin("GroupManager");
         PluginDescriptionFile pdfFile = getDescription();
 
@@ -226,11 +206,11 @@ public class mChat extends JavaPlugin {
             mAPI.log("[" + pdfFile.getName() + "] GroupManager " + (permTest.getDescription().getVersion()) + " found hooking in.");
         } else {
             gmPermissionsB = false;
-            mAPI.log("[" + pdfFile.getName() + "] No Permissions plugins were found defaulting to permissions.yml");
+            mAPI.log("[" + pdfFile.getName() + "] No Permissions plugins were found defaulting to permissions.yml/info.yml");
         }
     }
 
-    private void setupmChannel() {
+    protected void setupmChannel() {
         Plugin mChannelTest = getServer().getPluginManager().getPlugin("mChannel");
         PluginDescriptionFile pdfFile = getDescription();
 
@@ -243,32 +223,13 @@ public class mChat extends JavaPlugin {
         }
     }
 
-    private void setupConfigs() {
-        if (!(new File(getDataFolder(), "config.yml")).exists()) {
-            cListener.defaultConfig();
-            cListener.checkConfig();
-            cListener.loadConfig();
-        } else {
-            cListener.checkConfig();
-            cListener.loadConfig();
-        }
+    protected void setupConfigs() {
+        cListener.checkConfig();
+        cListener.loadConfig();
 
-        if (!(new File(getDataFolder(), "info.yml")).exists()) {
-            mIListener.defaultConfig();
-            mIListener.checkConfig();
-            mIListener.loadConfig();
-            mAPI.refreshMaps();
-        } else {
-            mIListener.checkConfig();
-            mIListener.loadConfig();
-            mAPI.refreshMaps();
-        }
+        mIListener.checkConfig();
+        mIListener.loadConfig();
 
-        if (!(new File(getDataFolder(), "censor.yml")).exists()) {
-            mCListener.defaultConfig();
-            mCListener.loadConfig();
-        } else {
-            mCListener.loadConfig();
-        }
+        mCListener.loadConfig();
     }
 }

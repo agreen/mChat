@@ -3,6 +3,8 @@ package net.D3GN.MiracleM4n.mChat;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.config.Configuration;
 
+import java.io.File;
+
 public class MConfigListener {
     mChat plugin;
     Boolean hasChanged = false;
@@ -56,6 +58,10 @@ public class MConfigListener {
     }
 
     protected void checkConfig() {
+        if (!(new File(plugin.getDataFolder(), "config.yml")).exists()) {
+            defaultConfig();
+        }
+
         Configuration config = plugin.mConfig;
         PluginDescriptionFile pdfFile = plugin.getDescription();
         config.load();

@@ -3,6 +3,8 @@ package net.D3GN.MiracleM4n.mChat;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.config.Configuration;
 
+import java.io.File;
+
 public class MCConfigListener {
     mChat plugin;
     Boolean hasChanged = false;
@@ -12,6 +14,10 @@ public class MCConfigListener {
     }
 
     protected void loadConfig() {
+        if (!(new File(plugin.getDataFolder(), "censor.yml")).exists()) {
+            defaultConfig();
+        }
+
         Configuration config = plugin.mCConfig;
         config.load();
 

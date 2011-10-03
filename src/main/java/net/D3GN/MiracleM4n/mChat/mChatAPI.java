@@ -7,13 +7,10 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.platymuus.bukkit.permissions.Group;
-import com.platymuus.bukkit.permissions.PermissionsPlugin;
-import net.D3GN.MiracleM4n.mChannel.mChannel;
 import org.bukkit.ChatColor;
-
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+
+import net.D3GN.MiracleM4n.mChannel.mChannel;
 
 public class mChatAPI {
 
@@ -181,10 +178,9 @@ public class mChatAPI {
      * Info Stuff
      */
     public String getRawInfo(Player player, String info) {
-        refreshMaps();
 
         if (plugin.mChat_Info_Only)
-            return getBukkitInfo(player, info);
+            return getmChatInfo(player, info);
 
         if (plugin.permissionsB)
             return getPermissionsInfo(player, info);
@@ -192,16 +188,13 @@ public class mChatAPI {
         if (plugin.gmPermissionsB)
             return getGroupManagerInfo(player, info);
 
-        if (plugin.PermissionBuB)
-            return getSuperPermsInfo(player, info);
-
         if (plugin.PEXB)
             return getPEXInfo(player, info);
 
         if (plugin.bPermB)
             return getbPermInfo(player, info);
 
-        return getBukkitInfo(player, info);
+        return getmChatInfo(player, info);
     }
 
     public String getRawPrefix(Player player) {
@@ -233,59 +226,54 @@ public class mChatAPI {
     }
 
     /*
-     * Bukkit Stuff
+     * mChat Stuff
      */
-    String getBukkitInfo(Player player, String info) {
-        if (plugin.mIConfig.getNode("mchat." + info) == null)
-            return "";
+    String getmChatInfo(Player player, String info) {
+        if (info.equals("group"))
+            return getmChatGroup(player);
 
-        plugin.otherMap.putAll(plugin.mIConfig.getNode("mchat." + info).getAll());
-        for (Entry<String, Object> entry : plugin.otherMap.entrySet()) {
-            if (player.hasPermission("mchat." + info + "." + entry.getKey())) {
-                plugin.infoResolve = entry.getValue().toString();
+        if (!getmChatPlayerInfo(player, info).isEmpty() ||
+                getmChatPlayerInfo(player, info) != null)
+            return getmChatPlayerInfo(player, info);
 
-                if (plugin.infoResolve != null && !info.isEmpty())
-                    return plugin.infoResolve;
-
-                break;
-            }
-        }
+        if (!getmChatGroupInfo(player, info).isEmpty() ||
+                getmChatGroupInfo(player, info) != null)
+            return getmChatGroupInfo(player, info);
 
         return "";
     }
 
+    String getmChatPlayerInfo(Player player, String info) {
+        String pName = player.getName();
+        String world = player.getWorld().getName();
 
-    /*
-     * PermissionsBukkit Stuff
-     */
-     String getSuperPermsInfo(Player player, String info) {
-        if (info.equals("group"))
-            return getSuperPermsGroup(player);
+        if (plugin.usersMap.get(pName + ".info." + info) != null)
+            return plugin.usersMap.get(pName + ".info." + info).toString();
 
-        if (plugin.mIConfig.getNode("mchat." + info) == null)
-            return "";
+        if (plugin.usersMap.get(pName + ".worlds." + world + "." + info) != null)
+            return plugin.usersMap.get(pName + ".worlds." + world + "." + info).toString();
 
-        plugin.otherMap.putAll(plugin.mIConfig.getNode("mchat." + info).getAll());
-        for (Entry<String, Object> entry : plugin.otherMap.entrySet()) {
-            if (player.hasPermission("mchat." + info + "." + entry.getKey())) {
-                plugin.infoResolve = entry.getValue().toString();
+        return getmChatGroupInfo(player, info);
+    }
 
-                if (plugin.infoResolve != null && !info.isEmpty())
-                    return plugin.infoResolve;
-            }
-        }
 
+    String getmChatGroupInfo(Player player, String info) {
+        String world = player.getWorld().getName();
+        String group = getmChatGroup(player);
+
+        if (plugin.groupsMap.get(group + ".info." + info) != null)
+            return plugin.groupsMap.get(group + ".info." + info).toString();
+
+        if (plugin.groupsMap.get(group + ".worlds." + world + "." + info) != null)
+            return plugin.groupsMap.get(group + ".worlds." + world + "." + info).toString();
         return "";
-     }
+    }
 
-    String getSuperPermsGroup(Player player) {
-        Plugin pPlugin = plugin.pm.getPlugin("PermissionsBukkit");
-        PermissionsPlugin pBukkit = (PermissionsPlugin)pPlugin;
-        List<Group> pGroups = pBukkit.getGroups(player.getName());
-
-        if (pGroups.isEmpty()) return "";
-
-        return pGroups.get(0).getName();
+    String getmChatGroup(Player player) {
+        String pName = player.getName();
+        if (plugin.usersMap.get(pName + ".group") != null)
+            return plugin.usersMap.get(pName + ".group").toString();
+        return "";
     }
 
     /*
@@ -574,9 +562,18 @@ public class mChatAPI {
 
     String replaceCensoredWords(String msg) {
         for (Entry<String, Object> entry : plugin.censorMap.entrySet()) {
-            if (msg.matches("(?i)" + entry.getKey())) {
-                msg = msg.replaceAll("(?i)" + entry.getKey(), addColour(entry.getValue().toString()));
+            Pattern pattern = Pattern.compile("(?i)" + entry.getKey());
+            Matcher matcher = pattern.matcher(msg);
+            StringBuffer sb = new StringBuffer();
+
+            while (matcher.find()) {
+                String var = entry.getValue().toString();
+                matcher.appendReplacement(sb, Matcher.quoteReplacement(var));
             }
+
+            matcher.appendTail(sb);
+
+            msg = sb.toString();
         }
 
         return msg;
@@ -584,12 +581,5 @@ public class mChatAPI {
 
     public void log(String loggedString) {
         plugin.getServer().getLogger().log(Level.INFO, loggedString);
-    }
-
-
-    protected void refreshMaps() {
-        plugin.otherMap.clear();
-        plugin.infoMap.clear();
-        plugin.infoMap.putAll(plugin.mIConfig.getNode("mchat").getAll());
     }
 }

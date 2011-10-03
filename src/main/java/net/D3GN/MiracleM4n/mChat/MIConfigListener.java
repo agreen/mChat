@@ -1,5 +1,6 @@
 package net.D3GN.MiracleM4n.mChat;
 
+import java.io.File;
 import java.util.TreeMap;
 
 import org.bukkit.util.config.Configuration;
@@ -10,21 +11,30 @@ public class MIConfigListener {
 	public MIConfigListener(mChat plugin) {
 		this.plugin = plugin;
 	}
-	
-	TreeMap<String, Object> defaultPrefix = new TreeMap<String, Object>();
-	TreeMap<String, Object> defaultSuffix = new TreeMap<String, Object>();
+
 	TreeMap<String, Object> defaultGroupNames = new TreeMap<String, Object>();
 	TreeMap<String, Object> defaultWorldNames = new TreeMap<String, Object>();
-	TreeMap<String, Object> defaultVar = new TreeMap<String, Object>();
     TreeMap<String, Object> groupNodeList = new TreeMap<String, Object>();
     TreeMap<String, Object> worldNodeList = new TreeMap<String, Object>();
-	
+
+    TreeMap<String, Object> defaultUsers = new TreeMap<String, Object>();
+    TreeMap<String, Object> defaultUser = new TreeMap<String, Object>();
+    TreeMap<String, Object> defaultUserWorld = new TreeMap<String, Object>();
+    TreeMap<String, Object> defaultUserWorldInfo = new TreeMap<String, Object>();
+    TreeMap<String, Object> defaultUserInfo = new TreeMap<String, Object>();
+    
+	TreeMap<String, Object> defaultGroups = new TreeMap<String, Object>();
+	TreeMap<String, Object> defaultGroup = new TreeMap<String, Object>();
+    TreeMap<String, Object> defaultGroupWorld = new TreeMap<String, Object>();
+    TreeMap<String, Object> defaultGroupWorldInfo = new TreeMap<String, Object>();
+    TreeMap<String, Object> defaultGroupInfo = new TreeMap<String, Object>();
+
+    @SuppressWarnings("unchecked")
 	protected void defaultConfig() {
 		Configuration config = plugin.mIConfig;
 		config.save();
 		config.setHeader(
 	            "# mChat Info config",
-	            "# Only needed if using PermissionsBukkit, superperms.",
 	            "");
 		defaultGroupNames.put("admin", "[a]");
 		defaultGroupNames.put("sadmin", "[sa]");
@@ -37,82 +47,91 @@ public class MIConfigListener {
 		defaultWorldNames.put("Nether", "[N]");
 		defaultWorldNames.put("Hello", "[H]");
 		config.setProperty("worldnames", defaultWorldNames);
-        
-		defaultPrefix.put("admin", "&4DtK [SO] &7");
-		defaultPrefix.put("sadmin", "&9DtK [SA] &7");
-		defaultPrefix.put("jadmin", "&aDtK [JA] &7");
-		defaultPrefix.put("member", "&cDtK [M] &7");
-		defaultSuffix.put("admin", "");
-		defaultSuffix.put("sadmin", "");
-		defaultSuffix.put("jadmin", "");
-		defaultSuffix.put("member", "");
-		defaultVar.put("admin", "");
-		defaultVar.put("sadmin", "");
-		defaultVar.put("jadmin", "");
-		defaultVar.put("member", "");
-		plugin.infoMap.put("prefix", defaultPrefix);
-		plugin.infoMap.put("suffix", defaultSuffix);
-		plugin.infoMap.put("custVar", defaultVar);
-		config.setProperty("mchat", plugin.infoMap);
+
+        defaultUserWorldInfo.put("prefix", "&2DtKTest");
+        defaultUserWorld.put("DtK", defaultUserWorldInfo);
+        defaultUserInfo.put("suffix", "&2Suffix");
+        defaultUser.put("group", "admin");
+        defaultUser.put("worlds", defaultUserWorld);
+        defaultUser.put("info", defaultUserInfo);
+        defaultUsers.put("MiracleM4n", defaultUser);
+        config.setProperty("users", defaultUsers);
+
+        defaultGroupWorldInfo.put("prefix", "&3DtKTest2");
+        defaultGroupWorld.put("DtK", defaultGroupWorldInfo);
+        defaultGroupInfo.put("prefix", "&4Admin");
+        defaultGroupInfo.put("custVar", "");
+        defaultGroup.put("worlds", defaultGroupWorld);
+        defaultGroup.put("info", defaultGroupInfo);
+        defaultGroups.put("admin", defaultGroup);
+        config.setProperty("groups",defaultGroups);
+
 		config.save();
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	protected void checkConfig() {
+        if (!(new File(plugin.getDataFolder(), "info.yml")).exists()) {
+            defaultConfig();
+        }
+
 		Configuration config = plugin.mIConfig;
 		config.load();
-		if (config.getProperty("mchat") == null) {
-			if (plugin.otherMap != null) {
-				plugin.otherMap.clear();
-			}
-			if (plugin.infoMap != null) {
-				plugin.infoMap.clear();
-			}
+		if (config.getProperty("users") == null) {
 			config.setHeader(
 		            "# mChat Info config",
-		            "# Only needed if using PermissionsBukkit, superperms.",
 		            "");
-			defaultPrefix.put("admin", "&4DtK [SO] &7");
-			defaultPrefix.put("sadmin", "&9DtK [SA] &7");
-			defaultPrefix.put("jadmin", "&aDtK [JA] &7");
-			defaultPrefix.put("member", "&cDtK [M] &7");
-			defaultSuffix.put("admin", "");
-			defaultSuffix.put("sadmin", "");
-			defaultSuffix.put("jadmin", "");
-			defaultSuffix.put("member", "");
-			defaultVar.put("admin", "");
-			defaultVar.put("sadmin", "");
-			defaultVar.put("jadmin", "");
-			defaultVar.put("member", "");
-			plugin.infoMap.put("prefix", defaultPrefix);
-			plugin.infoMap.put("suffix", defaultSuffix);
-			plugin.infoMap.put("custVar", defaultVar);
-			config.setProperty("mchat", plugin.infoMap);
+            defaultUserWorldInfo.put("prefix", "&2DtKTest");
+            defaultUserWorld.put("DtK", defaultUserWorldInfo);
+            defaultUserInfo.put("suffix", "&2Suffix");
+            defaultUser.put("group", "admin");
+            defaultUser.put("worlds", defaultUserWorld);
+            defaultUser.put("info", defaultUserInfo);
+            defaultUsers.put("MiracleM4n", defaultUser);
+            config.setProperty("users", defaultUsers);
+
+			config.save();
+		}
+
+		if (config.getProperty("groups") == null) {
+			config.setHeader(
+		            "# mChat Info config",
+		            "");
+            defaultGroupWorldInfo.put("prefix", "&3DtKTest2");
+            defaultGroupWorld.put("DtK", defaultGroupWorldInfo);
+            defaultGroupInfo.put("prefix", "&4Admin");
+            defaultGroupInfo.put("custVar", "");
+            defaultGroup.put("worlds", defaultGroupWorld);
+            defaultGroup.put("info", defaultGroupInfo);
+            defaultGroups.put("admin", defaultGroup);
+            config.setProperty("groups",defaultGroups);
+
 			config.save();
 		}
 
         if (config.getProperty("groupnames") == null) {
 			config.setHeader(
 		            "# mChat Info config",
-		            "# Only needed if using PermissionsBukkit, superperms.",
 		            "");
 		    defaultGroupNames.put("admin", "[a]");
 		    defaultGroupNames.put("sadmin", "[sa]");
 		    defaultGroupNames.put("jadmin", "[ja]");
 		    defaultGroupNames.put("member", "[m]");
 		    config.setProperty("groupnames", defaultGroupNames);
+
             config.save();
         }
 
         if (config.getProperty("worldnames") == null) {
 			config.setHeader(
 		            "# mChat Info config",
-		            "# Only needed if using PermissionsBukkit, superperms.",
 		            "");
 		    defaultWorldNames.put("D3GN", "[D]");
 		    defaultWorldNames.put("DtK", "[DtK]");
 		    defaultWorldNames.put("Nether", "[N]");
 		    defaultWorldNames.put("Hello", "[H]");
 		    config.setProperty("worldnames", defaultWorldNames);
+
             config.save();
         }
 	}
@@ -125,6 +144,14 @@ public class MIConfigListener {
         if (worldNodeList != null) {
             worldNodeList.clear();
         }
+        if (plugin.usersMap != null) {
+            plugin.usersMap.clear();
+        }
+        if (plugin.groupsMap != null) {
+            plugin.groupsMap.clear();
+        }
+        plugin.usersMap.putAll(config.getNode("users").getAll());
+        plugin.groupsMap.putAll(config.getNode("groups").getAll());
         groupNodeList.putAll(config.getNode("groupnames").getAll());
         worldNodeList.putAll(config.getNode("worldnames").getAll());
     }
