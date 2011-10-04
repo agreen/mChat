@@ -58,13 +58,12 @@ public class MConfigListener {
     }
 
     protected void checkConfig() {
+        Configuration config = plugin.mConfig;
+        config.load();
+
         if (!(new File(plugin.getDataFolder(), "config.yml")).exists()) {
             defaultConfig();
         }
-
-        Configuration config = plugin.mConfig;
-        PluginDescriptionFile pdfFile = plugin.getDescription();
-        config.load();
 
         checkCOption(config, "mchat-date-format", plugin.dateFormat);
         checkCOption(config, "mchat-message-format", plugin.chatFormat);
@@ -90,7 +89,7 @@ public class MConfigListener {
                 ""
             );
 
-            plugin.mAPI.log("[" + pdfFile.getName() + "]" + " config.yml has been updated.");
+            plugin.mAPI.log("[" + plugin.pdfFile.getName() + "]" + " config.yml has been updated.");
             config.save();
         }
     }

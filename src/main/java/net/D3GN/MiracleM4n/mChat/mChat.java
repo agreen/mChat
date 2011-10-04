@@ -28,6 +28,7 @@ import org.blockface.bukkitstats.CallHome;
 
 public class mChat extends JavaPlugin {
     PluginManager pm;
+    PluginDescriptionFile pdfFile;
 
     // Listeners
     MPlayerListener pListener;
@@ -100,11 +101,12 @@ public class mChat extends JavaPlugin {
     public void onEnable() {
         // Default plugin data
         pm = getServer().getPluginManager();
+        pdfFile = getDescription();
+
+        // Initialize Configs
         mConfig = new Configuration(new File(getDataFolder(), "config.yml"));
         mIConfig = new Configuration(new File(getDataFolder(), "info.yml"));
         mCConfig = new Configuration(new File(getDataFolder(), "censor.yml"));
-
-        PluginDescriptionFile pdfFile = getDescription();
 
         // Initialize Listeners
         if (!mAPI_Only_Mode)
@@ -146,20 +148,18 @@ public class mChat extends JavaPlugin {
 
         mAPI.log("[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is enabled!");
 
+        // Add All Players To Info.yml
         for (Player players : getServer().getOnlinePlayers())
             if (usersMap.get("users." + players.getName()) == null)
                 mIListener.addDefaultPlayer(players);
     }
 
     public void onDisable() {
-        PluginDescriptionFile pdfFile = getDescription();
-
         mAPI.log("[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is disabled!");
     }
 
     private void setupSuperPerms() {
-        Plugin PermissionsBukkitTest = getServer().getPluginManager().getPlugin("PermissionsBukkit");
-        PluginDescriptionFile pdfFile = getDescription();
+        Plugin PermissionsBukkitTest = pm.getPlugin("PermissionsBukkit");
 
         if (PermissionsBukkitTest != null) {
             PermissionBuB = true;
@@ -171,8 +171,7 @@ public class mChat extends JavaPlugin {
     }
 
     protected void setupbPerms() {
-        Plugin bPermTest = getServer().getPluginManager().getPlugin("bPermissions");
-        PluginDescriptionFile pdfFile = getDescription();
+        Plugin bPermTest = pm.getPlugin("bPermissions");
 
         if (bPermTest != null) {
             bPermB = true;
@@ -187,7 +186,6 @@ public class mChat extends JavaPlugin {
 
     protected void setupPEX() {
         Plugin pexTest = getServer().getPluginManager().getPlugin("PermissionsEx");
-        PluginDescriptionFile pdfFile = getDescription();
 
         if (pexTest != null) {
             pexPermissions = PermissionsEx.getPermissionManager();
@@ -201,7 +199,6 @@ public class mChat extends JavaPlugin {
 
     protected void setupPermissions() {
         Plugin permTest = getServer().getPluginManager().getPlugin("Permissions");
-        PluginDescriptionFile pdfFile = getDescription();
 
         if(permTest != null) {
             permissions = ((Permissions) permTest).getHandler();
@@ -216,8 +213,7 @@ public class mChat extends JavaPlugin {
     }
 
     protected void setupGroupManager() {
-        Plugin permTest = getServer().getPluginManager().getPlugin("GroupManager");
-        PluginDescriptionFile pdfFile = getDescription();
+        Plugin permTest = pm.getPlugin("GroupManager");
 
         if (permTest != null) {
             gmPermissionsB = true;
@@ -230,7 +226,6 @@ public class mChat extends JavaPlugin {
 
     protected void setupmChannel() {
         Plugin mChannelTest = getServer().getPluginManager().getPlugin("mChannel");
-        PluginDescriptionFile pdfFile = getDescription();
 
         if (mChannelTest != null) {
             mChannelB = true;

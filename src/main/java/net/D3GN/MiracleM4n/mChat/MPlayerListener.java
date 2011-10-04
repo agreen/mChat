@@ -18,7 +18,9 @@ public class MPlayerListener extends PlayerListener {
 		if (event.isCancelled()) return;
 		final Player player = event.getPlayer();
 		String msg = event.getMessage();
+
 		if (msg == null) return;
+
 		event.setFormat(plugin.mAPI.ParseChatMessage(player, msg));
 
         // For Dragonslife
@@ -31,13 +33,15 @@ public class MPlayerListener extends PlayerListener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		String msg = event.getJoinMessage();
+
 		if (msg == null) return;
-		event.setJoinMessage(plugin.mAPI.ParseJoinName(player) + " " + plugin.mAPI.replaceMess("joinMessage"));
+
+		event.setJoinMessage(plugin.mAPI.ParseJoinName(player) + " " + plugin.mAPI.getEventMessage("Join"));
 
         if (plugin.usersMap.get("users." + player.getName()) == null)
             plugin.mIListener.addDefaultPlayer(player);
     }
-	
+
 	public void onPlayerKick(PlayerKickEvent event) {
 		if (event.isCancelled()) return;
 		Player player = event.getPlayer();
@@ -45,7 +49,8 @@ public class MPlayerListener extends PlayerListener {
 
         String reason = event.getReason();
 
-        String kickMsg = plugin.mAPI.replaceMess("kickMessage");
+        String kickMsg = plugin.mAPI.getEventMessage("Kick");
+
         kickMsg = plugin.mAPI.addColour(kickMsg.replace("+reason", reason).replace("+r", reason));
 
         if (msg == null) return;
@@ -56,8 +61,10 @@ public class MPlayerListener extends PlayerListener {
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		String msg = event.getQuitMessage();
+
 		if (msg == null) return;
-		event.setQuitMessage(plugin.mAPI.ParseJoinName(player) + " " + plugin.mAPI.replaceMess("leaveMessage"));
+
+		event.setQuitMessage(plugin.mAPI.ParseJoinName(player) + " " + plugin.mAPI.getEventMessage("Quit"));
 	}
 }
 

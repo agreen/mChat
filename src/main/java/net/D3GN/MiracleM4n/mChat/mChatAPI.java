@@ -37,13 +37,17 @@ public class mChatAPI {
         if (group == null)
             group = "";
 
+        // Location
         Integer locX = (int) player.getLocation().getX();
         Integer locY = (int) player.getLocation().getY();
         Integer locZ = (int) player.getLocation().getZ();
         String loc = ("X: " + locX + ", " + "Y: " + locY + ", " + "Z: " + locZ);
 
+        // Health
         String healthbar = healthBar(player);
         String health = String.valueOf(player.getHealth());
+
+        // World
         String world = player.getWorld().getName();
 
         // 1.8 Vars
@@ -266,6 +270,7 @@ public class mChatAPI {
 
         if (plugin.groupsMap.get(group + ".worlds." + world + "." + info) != null)
             return plugin.groupsMap.get(group + ".worlds." + world + "." + info).toString();
+
         return "";
     }
 
@@ -273,6 +278,7 @@ public class mChatAPI {
         String pName = player.getName();
         if (plugin.usersMap.get(pName + ".group") != null)
             return plugin.usersMap.get(pName + ".group").toString();
+
         return "";
     }
 
@@ -515,17 +521,23 @@ public class mChatAPI {
 
     }
 
-    String replaceMess(String string) {
-        if (string.equals("joinMessage"))
-            string = plugin.joinMessage;
+    public String getEventMessage(String eventName) {
+        if (eventName.equalsIgnoreCase("join"))
+            eventName = plugin.joinMessage;
 
-        if (string.equals("kickMessage"))
-            string = plugin.kickMessage;
+        if (eventName.equalsIgnoreCase("enter"))
+            eventName = plugin.joinMessage;
 
-        if (string.equals("leaveMessage"))
-            string = plugin.leaveMessage;
+        if (eventName.equalsIgnoreCase("kick"))
+            eventName = plugin.kickMessage;
 
-        return plugin.mAPI.addColour(string);
+        if (eventName.equalsIgnoreCase("quit"))
+            eventName = plugin.leaveMessage;
+
+        if (eventName.equalsIgnoreCase("leave"))
+            eventName = plugin.leaveMessage;
+
+        return plugin.mAPI.addColour(eventName);
     }
 
     String parseVars(String format, Player player) {
