@@ -1,10 +1,8 @@
 package net.D3GN.MiracleM4n.mChat;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.TreeMap;
 
-import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
 
 public class MIConfigListener {
@@ -156,36 +154,6 @@ public class MIConfigListener {
         plugin.groupsMap.putAll(config.getNode("groups").getAll());
         groupNodeList.putAll(config.getNode("groupnames").getAll());
         worldNodeList.putAll(config.getNode("worldnames").getAll());
-    }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void addDefaultPlayer(Player player) {
-        Configuration config = plugin.mIConfig;
-        String pName = player.getName();
-
-        config.load();
-
-        defaultUserInfo.put("prefix", "&2Prefix");
-        defaultUser.put("group", "default");
-        defaultUser.put("info", defaultUserInfo);
-        defaultUsers.put(pName, defaultUser);
-        if (config.getProperty("users") != null)
-            defaultUsers.putAll((HashMap) config.getProperty("users"));
-        config.setProperty("users", defaultUsers);
-
-        if (config.getNode("groups.default") == null) {
-            defaultGroupInfo.put("prefix", "&4Prefix");
-            defaultGroupInfo.put("suffix", "&4Suffix");
-            defaultGroup.put("info", defaultGroupInfo);
-            defaultGroups.put("default", defaultGroup);
-            if (config.getProperty("groups") != null)
-                defaultGroups.putAll((HashMap) config.getProperty("groups"));
-            config.setProperty("groups",defaultGroups);
-        }
-
-        config.save();
-
-        loadConfig();
     }
 }
 	

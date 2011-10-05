@@ -1,5 +1,6 @@
 package net.D3GN.MiracleM4n.mChat;
 
+import net.D3GN.MiracleM4n.mChat.mChat;
 import org.bukkit.util.config.Configuration;
 
 import java.io.File;
@@ -31,7 +32,7 @@ public class MCConfigListener {
         );
 
         config.setProperty("fuck", "fawg");
-        config.setProperty("god", "MiracleM4n");
+        config.setProperty("miracleman", "MiracleM4n");
         config.save();
     }
 }

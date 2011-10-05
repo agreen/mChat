@@ -7,10 +7,13 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.platymuus.bukkit.permissions.Group;
+import com.platymuus.bukkit.permissions.PermissionsPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import net.D3GN.MiracleM4n.mChannel.mChannel;
+import org.bukkit.plugin.Plugin;
 
 public class mChatAPI {
 
@@ -198,6 +201,13 @@ public class mChatAPI {
         if (plugin.bPermB)
             return getbPermInfo(player, info);
 
+        if (plugin.mChat_Nodes_Only) {
+            if (plugin.PermissionBuB)
+                getPermBukkitInfo(player, info);
+
+            getBukkitInfo(player, info);
+        }
+
         return getmChatInfo(player, info);
     }
 
@@ -280,6 +290,61 @@ public class mChatAPI {
             return plugin.usersMap.get(pName + ".group").toString();
 
         return "";
+    }
+
+    /*
+     * Bukkit Stuff
+     */
+    String getBukkitInfo(Player player, String info) {
+        if (plugin.mIConfig.getNode("mchat." + info) == null)
+            return "";
+
+        plugin.oldNodeMap.putAll(plugin.mIConfig.getNode("mchat." + info).getAll());
+        for (Entry<String, Object> entry : plugin.oldNodeMap.entrySet()) {
+            if (player.hasPermission("mchat." + info + "." + entry.getKey())) {
+                String infoResolve = entry.getValue().toString();
+
+                if (infoResolve != null && !info.isEmpty())
+                    return infoResolve;
+
+                break;
+            }
+        }
+
+        return "";
+    }
+
+    /*
+     * PermissionsBukkit Stuff
+     */
+     String getPermBukkitInfo(Player player, String info) {
+        if (info.equals("group"))
+            return getPermBukkitGroup(player);
+
+        if (plugin.mIConfig.getNode("mchat." + info) == null)
+            return "";
+
+        plugin.oldNodeMap.putAll(plugin.mIConfig.getNode("mchat." + info).getAll());
+        for (Entry<String, Object> entry : plugin.oldNodeMap.entrySet()) {
+            if (player.hasPermission("mchat." + info + "." + entry.getKey())) {
+                String infoResolve = entry.getValue().toString();
+
+                if (infoResolve != null && !info.isEmpty())
+                    return infoResolve;
+            }
+        }
+
+        return "";
+     }
+
+    String getPermBukkitGroup(Player player) {
+        Plugin pPlugin = plugin.pm.getPlugin("PermissionsBukkit");
+        PermissionsPlugin pBukkit = (PermissionsPlugin)pPlugin;
+        List<Group> pGroups = pBukkit.getGroups(player.getName());
+
+        if (pGroups.isEmpty()) return "";
+
+        return pGroups.get(0).getName();
     }
 
     /*

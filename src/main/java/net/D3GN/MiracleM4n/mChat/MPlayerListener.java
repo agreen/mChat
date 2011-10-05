@@ -40,7 +40,7 @@ public class MPlayerListener extends PlayerListener {
 
         if (plugin.useAddDefault)
             if (plugin.usersMap.get("users." + player.getName()) == null)
-                plugin.mIListener.addDefaultPlayer(player);
+                plugin.mIReader.addDefaultPlayer(player, "default");
     }
 
 	public void onPlayerKick(PlayerKickEvent event) {

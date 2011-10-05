@@ -1,6 +1,5 @@
 package net.D3GN.MiracleM4n.mChat;
 
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.config.Configuration;
 
 import java.io.File;
@@ -26,6 +25,7 @@ public class MConfigListener {
         plugin.kickMessage = config.getString("mchat-kick-message", plugin.kickMessage);
         plugin.mAPI_Only_Mode = config.getBoolean("mchat-API-only", plugin.mAPI_Only_Mode);
         plugin.mChat_Info_Only = config.getBoolean("mchat-info-only", plugin.mChat_Info_Only);
+        plugin.mChat_Nodes_Only = config.getBoolean("mchat-oldNodes-only", plugin.mChat_Nodes_Only);
         plugin.mFormat_Events = config.getBoolean("mchat-format-events", plugin.mFormat_Events);
         plugin.chatDistance = config.getDouble("mchat-chat-distance", plugin.chatDistance);
         plugin.useAddDefault = config.getBoolean("mchat-add-info-players", plugin.useAddDefault);
@@ -53,6 +53,7 @@ public class MConfigListener {
         config.setProperty("mchat-kick-message", plugin.kickMessage);
         config.setProperty("mchat-API-only", plugin.mAPI_Only_Mode);
         config.setProperty("mchat-info-only", plugin.mChat_Info_Only);
+        config.setProperty("mchat-oldNodes-only", plugin.mChat_Nodes_Only);
         config.setProperty("mchat-format-events", plugin.mFormat_Events);
         config.setProperty("mchat-chat-distance", plugin.chatDistance);
         config.setProperty("mchat-add-info-players", plugin.useAddDefault);
@@ -79,6 +80,7 @@ public class MConfigListener {
         checkCOption(config, "mchat-format-events", plugin.mFormat_Events);
         checkCOption(config, "mchat-chat-distance", plugin.chatDistance);
         checkCOption(config, "mchat-add-info-players", plugin.useAddDefault);
+        checkCOption(config, "mchat-oldNodes-only", plugin.mChat_Nodes_Only);
 
         if (hasChanged) {
             config.setHeader(

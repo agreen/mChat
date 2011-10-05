@@ -36,10 +36,12 @@ public class mChat extends JavaPlugin {
     MConfigListener cListener;
     MIConfigListener mIListener;
     MCConfigListener mCListener;
+    MInfoReader mIReader;
 
     // API
-    public static mChatAPI API = null;
-    mChatAPI mAPI = null;
+    public static MInfoReader IReader;
+    public static mChatAPI API;
+    mChatAPI mAPI;
 
     // Permissions
     public PermissionHandler permissions;
@@ -73,6 +75,9 @@ public class mChat extends JavaPlugin {
     // Optional mChat only Info Support
     Boolean mChat_Info_Only = false;
 
+    // Optional Old Nodular Style Formatting
+    Boolean mChat_Nodes_Only = false;
+
     // API Only Boolean
     Boolean mAPI_Only_Mode = false;
 
@@ -95,6 +100,7 @@ public class mChat extends JavaPlugin {
     Double chatDistance = -1.0;
 
     // InfoHashMaps
+    TreeMap<String, Object> oldNodeMap = new TreeMap<String, Object>();
     TreeMap<String, Object> usersMap = new TreeMap<String, Object>();
     TreeMap<String, Object> groupsMap = new TreeMap<String, Object>();
 
@@ -119,8 +125,10 @@ public class mChat extends JavaPlugin {
         cListener = new MConfigListener(this);
         mIListener = new MIConfigListener(this);
         mCListener = new MCConfigListener(this);
+        mIReader = new MInfoReader(this);
 
         // Initialize the API
+        IReader = new MInfoReader(this);
         API = new mChatAPI(this);
         mAPI = new mChatAPI(this);
 
@@ -155,7 +163,7 @@ public class mChat extends JavaPlugin {
         if (useAddDefault)
             for (Player players : getServer().getOnlinePlayers())
                 if (usersMap.get("users." + players.getName()) == null)
-                    mIListener.addDefaultPlayer(players);
+                    mIReader.addDefaultPlayer(players, "default");
     }
 
     public void onDisable() {
