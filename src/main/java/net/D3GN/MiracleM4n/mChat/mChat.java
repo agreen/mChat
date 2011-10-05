@@ -60,7 +60,7 @@ public class mChat extends JavaPlugin {
     // bPermissions
     public WorldPermissionsManager bPermS;
     public InfoReader bInfoR;
-    Boolean bPermB;
+    Boolean bPermB = false;
 
     // mChannel
     Boolean mChannelB = false;
@@ -78,6 +78,9 @@ public class mChat extends JavaPlugin {
 
     // Fomatting Event Messages Boolean
     Boolean mFormat_Events = true;
+
+    // Add New Players Boolean
+    Boolean useAddDefault = false;
 
     // Formatting
     String chatFormat = "+p+dn+s&f: +m";
@@ -149,9 +152,10 @@ public class mChat extends JavaPlugin {
         mAPI.log("[" + (pdfFile.getName()) + "] mChat version " + pdfFile.getVersion() + " is enabled!");
 
         // Add All Players To Info.yml
-        for (Player players : getServer().getOnlinePlayers())
-            if (usersMap.get("users." + players.getName()) == null)
-                mIListener.addDefaultPlayer(players);
+        if (useAddDefault)
+            for (Player players : getServer().getOnlinePlayers())
+                if (usersMap.get("users." + players.getName()) == null)
+                    mIListener.addDefaultPlayer(players);
     }
 
     public void onDisable() {

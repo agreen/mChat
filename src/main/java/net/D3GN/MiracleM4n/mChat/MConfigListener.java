@@ -28,6 +28,7 @@ public class MConfigListener {
         plugin.mChat_Info_Only = config.getBoolean("mchat-info-only", plugin.mChat_Info_Only);
         plugin.mFormat_Events = config.getBoolean("mchat-format-events", plugin.mFormat_Events);
         plugin.chatDistance = config.getDouble("mchat-chat-distance", plugin.chatDistance);
+        plugin.useAddDefault = config.getBoolean("mchat-add-info-players", plugin.useAddDefault);
     }
 
     protected void defaultConfig() {
@@ -54,6 +55,7 @@ public class MConfigListener {
         config.setProperty("mchat-info-only", plugin.mChat_Info_Only);
         config.setProperty("mchat-format-events", plugin.mFormat_Events);
         config.setProperty("mchat-chat-distance", plugin.chatDistance);
+        config.setProperty("mchat-add-info-players", plugin.useAddDefault);
         config.save();
     }
 
@@ -76,7 +78,7 @@ public class MConfigListener {
         checkCOption(config, "mchat-info-only", plugin.mChat_Info_Only);
         checkCOption(config, "mchat-format-events", plugin.mFormat_Events);
         checkCOption(config, "mchat-chat-distance", plugin.chatDistance);
-
+        checkCOption(config, "mchat-add-info-players", plugin.useAddDefault);
 
         if (hasChanged) {
             config.setHeader(
