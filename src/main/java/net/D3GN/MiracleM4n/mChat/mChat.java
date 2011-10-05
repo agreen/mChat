@@ -36,12 +36,14 @@ public class mChat extends JavaPlugin {
     MConfigListener cListener;
     MIConfigListener mIListener;
     MCConfigListener mCListener;
-    MInfoReader mIReader;
 
     // API
-    public static MInfoReader IReader;
     public static mChatAPI API;
     mChatAPI mAPI;
+
+    // Info API
+    public static MInfoReader IReader;
+    MInfoReader mIReader;
 
     // Permissions
     public PermissionHandler permissions;
@@ -125,12 +127,12 @@ public class mChat extends JavaPlugin {
         cListener = new MConfigListener(this);
         mIListener = new MIConfigListener(this);
         mCListener = new MCConfigListener(this);
-        mIReader = new MInfoReader(this);
 
-        // Initialize the API
-        IReader = new MInfoReader(this);
+        // Initialize the API's
         API = new mChatAPI(this);
         mAPI = new mChatAPI(this);
+        IReader = new MInfoReader(this);
+        mIReader = new MInfoReader(this);
 
         // Setup Permissions
         setupSuperPerms();
