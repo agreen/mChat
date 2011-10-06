@@ -1,9 +1,9 @@
 package net.D3GN.MiracleM4n.mChat;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 import java.util.Map.Entry;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -203,9 +203,9 @@ public class mChatAPI {
 
         if (plugin.mChat_Nodes_Only) {
             if (plugin.PermissionBuB)
-                getPermBukkitInfo(player, info);
+                return getPermBukkitInfo(player, info);
 
-            getBukkitInfo(player, info);
+            return getBukkitInfo(player, info);
         }
 
         return getmChatInfo(player, info);
@@ -301,7 +301,7 @@ public class mChatAPI {
 
         plugin.oldNodeMap.putAll(plugin.mIConfig.getNode("mchat." + info).getAll());
         for (Entry<String, Object> entry : plugin.oldNodeMap.entrySet()) {
-            if (player.hasPermission("mchat." + info + "." + entry.getKey())) {
+            if (checkPermissions(player, "mchat." + info + "." + entry.getKey(), false)) {
                 String infoResolve = entry.getValue().toString();
 
                 if (infoResolve != null && !info.isEmpty())
@@ -326,7 +326,7 @@ public class mChatAPI {
 
         plugin.oldNodeMap.putAll(plugin.mIConfig.getNode("mchat." + info).getAll());
         for (Entry<String, Object> entry : plugin.oldNodeMap.entrySet()) {
-            if (player.hasPermission("mchat." + info + "." + entry.getKey())) {
+            if (checkPermissions(player, "mchat." + info + "." + entry.getKey(), false)) {
                 String infoResolve = entry.getValue().toString();
 
                 if (infoResolve != null && !info.isEmpty())
@@ -657,6 +657,6 @@ public class mChatAPI {
     }
 
     public void log(String loggedString) {
-        plugin.getServer().getLogger().log(Level.INFO, loggedString);
+        plugin.getServer().getConsoleSender().sendMessage(loggedString);
     }
 }

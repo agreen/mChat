@@ -19,11 +19,8 @@ public class MCommandSender implements CommandExecutor {
         if (!cmd.equalsIgnoreCase("mchat"))
             return false;
 
-        if(args.length != 2)
-            return false;
-
-        if(args[0].equalsIgnoreCase("reload"))
-            if(args[1].equalsIgnoreCase("config")) {
+        if (args[0].equalsIgnoreCase("reload")) {
+            if (args[1].equalsIgnoreCase("config")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
 
@@ -108,7 +105,80 @@ public class MCommandSender implements CommandExecutor {
                     return true;
                 }
             }
+        }
+        /*
+        if (args[1].equalsIgnoreCase("u")) {
+            if (args[2].equalsIgnoreCase("a")) {
+                if (args[3].equalsIgnoreCase("p")) {
+                    try {
+                        plugin.mIReader.addPlayer(args[4], args[5]);
+                        return true;
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        plugin.mIReader.addPlayer(args[4], "default");
+                        return true;
+                    }
+                } else if (args[3].equalsIgnoreCase("i")) {
+                    if (args[4].equalsIgnoreCase("var")) {
+                        try {
+                        plugin.mIReader.addPlayerInfoVar(args[5], args[6], args[7]);
+                        return true;
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                        return true;
+                        }
+                    }
+                }
+            } else if (args[2].equalsIgnoreCase("e")) {
+                if (args[3].equalsIgnoreCase("p")) {
+                    try {
+                        plugin.mIReader.editPlayerName(args[4], args[5]);
+                        return true;
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        return true;
+                    }
+                } else if (args[3].equalsIgnoreCase("i")) {
+                    if (args[4].equalsIgnoreCase("var")) {
+                        try {
+                        plugin.mIReader.editPlayerInfoVar(args[5], args[6], args[7]);
+                        return true;
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                        return true;
+                        }
+                    } else if (args[4].equalsIgnoreCase("val")) {
+                        try {
+                        plugin.mIReader.editPlayerInfoValue(args[5], args[6], args[7]);
+                        return true;
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                        return true;
+                        }
+                    }
+                }
+            } else if (args[2].equalsIgnoreCase("r")) {
+                if (args[3].equalsIgnoreCase("p")) {
+                    try {
+                        plugin.mIReader.removePlayer(args[4]);
+                        return true;
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        return true;
+                    }
+                } else if (args[3].equalsIgnoreCase("i")) {
+                    if (args[4].equalsIgnoreCase("var")) {
+                        try {
+                        plugin.mIReader.removePlayerInfoVar(args[5], args[6]);
+                        return true;
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                        return true;
+                        }
+                    }
+                }
+            }
+        } else if (args[1].equalsIgnoreCase("g")) {
+            if (args[2].equalsIgnoreCase("a")) {
+                if (args[3].equalsIgnoreCase("")) {
 
+                }
+            }
+        }
+        */
         return false;
     }
 
