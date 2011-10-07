@@ -107,73 +107,80 @@ public class MCommandSender implements CommandExecutor {
             }
         }
         /*
-        if (args[1].equalsIgnoreCase("u")) {
-            if (args[2].equalsIgnoreCase("a")) {
-                if (args[3].equalsIgnoreCase("p")) {
+        if (args[0].equalsIgnoreCase("u")
+           || args[0].equalsIgnoreCase("user")) {
+            if (args[1].equalsIgnoreCase("a")
+             || args[1].equalsIgnoreCase("add")) {
+                if (args[2].equalsIgnoreCase("p")
+                 || args[2].equalsIgnoreCase("player")) {
                     try {
-                        plugin.mIReader.addPlayer(args[4], args[5]);
+                        plugin.mIReader.addPlayer(args[3], args[4]);
                         return true;
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        plugin.mIReader.addPlayer(args[4], "default");
+                        plugin.mIReader.addPlayer(args[3], "default");
                         return true;
                     }
-                } else if (args[3].equalsIgnoreCase("i")) {
-                    if (args[4].equalsIgnoreCase("var")) {
-                        try {
-                        plugin.mIReader.addPlayerInfoVar(args[5], args[6], args[7]);
+                } else if (args[2].equalsIgnoreCase("var")
+                        || args[2].equalsIgnoreCase("variable")) {
+                    try {
+                        plugin.mIReader.addPlayerInfoVar(args[3], args[4], stringArgs(args, 5));
                         return true;
-                        } catch (ArrayIndexOutOfBoundsException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
                         return true;
-                        }
                     }
                 }
-            } else if (args[2].equalsIgnoreCase("e")) {
-                if (args[3].equalsIgnoreCase("p")) {
+            } else if (args[1].equalsIgnoreCase("e")
+                    || args[1].equalsIgnoreCase("edit")) {
+                if (args[2].equalsIgnoreCase("p")
+                 || args[2].equalsIgnoreCase("player")) {
                     try {
-                        plugin.mIReader.editPlayerName(args[4], args[5]);
+                        plugin.mIReader.editPlayerName(args[3], args[4]);
                         return true;
                     } catch (ArrayIndexOutOfBoundsException e) {
                         return true;
                     }
-                } else if (args[3].equalsIgnoreCase("i")) {
-                    if (args[4].equalsIgnoreCase("var")) {
-                        try {
-                        plugin.mIReader.editPlayerInfoVar(args[5], args[6], args[7]);
+                } else if (args[2].equalsIgnoreCase("var")
+                        || args[2].equalsIgnoreCase("variable")) {
+                    try {
+                        plugin.mIReader.editPlayerInfoVar(args[3], args[4], args[5]);
                         return true;
-                        } catch (ArrayIndexOutOfBoundsException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
                         return true;
-                        }
-                    } else if (args[4].equalsIgnoreCase("val")) {
-                        try {
-                        plugin.mIReader.editPlayerInfoValue(args[5], args[6], args[7]);
+                    }
+                } else if (args[2].equalsIgnoreCase("val")
+                        || args[2].equalsIgnoreCase("value")) {
+                    try {
+                        plugin.mIReader.editPlayerInfoValue(args[3], args[4], stringArgs(args, 5));
                         return true;
-                        } catch (ArrayIndexOutOfBoundsException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
                         return true;
-                        }
                     }
                 }
-            } else if (args[2].equalsIgnoreCase("r")) {
-                if (args[3].equalsIgnoreCase("p")) {
+            } else if (args[1].equalsIgnoreCase("r")
+                    || args[1].equalsIgnoreCase("remove")) {
+                if (args[2].equalsIgnoreCase("p")
+                 || args[2].equalsIgnoreCase("player")) {
                     try {
-                        plugin.mIReader.removePlayer(args[4]);
+                        plugin.mIReader.removePlayer(args[3]);
                         return true;
                     } catch (ArrayIndexOutOfBoundsException e) {
                         return true;
                     }
-                } else if (args[3].equalsIgnoreCase("i")) {
-                    if (args[4].equalsIgnoreCase("var")) {
-                        try {
-                        plugin.mIReader.removePlayerInfoVar(args[5], args[6]);
+                } else if (args[2].equalsIgnoreCase("var")
+                        || args[2].equalsIgnoreCase("variable")) {
+                    try {
+                        plugin.mIReader.removePlayerInfoVar(args[3], args[4]);
                         return true;
-                        } catch (ArrayIndexOutOfBoundsException e) {
+                    } catch (ArrayIndexOutOfBoundsException e) {
                         return true;
-                        }
                     }
                 }
             }
-        } else if (args[1].equalsIgnoreCase("g")) {
-            if (args[2].equalsIgnoreCase("a")) {
-                if (args[3].equalsIgnoreCase("")) {
+        } else if (args[0].equalsIgnoreCase("g")
+                || args[0].equalsIgnoreCase("group")) {
+            if (args[1].equalsIgnoreCase("a")
+             || args[1].equalsIgnoreCase("add")) {
+                if (args[2].equalsIgnoreCase("")) {
 
                 }
             }
@@ -184,5 +191,18 @@ public class MCommandSender implements CommandExecutor {
 
     private String formatMessage(String message) {
         return (plugin.mAPI.addColour("&4[" + (plugin.pdfFile.getName()) + "] " + message));
+    }
+
+    private String stringArgs (String[] args, Integer startingPoint)  {
+        String argString = "";
+
+        for (int i = startingPoint - 1; i < args.length; ++i) {
+            if (i == args.length - 1) {
+                argString += args[i];
+            } else
+                argString += args[i] + " ";
+        }
+
+        return argString;
     }
 }

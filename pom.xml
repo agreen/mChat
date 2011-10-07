@@ -9,9 +9,10 @@
       <api.version>unknown</api.version>
     </properties>
     <repositories>
+        <!--
         <repository>
             <id>bperm-repo</id>
-            <url>http://star.aquitros.info:8080/plugin/repository/project/bPermissions/LastSuccessful/repository</url>
+            <url>http://cashmoney.aquitros.info:8080/plugin/repository/project/bPermissions/LastSuccessful/repository</url>
             <releases>
                 <updatePolicy>always</updatePolicy>
             </releases>
@@ -19,6 +20,7 @@
                 <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
+        -->
         <repository>
             <id>bukkit-repo</id>
             <url>http://repo.bukkit.org/artifactory/repo</url>
@@ -39,6 +41,7 @@
                 <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
+        <!--
         <repository>
             <id>spout-repo</id>
             <url>http://repo.getspout.org</url>
@@ -49,6 +52,7 @@
                 <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
+        -->
     </repositories>
     <build>
         <plugins>

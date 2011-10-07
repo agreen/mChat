@@ -19,18 +19,20 @@ public class MInfoReader {
 		plugin.mIListener.loadConfig();
 
         if (config.getProperty("users") != null) {
-            plugin.mIListener.defaultUserInfo.put("prefix", "&2Prefix");
-            plugin.mIListener.defaultUser.put("group", "default");
-            plugin.mIListener.defaultUser.put("info", plugin.mIListener.defaultUserInfo);
-            plugin.mIListener.defaultUsers.put(player, plugin.mIListener.defaultUser);
-            plugin.mIListener.defaultUsers.putAll((HashMap) config.getProperty("users"));
-            config.setProperty("users", plugin.mIListener.defaultUsers);
+            if (config.getNode("users." + player) == null) {
+                plugin.mIListener.defaultUserInfo.put("prefix", "&2Prefix");
+                plugin.mIListener.defaultUser.put("group", "default");
+                plugin.mIListener.defaultUser.put("info", plugin.mIListener.defaultUserInfo);
+                plugin.mIListener.defaultUsers.put(player, plugin.mIListener.defaultUser);
+                plugin.mIListener.defaultUsers.putAll((HashMap) config.getProperty("users"));
+                config.setProperty("users", plugin.mIListener.defaultUsers);
 
-            config.save();
+                config.save();
 
-            addDefaultGroup(defaultGroup);
+                addDefaultGroup(defaultGroup);
 
-            plugin.mIListener.loadConfig();
+                plugin.mIListener.loadConfig();
+            }
         }
     }
 
@@ -193,6 +195,14 @@ public class MInfoReader {
 
         config.load();
 		plugin.mIListener.loadConfig();
+
+        if (config.getNode("users." + player) != null) {
+            if (config.getNode("users." + player + "." + world) == null) {
+
+            }
+        }
+
+
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

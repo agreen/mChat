@@ -4,9 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import junit.framework.Test;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
@@ -261,14 +258,5 @@ public class mChat extends JavaPlugin {
         mIListener.loadConfig();
 
         mCListener.loadConfig();
-    }
-
-    private static void waiting(int n){
-        long t0, t1;
-        t0 =  System.currentTimeMillis();
-        do{
-            t1 = System.currentTimeMillis();
-        }
-        while ((t1 - t0) < n);
     }
 }
