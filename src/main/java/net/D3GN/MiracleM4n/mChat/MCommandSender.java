@@ -19,6 +19,9 @@ public class MCommandSender implements CommandExecutor {
         if (!cmd.equalsIgnoreCase("mchat"))
             return false;
 
+        if (args.length == 0)
+            return false;
+
         if (args[0].equalsIgnoreCase("reload")) {
             if (args[1].equalsIgnoreCase("config")) {
                 if (sender instanceof Player) {
@@ -107,7 +110,7 @@ public class MCommandSender implements CommandExecutor {
             }
         }
         /*
-        if (args[0].equalsIgnoreCase("u")
+        else if (args[0].equalsIgnoreCase("u")
            || args[0].equalsIgnoreCase("user")) {
             if (args[1].equalsIgnoreCase("a")
              || args[1].equalsIgnoreCase("add")) {

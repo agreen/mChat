@@ -7,6 +7,8 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import me.desmin88.mobdisguise.MobDisguise;
+
 public class MPlayerListener extends PlayerListener {
 	mChat plugin;
 	
@@ -16,18 +18,33 @@ public class MPlayerListener extends PlayerListener {
 
 	public void onPlayerChat(PlayerChatEvent event) {
 		if (event.isCancelled()) return;
-		final Player player = event.getPlayer();
+        Player player = event.getPlayer();
+		String pName = player.getName();
 		String msg = event.getMessage();
 
 		if (msg == null) return;
 
-		event.setFormat(plugin.mAPI.ParseChatMessage(player, msg));
+		event.setFormat(plugin.mAPI.ParseChatMessage(pName, msg));
 
         // For Dragonslife
         if (plugin.chatDistance > 0)
             for (Player players : plugin.getServer().getOnlinePlayers())
                 if (players.getLocation().distance(player.getLocation()) > plugin.chatDistance)
 					event.getRecipients().remove(players);
+
+        if (plugin.mobD)
+            if (MobDisguise.p2p.get(pName) != null) {
+                pName = MobDisguise.p2p.get(pName);
+                event.setFormat(plugin.mAPI.ParseChatMessage(pName, msg));
+            }
+
+        if (plugin.mAPI.ParsePlayerList(player).length() > 15) {
+                String pLName = plugin.mAPI.ParsePlayerList(player);
+                pLName = pLName.substring(0, 16);
+                player.setPlayerListName(pLName);
+        } else {
+            player.setPlayerListName(plugin.mAPI.ParsePlayerList(player));
+        }
 	}
 
 	public void onPlayerJoin(PlayerJoinEvent event) {
@@ -39,7 +56,7 @@ public class MPlayerListener extends PlayerListener {
 		event.setJoinMessage(plugin.mAPI.ParseJoinName(player) + " " + plugin.mAPI.getEventMessage("Join"));
 
         if (plugin.useAddDefault)
-            if (plugin.usersMap.get("users." + player.getName()) == null)
+            if (plugin.mIConfig.getProperty("users." + player.getName()) == null)
                 plugin.mIReader.addPlayer(player.getName(), "default");
     }
 

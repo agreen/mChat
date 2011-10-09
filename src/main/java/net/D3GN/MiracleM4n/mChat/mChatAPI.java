@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+
+import net.D3GN.MiracleM4n.mChannel.mChannel;
 
 import com.platymuus.bukkit.permissions.Group;
 import com.platymuus.bukkit.permissions.PermissionsPlugin;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-
-import net.D3GN.MiracleM4n.mChannel.mChannel;
-import org.bukkit.plugin.Plugin;
 
 public class mChatAPI {
 
@@ -26,7 +26,12 @@ public class mChatAPI {
     /*
      * Format Stuff
      */
-    public String ParseChatMessage(Player player, String msg, String formatAll) {
+    public String ParseChatMessage(String pName, String msg, String formatAll) {
+        Player player = plugin.getServer().getPlayer(pName);
+
+        if (player == null)
+            return msg;
+
         String prefix = getRawPrefix(player);
         String suffix = getRawSuffix(player);
         String group = getRawGroup(player);
@@ -93,7 +98,7 @@ public class mChatAPI {
 
         msg = replaceCensoredWords(msg);
 
-        if (!checkPermissions(player, "mchat.coloredchat"))
+        if (!checkPermissions(player, "mchat.coloredchat", false))
             msg = addColour(msg).replaceAll("(§([a-z0-9]))", "");
 
         search = new String[]{
@@ -150,21 +155,39 @@ public class mChatAPI {
                 getWorldName(world),
                 };
 
-
-
         return replaceVars(format, search, replace);
     }
 
     public String ParseChatMessage(Player player, String msg) {
-        return ParseChatMessage(player, msg, plugin.chatFormat);
+        return ParseChatMessage(player.getName(), msg, plugin.chatFormat);
     }
 
     public String ParsePlayerName(Player player) {
-        return ParseChatMessage(player, "", plugin.nameFormat);
+        return ParseChatMessage(player.getName(), "", plugin.nameFormat);
     }
 
     public String ParseJoinName(Player player) {
-        return ParseChatMessage(player, "", plugin.joinFormat);
+        return ParseChatMessage(player.getName(), "", plugin.joinFormat);
+    }
+
+    public String ParsePlayerList(Player player) {
+        return ParseChatMessage(player.getName(), "", plugin.playerList);
+    }
+
+    public String ParseChatMessage(String pName, String msg) {
+        return ParseChatMessage(pName, msg, plugin.chatFormat);
+    }
+
+    public String ParsePlayerName(String pName) {
+        return ParseChatMessage(pName, "", plugin.nameFormat);
+    }
+
+    public String ParseJoinName(String pName) {
+        return ParseChatMessage(pName, "", plugin.joinFormat);
+    }
+
+    public String ParsePlayerList(String pName) {
+        return ParseChatMessage(pName, "", plugin.playerList);
     }
 
     public String getGroupName(String group) {
@@ -261,11 +284,11 @@ public class mChatAPI {
         String pName = player.getName();
         String world = player.getWorld().getName();
 
-        if (plugin.usersMap.get(pName + ".info." + info) != null)
-            return plugin.usersMap.get(pName + ".info." + info).toString();
+        if (plugin.mIConfig.getProperty("users" + pName + ".info." + info) != null)
+            return plugin.mIConfig.getProperty("users" + pName + ".info." + info).toString();
 
-        if (plugin.usersMap.get(pName + ".worlds." + world + "." + info) != null)
-            return plugin.usersMap.get(pName + ".worlds." + world + "." + info).toString();
+        if (plugin.mIConfig.getProperty("users" + pName + ".worlds." + world + "." + info) != null)
+            return plugin.mIConfig.getProperty("users" + pName + ".worlds." + world + "." + info).toString();
 
         return getmChatGroupInfo(player, info);
     }
@@ -275,19 +298,19 @@ public class mChatAPI {
         String world = player.getWorld().getName();
         String group = getmChatGroup(player);
 
-        if (plugin.groupsMap.get(group + ".info." + info) != null)
-            return plugin.groupsMap.get(group + ".info." + info).toString();
+        if (plugin.mIConfig.getProperty("groups" + group + ".info." + info) != null)
+            return plugin.mIConfig.getProperty("groups" + group + ".info." + info).toString();
 
-        if (plugin.groupsMap.get(group + ".worlds." + world + "." + info) != null)
-            return plugin.groupsMap.get(group + ".worlds." + world + "." + info).toString();
+        if (plugin.mIConfig.getProperty("groups" + group + ".worlds." + world + "." + info) != null)
+            return plugin.mIConfig.getProperty("groups" + group + ".worlds." + world + "." + info).toString();
 
         return "";
     }
 
     String getmChatGroup(Player player) {
         String pName = player.getName();
-        if (plugin.usersMap.get(pName + ".group") != null)
-            return plugin.usersMap.get(pName + ".group").toString();
+        if (plugin.mIConfig.getProperty("users" + pName + ".group") != null)
+            return plugin.mIConfig.getProperty("users" + pName + ".group").toString();
 
         return "";
     }

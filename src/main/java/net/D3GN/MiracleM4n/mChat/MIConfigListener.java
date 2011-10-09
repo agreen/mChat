@@ -17,19 +17,6 @@ public class MIConfigListener {
     TreeMap<String, Object> groupNodeList = new TreeMap<String, Object>();
     TreeMap<String, Object> worldNodeList = new TreeMap<String, Object>();
 
-    TreeMap<String, Object> defaultUsers = new TreeMap<String, Object>();
-    TreeMap<String, Object> defaultUser = new TreeMap<String, Object>();
-    TreeMap<String, Object> defaultUserWorld = new TreeMap<String, Object>();
-    TreeMap<String, Object> defaultUserWorldInfo = new TreeMap<String, Object>();
-    TreeMap<String, Object> defaultUserInfo = new TreeMap<String, Object>();
-    
-	TreeMap<String, Object> defaultGroups = new TreeMap<String, Object>();
-	TreeMap<String, Object> defaultGroup = new TreeMap<String, Object>();
-    TreeMap<String, Object> defaultGroupWorld = new TreeMap<String, Object>();
-    TreeMap<String, Object> defaultGroupWorldInfo = new TreeMap<String, Object>();
-    TreeMap<String, Object> defaultGroupInfo = new TreeMap<String, Object>();
-
-    @SuppressWarnings("unchecked")
 	protected void defaultConfig() {
 		Configuration config = plugin.mIConfig;
 		config.save();
@@ -48,28 +35,25 @@ public class MIConfigListener {
 		defaultWorldNames.put("Hello", "[H]");
 		config.setProperty("worldnames", defaultWorldNames);
 
-        defaultUserWorldInfo.put("prefix", "&2DtKTest");
-        defaultUserWorld.put("DtK", defaultUserWorldInfo);
-        defaultUserInfo.put("suffix", "&2Suffix");
-        defaultUser.put("group", "admin");
-        defaultUser.put("worlds", defaultUserWorld);
-        defaultUser.put("info", defaultUserInfo);
-        defaultUsers.put("MiracleM4n", defaultUser);
-        config.setProperty("users", defaultUsers);
+        plugin.mIReader.defaultUserWorldInfo.put("prefix", "&2DtKTest");
+        plugin.mIReader.defaultUserWorld.put("DtK", plugin.mIReader.defaultUserWorldInfo);
+        plugin.mIReader.defaultUserInfo.put("suffix", "&2Suffix");
+        plugin.mIReader.defaultUser.put("group", "admin");
+        plugin.mIReader.defaultUser.put("worlds", plugin.mIReader.defaultUserWorld);
+        plugin.mIReader.defaultUser.put("info", plugin.mIReader.defaultUserInfo);
+        config.setProperty("users.MiracleM4n", plugin.mIReader.defaultUser);
 
-        defaultGroupWorldInfo.put("prefix", "&3DtKTest2");
-        defaultGroupWorld.put("DtK", defaultGroupWorldInfo);
-        defaultGroupInfo.put("prefix", "&4Admin");
-        defaultGroupInfo.put("custVar", "");
-        defaultGroup.put("worlds", defaultGroupWorld);
-        defaultGroup.put("info", defaultGroupInfo);
-        defaultGroups.put("admin", defaultGroup);
-        config.setProperty("groups",defaultGroups);
+        plugin.mIReader.defaultGroupWorldInfo.put("prefix", "&3DtKTest2");
+        plugin.mIReader.defaultGroupWorld.put("DtK", plugin.mIReader.defaultGroupWorldInfo);
+        plugin.mIReader.defaultGroupInfo.put("prefix", "&4Admin");
+        plugin.mIReader.defaultGroupInfo.put("custVar", "");
+        plugin.mIReader.defaultGroup.put("worlds", plugin.mIReader.defaultGroupWorld);
+        plugin.mIReader.defaultGroup.put("info", plugin.mIReader.defaultGroupInfo);
+        config.setProperty("groups.admin", plugin.mIReader.defaultGroup);
 
 		config.save();
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void checkConfig() {
         if (!(new File(plugin.getDataFolder(), "info.yml")).exists()) {
             defaultConfig();
@@ -81,14 +65,13 @@ public class MIConfigListener {
 			config.setHeader(
 		            "# mChat Info config",
 		            "");
-            defaultUserWorldInfo.put("prefix", "&2DtKTest");
-            defaultUserWorld.put("DtK", defaultUserWorldInfo);
-            defaultUserInfo.put("suffix", "&2Suffix");
-            defaultUser.put("group", "admin");
-            defaultUser.put("worlds", defaultUserWorld);
-            defaultUser.put("info", defaultUserInfo);
-            defaultUsers.put("MiracleM4n", defaultUser);
-            config.setProperty("users", defaultUsers);
+            plugin.mIReader.defaultUserWorldInfo.put("prefix", "&2DtKTest");
+            plugin.mIReader.defaultUserWorld.put("DtK", plugin.mIReader.defaultUserWorldInfo);
+            plugin.mIReader.defaultUserInfo.put("suffix", "&2Suffix");
+            plugin.mIReader.defaultUser.put("group", "admin");
+            plugin.mIReader.defaultUser.put("worlds", plugin.mIReader.defaultUserWorld);
+            plugin.mIReader.defaultUser.put("info", plugin.mIReader.defaultUserInfo);
+            config.setProperty("users.MiracleM4n", plugin.mIReader.defaultUser);
 
 			config.save();
 		}
@@ -97,14 +80,13 @@ public class MIConfigListener {
 			config.setHeader(
 		            "# mChat Info config",
 		            "");
-            defaultGroupWorldInfo.put("prefix", "&3DtKTest2");
-            defaultGroupWorld.put("DtK", defaultGroupWorldInfo);
-            defaultGroupInfo.put("prefix", "&4Admin");
-            defaultGroupInfo.put("custVar", "");
-            defaultGroup.put("worlds", defaultGroupWorld);
-            defaultGroup.put("info", defaultGroupInfo);
-            defaultGroups.put("admin", defaultGroup);
-            config.setProperty("groups",defaultGroups);
+            plugin.mIReader.defaultGroupWorldInfo.put("prefix", "&3DtKTest2");
+            plugin.mIReader.defaultGroupWorld.put("DtK", plugin.mIReader.defaultGroupWorldInfo);
+            plugin.mIReader.defaultGroupInfo.put("prefix", "&4Admin");
+            plugin.mIReader.defaultGroupInfo.put("custVar", "");
+            plugin.mIReader.defaultGroup.put("worlds", plugin.mIReader.defaultGroupWorld);
+            plugin.mIReader.defaultGroup.put("info", plugin.mIReader.defaultGroupInfo);
+            config.setProperty("groups.admin", plugin.mIReader.defaultGroup);
 
 			config.save();
 		}
@@ -144,14 +126,6 @@ public class MIConfigListener {
         if (worldNodeList != null) {
             worldNodeList.clear();
         }
-        if (plugin.usersMap != null) {
-            plugin.usersMap.clear();
-        }
-        if (plugin.groupsMap != null) {
-            plugin.groupsMap.clear();
-        }
-        plugin.usersMap.putAll(config.getNode("users").getAll());
-        plugin.groupsMap.putAll(config.getNode("groups").getAll());
         groupNodeList.putAll(config.getNode("groupnames").getAll());
         worldNodeList.putAll(config.getNode("worldnames").getAll());
     }

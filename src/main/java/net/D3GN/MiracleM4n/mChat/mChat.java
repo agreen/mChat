@@ -69,6 +69,9 @@ public class mChat extends JavaPlugin {
     // mChannel
     Boolean mChannelB = false;
 
+    // MobDisguise
+    Boolean mobD = false;
+
     // Configuration
     Configuration mConfig = null;
     Configuration mIConfig = null;
@@ -90,6 +93,7 @@ public class mChat extends JavaPlugin {
     Boolean useAddDefault = false;
 
     // Formatting
+    String playerList = "+p+dn+s";
     String chatFormat = "+p+dn+s&f: +m";
     String nameFormat = "+p+dn+s&e";
     String joinFormat = "+p+dn+s&e";
@@ -101,10 +105,8 @@ public class mChat extends JavaPlugin {
     // Other Config Stuff
     Double chatDistance = -1.0;
 
-    // InfoHashMaps
+    // InfoHashMap
     TreeMap<String, Object> oldNodeMap = new TreeMap<String, Object>();
-    TreeMap<String, Object> usersMap = new TreeMap<String, Object>();
-    TreeMap<String, Object> groupsMap = new TreeMap<String, Object>();
 
     // Censor String List
     HashMap<String, Object> censorMap = new HashMap<String, Object>();
@@ -140,6 +142,9 @@ public class mChat extends JavaPlugin {
         // Setup mChannel
         setupmChannel();
 
+        // Setup MobDisguise
+        setupmobDisguise();
+
         // Setup Configs
         setupConfigs();
 
@@ -164,7 +169,7 @@ public class mChat extends JavaPlugin {
         // Add All Players To Info.yml
         if (useAddDefault)
             for (Player players : getServer().getOnlinePlayers())
-                if (usersMap.get("users." + players.getName()) == null)
+                if (mIConfig.getProperty("users." + players.getName()) == null)
                     mIReader.addPlayer(players.getName(), "default");
     }
 
@@ -199,7 +204,7 @@ public class mChat extends JavaPlugin {
     }
 
     protected void setupPEX() {
-        Plugin pexTest = getServer().getPluginManager().getPlugin("PermissionsEx");
+        Plugin pexTest = pm.getPlugin("PermissionsEx");
 
         if (pexTest != null) {
             pexPermissions = PermissionsEx.getPermissionManager();
@@ -212,7 +217,7 @@ public class mChat extends JavaPlugin {
     }
 
     protected void setupPermissions() {
-        Plugin permTest = getServer().getPluginManager().getPlugin("Permissions");
+        Plugin permTest = pm.getPlugin("Permissions");
 
         if(permTest != null) {
             permissions = ((Permissions) permTest).getHandler();
@@ -239,7 +244,7 @@ public class mChat extends JavaPlugin {
     }
 
     protected void setupmChannel() {
-        Plugin mChannelTest = getServer().getPluginManager().getPlugin("mChannel");
+        Plugin mChannelTest = pm.getPlugin("mChannel");
 
         if (mChannelTest != null) {
             mChannelB = true;
@@ -247,6 +252,18 @@ public class mChat extends JavaPlugin {
         } else {
             mChannelB = false;
             mAPI.log("[" + pdfFile.getName() + "] mChannel not found not using.");
+        }
+    }
+
+    protected void setupmobDisguise() {
+        Plugin mDis = pm.getPlugin("MobDisguise");
+
+        if (mDis != null) {
+            mobD = true;
+            mAPI.log("[" + pdfFile.getName() + "] " +  mDis.getDescription().getName() + " " + (mDis.getDescription().getVersion()) + " found hooking in.");
+        } else {
+            mobD = false;
+            mAPI.log("[" + pdfFile.getName() + "] MobDisguise not found not using.");
         }
     }
 

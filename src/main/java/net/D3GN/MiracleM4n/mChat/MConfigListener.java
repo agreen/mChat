@@ -29,6 +29,7 @@ public class MConfigListener {
         plugin.mFormat_Events = config.getBoolean("mchat-format-events", plugin.mFormat_Events);
         plugin.chatDistance = config.getDouble("mchat-chat-distance", plugin.chatDistance);
         plugin.useAddDefault = config.getBoolean("mchat-add-info-players", plugin.useAddDefault);
+        plugin.playerList = config.getString("mchat-playerList-format", plugin.playerList);
     }
 
     protected void defaultConfig() {
@@ -57,6 +58,7 @@ public class MConfigListener {
         config.setProperty("mchat-format-events", plugin.mFormat_Events);
         config.setProperty("mchat-chat-distance", plugin.chatDistance);
         config.setProperty("mchat-add-info-players", plugin.useAddDefault);
+        config.setProperty("mchat-playerList-format", plugin.playerList);
         config.save();
     }
 
@@ -68,19 +70,20 @@ public class MConfigListener {
             defaultConfig();
         }
 
-        checkCOption(config, "mchat-date-format", plugin.dateFormat);
-        checkCOption(config, "mchat-message-format", plugin.chatFormat);
-        checkCOption(config, "mchat-name-format", plugin.nameFormat);
-        checkCOption(config, "mchat-playerEvent-format", plugin.joinFormat);
-        checkCOption(config, "mchat-join-message", plugin.joinMessage);
-        checkCOption(config, "mchat-leave-message", plugin.leaveMessage);
-        checkCOption(config, "mchat-kick-message", plugin.kickMessage);
-        checkCOption(config, "mchat-API-only", plugin.mAPI_Only_Mode);
-        checkCOption(config, "mchat-info-only", plugin.mChat_Info_Only);
-        checkCOption(config, "mchat-format-events", plugin.mFormat_Events);
-        checkCOption(config, "mchat-chat-distance", plugin.chatDistance);
-        checkCOption(config, "mchat-add-info-players", plugin.useAddDefault);
-        checkCOption(config, "mchat-oldNodes-only", plugin.mChat_Nodes_Only);
+        checkOption(config, "mchat-date-format", plugin.dateFormat);
+        checkOption(config, "mchat-message-format", plugin.chatFormat);
+        checkOption(config, "mchat-name-format", plugin.nameFormat);
+        checkOption(config, "mchat-playerEvent-format", plugin.joinFormat);
+        checkOption(config, "mchat-join-message", plugin.joinMessage);
+        checkOption(config, "mchat-leave-message", plugin.leaveMessage);
+        checkOption(config, "mchat-kick-message", plugin.kickMessage);
+        checkOption(config, "mchat-API-only", plugin.mAPI_Only_Mode);
+        checkOption(config, "mchat-info-only", plugin.mChat_Info_Only);
+        checkOption(config, "mchat-format-events", plugin.mFormat_Events);
+        checkOption(config, "mchat-chat-distance", plugin.chatDistance);
+        checkOption(config, "mchat-add-info-players", plugin.useAddDefault);
+        checkOption(config, "mchat-oldNodes-only", plugin.mChat_Nodes_Only);
+        checkOption(config, "mchat-playerList-format", plugin.playerList);
 
         if (hasChanged) {
             config.setHeader(
@@ -98,7 +101,7 @@ public class MConfigListener {
         }
     }
 
-    protected void checkCOption(Configuration config, String option, Object dOption) {
+    protected void checkOption(Configuration config, String option, Object dOption) {
         if (config.getProperty(option) == null) {
             config.setProperty(option, dOption);
             hasChanged = true;
