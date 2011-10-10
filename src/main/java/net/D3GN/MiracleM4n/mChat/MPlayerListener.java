@@ -32,12 +32,14 @@ public class MPlayerListener extends PlayerListener {
                 if (players.getLocation().distance(player.getLocation()) > plugin.chatDistance)
 					event.getRecipients().remove(players);
 
+        // For Obama?
         if (plugin.mobD)
             if (MobDisguise.p2p.get(pName) != null) {
-                pName = MobDisguise.p2p.get(pName);
-                event.setFormat(plugin.mAPI.ParseChatMessage(pName, msg));
+                String pMDName = MobDisguise.p2p.get(pName);
+                event.setFormat(plugin.mAPI.ParseChatMessage(pMDName, msg));
             }
 
+        // For Cruxsky
         if (plugin.mAPI.ParsePlayerList(player).length() > 15) {
                 String pLName = plugin.mAPI.ParsePlayerList(player);
                 pLName = pLName.substring(0, 16);
@@ -55,6 +57,7 @@ public class MPlayerListener extends PlayerListener {
 
 		event.setJoinMessage(plugin.mAPI.ParseJoinName(player) + " " + plugin.mAPI.getEventMessage("Join"));
 
+        // For Lazy People
         if (plugin.useAddDefault)
             if (plugin.mIConfig.getProperty("users." + player.getName()) == null)
                 plugin.mIReader.addPlayer(player.getName(), "default");

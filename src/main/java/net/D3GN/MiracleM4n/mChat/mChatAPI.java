@@ -171,7 +171,7 @@ public class mChatAPI {
     }
 
     public String ParsePlayerList(Player player) {
-        return ParseChatMessage(player.getName(), "", plugin.playerList);
+        return ParseChatMessage(player.getName(), "", plugin.playerList).replaceAll("(§([a-z0-9]))", "");
     }
 
     public String ParseChatMessage(String pName, String msg) {
@@ -187,7 +187,7 @@ public class mChatAPI {
     }
 
     public String ParsePlayerList(String pName) {
-        return ParseChatMessage(pName, "", plugin.playerList);
+        return ParseChatMessage(pName, "", plugin.playerList).replaceAll("(§([a-z0-9]))", "");
     }
 
     public String getGroupName(String group) {
@@ -284,11 +284,11 @@ public class mChatAPI {
         String pName = player.getName();
         String world = player.getWorld().getName();
 
-        if (plugin.mIConfig.getProperty("users" + pName + ".info." + info) != null)
-            return plugin.mIConfig.getProperty("users" + pName + ".info." + info).toString();
+        if (plugin.mIConfig.getProperty("users." + pName + ".info." + info) != null)
+            return plugin.mIConfig.getProperty("users." + pName + ".info." + info).toString();
 
-        if (plugin.mIConfig.getProperty("users" + pName + ".worlds." + world + "." + info) != null)
-            return plugin.mIConfig.getProperty("users" + pName + ".worlds." + world + "." + info).toString();
+        if (plugin.mIConfig.getProperty("users." + pName + ".worlds." + world + "." + info) != null)
+            return plugin.mIConfig.getProperty("users." + pName + ".worlds." + world + "." + info).toString();
 
         return getmChatGroupInfo(player, info);
     }
@@ -298,11 +298,11 @@ public class mChatAPI {
         String world = player.getWorld().getName();
         String group = getmChatGroup(player);
 
-        if (plugin.mIConfig.getProperty("groups" + group + ".info." + info) != null)
-            return plugin.mIConfig.getProperty("groups" + group + ".info." + info).toString();
+        if (plugin.mIConfig.getProperty("groups." + group + ".info." + info) != null)
+            return plugin.mIConfig.getProperty("groups." + group + ".info." + info).toString();
 
-        if (plugin.mIConfig.getProperty("groups" + group + ".worlds." + world + "." + info) != null)
-            return plugin.mIConfig.getProperty("groups" + group + ".worlds." + world + "." + info).toString();
+        if (plugin.mIConfig.getProperty("groups." + group + ".worlds." + world + "." + info) != null)
+            return plugin.mIConfig.getProperty("groups." + group + ".worlds." + world + "." + info).toString();
 
         return "";
     }

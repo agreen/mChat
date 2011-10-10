@@ -21,6 +21,7 @@ public class MInfoReader {
     TreeMap<String, Object> defaultGroupWorldInfo = new TreeMap<String, Object>();
     TreeMap<String, Object> defaultGroupInfo = new TreeMap<String, Object>();
 
+    // Player Info
     public void addPlayer(String player, String defaultGroup) {
         Configuration config = plugin.mIConfig;
 
@@ -28,7 +29,7 @@ public class MInfoReader {
 		plugin.mIListener.loadConfig();
 
         if (config.getProperty("users") != null) {
-            if (config.getNode("users." + player) == null) {
+            if (config.getProperty("users." + player) == null) {
                 defaultUserInfo.put("prefix", "");
                 defaultUserInfo.put("suffix", "");
                 defaultUser.put("group", defaultGroup);
@@ -50,7 +51,7 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + groupName) == null) {
+        if (config.getProperty("groups." + groupName) == null) {
             defaultGroupInfo.put("prefix", "");
             defaultGroupInfo.put("suffix", "");
             defaultGroup.put("info", defaultGroupInfo);
@@ -66,7 +67,7 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player) != null) {
+        if (config.getProperty("users." + player) != null) {
             config.setProperty("users." + player + ".group", group);
 
             config.save();
@@ -81,8 +82,8 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player) != null) {
-            if (config.getNode("users." + newName) == null) {
+        if (config.getProperty("users." + player) != null) {
+            if (config.getProperty("users." + newName) == null) {
                 config.setProperty("users." + newName, config.getProperty("users." + player));
                 config.removeProperty("users." + player);
 
@@ -99,7 +100,7 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player) != null) {
+        if (config.getProperty("users." + player) != null) {
             config.removeProperty("users." + player);
 
             config.save();
@@ -114,13 +115,8 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player) != null) {
-            if (config.getNode("users." + player + ".info") != null)
-                defaultUserInfo.putAll(config.getNode("users." + player + ".info").getAll());
-            defaultUserInfo.put(var, value);
-            defaultUser.putAll(config.getNodes("users." + player));
-            defaultUser.put("info", defaultUserInfo);
-            config.setProperty("users." + player, defaultUser);
+        if (config.getProperty("users." + player + ".info") != null) {
+            config.setProperty("users." + player + ".info." + var, value);
 
             config.save();
 
@@ -134,14 +130,9 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player) != null) {
-            if (config.getNode("users." + player + ".info") != null)
-                defaultUserInfo.putAll(config.getNode("users." + player + ".info").getAll());
-            defaultUserInfo.put(newVar, defaultUserInfo.get(oldVar));
-            defaultUserInfo.remove(oldVar);
-            defaultUser.putAll(config.getNodes("users." + player));
-            defaultUser.put("info", defaultUserInfo);
-            config.setProperty("users" + player, defaultUser);
+        if (config.getProperty("users." + player + ".info." + oldVar) != null) {
+            config.setProperty("users." + player + ".info." + newVar, config.getProperty("users." + player + ".info." + oldVar));
+            config.removeProperty("users." + player + ".info." + oldVar);
 
             config.save();
 
@@ -155,7 +146,7 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player + ".info." + var) != null) {
+        if (config.getProperty("users." + player + ".info." + var) != null) {
             config.setProperty("users." + player + ".info." + var, newValue);
 
             config.save();
@@ -170,7 +161,7 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player + ".info." + var) != null) {
+        if (config.getProperty("users." + player + ".info." + var) != null) {
             config.removeProperty("users." + player + ".info." + var);
 
             config.save();
@@ -185,9 +176,11 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player) != null) {
-            if (config.getNode("users." + player + "." + world) == null) {
-                config.setProperty("users." + player + "." + world, "");
+        if (config.getProperty("users." + player) != null) {
+            if (config.getProperty("users." + player + ".worlds." + world) == null) {
+                defaultUserWorld.put("prefix", "");
+                defaultUserWorld.put("suffix", "");
+                config.setProperty("users." + player + ".worlds." + world, defaultUserWorld);
 
                 config.save();
 
@@ -202,15 +195,13 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player) != null) {
-            if (config.getNode("users." + player + "." + oldWorld) != null) {
-                config.setProperty("users." + player + "." + newWorld, config.getProperty("users." + player + "." + oldWorld));
-                config.removeProperty("users." + player + "." + oldWorld);
+        if (config.getProperty("users." + player + ".worlds." + oldWorld) != null) {
+            config.setProperty("users." + player + ".worlds." + newWorld, config.getProperty("users." + player + ".worlds." + oldWorld));
+            config.removeProperty("users." + player + ".worlds." + oldWorld);
 
-                config.save();
+            config.save();
 
-                plugin.mIListener.loadConfig();
-            }
+            plugin.mIListener.loadConfig();
         }
     }
 
@@ -220,9 +211,9 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player) != null) {
-            if (config.getNode("users." + player + "." + world) != null) {
-                config.removeProperty("users." + player + "." + world);
+        if (config.getProperty("users." + player) != null) {
+            if (config.getProperty("users." + player + ".worlds." + world) != null) {
+                config.removeProperty("users." + player + ".worlds." + world);
 
                 config.save();
 
@@ -237,11 +228,8 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player + "." + world) != null) {
-            if (config.getNode("users." + player + "." + world + ".info") != null)
-                defaultUserWorldInfo.putAll(config.getNode("users." + player + "." + world + ".info").getAll());
-            defaultUserWorldInfo.put(var, value);
-            config.setProperty("users." + player + "." + world, defaultUserWorldInfo);
+        if (config.getProperty("users." + player + ".worlds." + world) != null) {
+            config.setProperty("users." + player + ".worlds." + world + "." + var, value);
 
             config.save();
 
@@ -255,9 +243,9 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player + "." + world + ".info." + oldVar) != null) {
-            config.setProperty("users." + player + "." + world + ".info." + newVar, config.getProperty("users." + player + "." + world + ".info." + oldVar));
-            config.removeProperty("users." + player + "." + world + ".info." + oldVar);
+        if (config.getProperty("users." + player + ".worlds." + world + "." + oldVar) != null) {
+            config.setProperty("users." + player + ".worlds." + world + "." + newVar, config.getProperty("users." + player + ".worlds." + world + "." + oldVar));
+            config.removeProperty("users." + player + ".worlds." + world + "." + oldVar);
 
             config.save();
 
@@ -271,8 +259,9 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player + "." + world + ".info." + var) != null) {
-            config.setProperty("users." + player + "." + world + ".info." + var, newValue);
+        if (config.getProperty("users." + player + ".worlds." + world + "." + var) != null) {
+            config.setProperty("users." + player + ".worlds." + world + "." + var, newValue);
+
             config.save();
 
             plugin.mIListener.loadConfig();
@@ -285,8 +274,8 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("users." + player + "." + world + ".info." + var) != null) {
-            config.removeProperty("users." + player + "." + world + ".info." + var);
+        if (config.getProperty("users." + player + ".worlds." + world + "." + var) != null) {
+            config.removeProperty("users." + player + ".worlds." + world + "." + var);
 
             config.save();
 
@@ -294,14 +283,18 @@ public class MInfoReader {
         }
     }
 
+    // Group Info
     public void addGroup(String group) {
         Configuration config = plugin.mIConfig;
 
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group) == null) {
-            config.setProperty("groups." + group, "");
+        if (config.getProperty("groups." + group) == null) {
+            defaultGroupInfo.put("prefix", "");
+            defaultGroupInfo.put("suffix", "");
+            defaultGroup.put("info", defaultGroupInfo);
+            config.setProperty("groups." + group, defaultGroup);
 
             config.save();
 
@@ -315,7 +308,7 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + oldGroup) != null) {
+        if (config.getProperty("groups." + oldGroup) != null) {
             config.setProperty("groups." + newGroup, config.getProperty("groups." + oldGroup));
             config.removeProperty("groups." + oldGroup);
 
@@ -331,7 +324,7 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group) != null) {
+        if (config.getProperty("groups." + group) != null) {
             config.removeProperty("groups." + group);
 
             config.save();
@@ -346,13 +339,8 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group) != null) {
-            if (config.getNode("groups." + group + ".info") != null)
-                defaultGroupInfo.putAll(config.getNode("groups." + group + ".info").getAll());
-            defaultGroupInfo.put(var, value);
-            defaultGroup.putAll(config.getNodes("groups." + group));
-            defaultGroup.put("info", defaultGroupInfo);
-            config.setProperty("groups." + group, defaultGroup);
+        if (config.getProperty("groups." + group) != null) {
+            config.setProperty("groups." + group + ".info." + var, value);
 
             config.save();
 
@@ -366,14 +354,9 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group) != null) {
-            if (config.getNode("groups." + group + ".info") != null)
-                defaultGroupInfo.putAll(config.getNode("groups." + group + ".info").getAll());
-            defaultGroupInfo.put(newVar, defaultGroupInfo.get(oldVar));
-            defaultGroupInfo.remove(oldVar);
-            defaultGroup.putAll(config.getNodes("groups." + group));
-            defaultGroup.put("info", defaultGroupInfo);
-            config.setProperty("groups" + group, defaultGroup);
+        if (config.getProperty("groups." + group + ".info." + oldVar) != null) {
+            config.setProperty("groups." + group + ".info." + newVar, config.getProperty("groups." + group + ".info." + oldVar));
+            config.removeProperty("groups." + group + ".info." + oldVar);
 
             config.save();
 
@@ -387,7 +370,7 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group + ".info." + var) != null) {
+        if (config.getProperty("groups." + group + ".info." + var) != null) {
             config.setProperty("groups." + group + ".info." + var, newValue);
 
             config.save();
@@ -402,7 +385,7 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group + ".info." + var) != null) {
+        if (config.getProperty("groups." + group + ".info." + var) != null) {
             config.removeProperty("groups." + group + ".info." + var);
 
             config.save();
@@ -417,9 +400,9 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group) != null) {
-            if (config.getNode("groups." + group + "." + world) == null) {
-                config.setProperty("groups." + group + "." + world, "");
+        if (config.getProperty("groups." + group) != null) {
+            if (config.getProperty("groups." + group + ".worlds." + world) == null) {
+                config.setProperty("groups." + group + ".worlds." + world, "");
 
                 config.save();
 
@@ -434,15 +417,13 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group) != null) {
-            if (config.getNode("groups." + group + "." + oldWorld) != null) {
-                config.setProperty("groups." + group + "." + newWorld, config.getProperty("groups." + group + "." + oldWorld));
-                config.removeProperty("groups." + group + "." + oldWorld);
+        if (config.getProperty("groups." + group + ".worlds." + oldWorld) != null) {
+            config.setProperty("groups." + group + ".worlds." + newWorld, config.getProperty("groups." + group + ".worlds." + oldWorld));
+            config.removeProperty("groups." + group + ".worlds." + oldWorld);
 
-                config.save();
+            config.save();
 
-                plugin.mIListener.loadConfig();
-            }
+            plugin.mIListener.loadConfig();
         }
     }
 
@@ -452,9 +433,9 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group) != null) {
-            if (config.getNode("groups." + group + "." + world) != null) {
-                config.removeProperty("groups." + group + "." + world);
+        if (config.getProperty("groups." + group) != null) {
+            if (config.getProperty("groups." + group + ".worlds." + world) != null) {
+                config.removeProperty("groups." + group + ".worlds." + world);
 
                 config.save();
 
@@ -469,11 +450,8 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group + "." + world) != null) {
-            if (config.getNode("groups." + group + "." + world + ".info") != null)
-                defaultGroupWorldInfo.putAll(config.getNode("groups." + group + "." + world + ".info").getAll());
-            defaultGroupWorldInfo.put(var, value);
-            config.setProperty("groups." + group + "." + world, defaultGroupWorldInfo);
+        if (config.getProperty("groups." + group + ".worlds." + world) != null) {
+            config.setProperty("groups." + group + ".worlds." + world + "." + var, value);
 
             config.save();
 
@@ -487,9 +465,9 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group + "." + world + ".info." + oldVar) != null) {
-            config.setProperty("groups." + group + "." + world + ".info." + newVar, config.getProperty("groups." + group + "." + world + ".info." + oldVar));
-            config.removeProperty("groups." + group + "." + world + ".info." + oldVar);
+        if (config.getProperty("groups." + group + ".worlds." + world + "." + oldVar) != null) {
+            config.setProperty("groups." + group + ".worlds." + world + "." + newVar, config.getProperty("groups." + group + ".worlds." + world + "." + oldVar));
+            config.removeProperty("groups." + group + ".worlds." + world + "." + oldVar);
 
             config.save();
 
@@ -503,8 +481,8 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group + "." + world + ".info." + var) != null) {
-            config.setProperty("groups." + group + "." + world + ".info." + var, newValue);
+        if (config.getProperty("groups." + group + ".worlds." + world + "." + var) != null) {
+            config.setProperty("groups." + group + ".worlds." + world + "." + var, newValue);
             config.save();
 
             plugin.mIListener.loadConfig();
@@ -517,8 +495,8 @@ public class MInfoReader {
         config.load();
 		plugin.mIListener.loadConfig();
 
-        if (config.getNode("groups." + group + "." + world + ".info." + var) != null) {
-            config.removeProperty("groups." + group + "." + world + ".info." + var);
+        if (config.getProperty("groups." + group + ".worlds." + world + "." + var) != null) {
+            config.removeProperty("groups." + group + ".worlds." + world + "." + var);
 
             config.save();
 

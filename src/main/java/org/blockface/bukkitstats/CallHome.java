@@ -84,7 +84,7 @@ class CallTask implements Runnable {
             if (postUrl().contains("Success")) return;
         } catch (Exception ignored) {
         }
-        System.out.println("Could not call home.");
+        System.out.println("[" + plugin.getDescription().getName() + "]" + "Could not call home.");
     }
 
     private String postUrl() throws Exception {

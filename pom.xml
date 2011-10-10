@@ -22,16 +22,6 @@
         </repository>
         -->
         <repository>
-            <id>d3gn-repo</id>
-            <url>http://d3gn.net/repository</url>
-            <releases>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-            <snapshots>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-        <repository>
             <id>bukkit-repo</id>
             <url>http://repo.bukkit.org/artifactory/repo</url>
             <releases>
