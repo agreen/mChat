@@ -639,7 +639,7 @@ public class mChatAPI {
         }
 
         matcher.appendTail(sb);
-        return sb.toString();
+        return addColour(sb.toString());
     }
 
     String replaceVars(String format, String[] search, String[] replace) {
