@@ -14,9 +14,13 @@ public class MCommandSender implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        Player player = null;
+
+        if (sender instanceof  Player)
+            player = (Player) sender;
+
         String cmd = command.getName();
-        Player player = (Player) sender;
-        
+
         if (!cmd.equalsIgnoreCase("mchat"))
             return false;
 
