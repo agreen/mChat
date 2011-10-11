@@ -9,14 +9,15 @@ description: Chat API with more.
 commands:
     mchat:
         description:
-        permissions:
         usage: |
-            /<command> reload [config/info/censor/all]
-            Example: /<command> - See this info.
-            Example: /<command> reload config - Reload Config.
-            Example: /<command> reload info - Reload Info.
-            Example: /<command> reload censor - Reload Info.
-            Example: /<command> reload all - Reload All Configs.
+            [mChat] Help Screen
+            - /<command> = See This Info.
+            - /<command> reload config = Reload Config.
+            - /<command> reload info = Reload Info.
+            - /<command> reload censor = Reload Info.
+            - /<command> reload all = Reload All Configs.
+            - /<command> user = Show Info User Help.
+            - /<command> group = Show Info Group Help.
 
 permissions:
     mchat.*:

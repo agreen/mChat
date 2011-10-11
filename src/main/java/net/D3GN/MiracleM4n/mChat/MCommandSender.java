@@ -28,55 +28,68 @@ public class MCommandSender implements CommandExecutor {
             return false;
 
         if (args[0].equalsIgnoreCase("reload")) {
-            if (args[1].equalsIgnoreCase("config")) {
-                if (sender instanceof Player)
-                    if (!plugin.mAPI.checkPermissions(player, "mchat.reload.config")) {
-                        sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
-                        return true;
-                    }
-                plugin.cListener.checkConfig();
-                plugin.cListener.loadConfig();
-                sender.sendMessage(formatMessage("Config Reloaded."));
-                return true;
-            } else if (args[1].equalsIgnoreCase("info")) {
-                if (sender instanceof Player)
-                    if (!plugin.mAPI.checkPermissions(player, "mchat.reload.info")) {
-                        sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
-                        return true;
-                    }
-                plugin.mIListener.checkConfig();
-                plugin.mIListener.loadConfig();
-                sender.sendMessage(formatMessage("Info Reloaded."));
-                return true;
-            } else if (args[1].equalsIgnoreCase("censor")) {
-                if (sender instanceof Player)
-                    if (!plugin.mAPI.checkPermissions(player, "mchat.reload.censor")) {
-                        sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
-                        return true;
-                    }
-                plugin.mCListener.loadConfig();
-                sender.sendMessage(formatMessage("Censor Reloaded."));
-                return true;
-            } else if (args[1].equalsIgnoreCase("all")) {
-                if (sender instanceof Player)
-                    if (!plugin.mAPI.checkPermissions(player, "mchat.reload.all")) {
-                        sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
-                        return true;
-                    }
-                plugin.mCListener.loadConfig();
-                plugin.cListener.checkConfig();
-                plugin.cListener.loadConfig();
-                plugin.mIListener.checkConfig();
-                plugin.mIListener.loadConfig();
-                sender.sendMessage(formatMessage("All Config's Reloaded."));
-                return true;
-            }
-        } else if (args[0].equalsIgnoreCase("u")
+            if (args.length > 1)
+                if (args[1].equalsIgnoreCase("config")) {
+                    if (sender instanceof Player)
+                        if (!plugin.mAPI.checkPermissions(player, "mchat.reload.config")) {
+                            sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
+                            return true;
+                        }
+                    plugin.cListener.checkConfig();
+                    plugin.cListener.loadConfig();
+                    sender.sendMessage(formatMessage("Config Reloaded."));
+                    return true;
+                } else if (args[1].equalsIgnoreCase("info")) {
+                    if (sender instanceof Player)
+                        if (!plugin.mAPI.checkPermissions(player, "mchat.reload.info")) {
+                            sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
+                            return true;
+                        }
+                    plugin.mIListener.checkConfig();
+                    plugin.mIListener.loadConfig();
+                    sender.sendMessage(formatMessage("Info Reloaded."));
+                    return true;
+                } else if (args[1].equalsIgnoreCase("censor")) {
+                    if (sender instanceof Player)
+                        if (!plugin.mAPI.checkPermissions(player, "mchat.reload.censor")) {
+                            sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
+                            return true;
+                        }
+                    plugin.mCListener.loadConfig();
+                    sender.sendMessage(formatMessage("Censor Reloaded."));
+                    return true;
+                } else if (args[1].equalsIgnoreCase("all")) {
+                    if (sender instanceof Player)
+                        if (!plugin.mAPI.checkPermissions(player, "mchat.reload.all")) {
+                            sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
+                            return true;
+                        }
+                    plugin.mCListener.loadConfig();
+                    plugin.cListener.checkConfig();
+                    plugin.cListener.loadConfig();
+                    plugin.mIListener.checkConfig();
+                    plugin.mIListener.loadConfig();
+                    sender.sendMessage(formatMessage("All Config's Reloaded."));
+                    return true;
+                }
+        }
+
+        if (args[0].equalsIgnoreCase("u")
                 || args[0].equalsIgnoreCase("user")) {
-           if (args[1].equalsIgnoreCase("a")
-            || args[1].equalsIgnoreCase("add")) {
-               if (args[2].equalsIgnoreCase("p")
-                || args[2].equalsIgnoreCase("player")) {
+            if (args.length == 1) {
+                sender.sendMessage(formatMessage("Use '/mchat user add/edit/remove' for user help."));
+                return true;
+            } else if (args[1].equalsIgnoreCase("a")
+                    || args[1].equalsIgnoreCase("add")) {
+                if (args.length == 2) {
+                    sender.sendMessage(formatMessage("Usage for '/mchat user add':"));
+                    sender.sendMessage("- /mchat user add player Player");
+                    sender.sendMessage("- /mchat user add ivar Player InfoVariable InfoValue");
+                    sender.sendMessage("- /mchat user add world Player World");
+                    sender.sendMessage("- /mchat user add world Player World InfoVariable InfoValue");
+                    return true;
+                } else if (args[2].equalsIgnoreCase("p")
+                        || args[2].equalsIgnoreCase("player")) {
 					if (sender instanceof Player)
 						if (!plugin.mAPI.checkPermissions(player, "mchat.user.add.player")) {
                             sender.sendMessage(formatMessage("You don't have Permission to do that."));
@@ -138,8 +151,17 @@ public class MCommandSender implements CommandExecutor {
                 }
             } else if (args[1].equalsIgnoreCase("e")
                     || args[1].equalsIgnoreCase("edit")) {
-               if (args[2].equalsIgnoreCase("n")
-                || args[2].equalsIgnoreCase("name")) {
+                if (args.length == 2) {
+                    sender.sendMessage(formatMessage("Usage for '/mchat user edit':"));
+                    sender.sendMessage("- /mchat user edit name Player NewName");
+                    sender.sendMessage("- /mchat user edit ivar Player OldInfoVariable NewInfoVariable");
+                    sender.sendMessage("- /mchat user edit ival Player InfoVariable NewValue");
+                    sender.sendMessage("- /mchat user edit group Player Group");
+                    sender.sendMessage("- /mchat user edit world Player OldWorld NewWorld");
+                    sender.sendMessage("- /mchat user edit wvar Player World OldInfoVariable NewInfoVariable");
+                    return true;
+                } else if (args[2].equalsIgnoreCase("n")
+                        || args[2].equalsIgnoreCase("name")) {
 					if (sender instanceof Player)
 						if (!plugin.mAPI.checkPermissions(player, "mchat.user.edit.name")) {
                             sender.sendMessage(formatMessage("You don't have Permission to do that."));
@@ -246,8 +268,15 @@ public class MCommandSender implements CommandExecutor {
                 }
             } else if (args[1].equalsIgnoreCase("r")
                     || args[1].equalsIgnoreCase("remove")) {
-               if (args[2].equalsIgnoreCase("p")
-                || args[2].equalsIgnoreCase("player")) {
+                if (args.length == 2) {
+                    sender.sendMessage(formatMessage("Usage for '/mchat user remove':"));
+                    sender.sendMessage("- /mchat user remove Player");
+                    sender.sendMessage("- /mchat user remove Player InfoVariable");
+                    sender.sendMessage("- /mchat user remove Player World");
+                    sender.sendMessage("- /mchat user remove Player World InfoVariable");
+                    return true;
+                } else if (args[2].equalsIgnoreCase("p")
+                        || args[2].equalsIgnoreCase("player")) {
 					if (sender instanceof Player)
 						if (!plugin.mAPI.checkPermissions(player, "mchat.user.remove.player")) {
                             sender.sendMessage(formatMessage("You don't have Permission to do that."));
@@ -310,10 +339,20 @@ public class MCommandSender implements CommandExecutor {
             }
         } else if (args[0].equalsIgnoreCase("g")
                 || args[0].equalsIgnoreCase("group")) {
-           if (args[1].equalsIgnoreCase("a")
-            || args[1].equalsIgnoreCase("add")) {
-               if (args[2].equalsIgnoreCase("g")
-                || args[2].equalsIgnoreCase("group")) {
+            if (args.length == 1) {
+                sender.sendMessage(formatMessage("Use '/mchat group add/edit/remove' for group help."));
+                return true;
+            } else if (args[1].equalsIgnoreCase("a")
+                    || args[1].equalsIgnoreCase("add")) {
+                if (args.length == 2) {
+                    sender.sendMessage(formatMessage("Usage for '/mchat group add':"));
+                    sender.sendMessage("- /mchat group add group Group");
+                    sender.sendMessage("- /mchat group add ivar Group InfoVariable InfoValue");
+                    sender.sendMessage("- /mchat group add world Group World");
+                    sender.sendMessage("- /mchat group add world Group World InfoVariable InfoValue");
+                    return true;
+                } else if (args[2].equalsIgnoreCase("g")
+                        || args[2].equalsIgnoreCase("group")) {
 					if (sender instanceof Player)
 						if (!plugin.mAPI.checkPermissions(player, "mchat.group.add.group")) {
                             sender.sendMessage(formatMessage("You don't have Permission to do that."));
@@ -375,8 +414,16 @@ public class MCommandSender implements CommandExecutor {
                 }
             } else if (args[1].equalsIgnoreCase("e")
                     || args[1].equalsIgnoreCase("edit")) {
-               if (args[2].equalsIgnoreCase("n")
-                || args[2].equalsIgnoreCase("name")) {
+                if (args.length == 2) {
+                    sender.sendMessage(formatMessage("Usage for '/mchat group edit':"));
+                    sender.sendMessage("- /mchat group edit name Group NewName");
+                    sender.sendMessage("- /mchat group edit ivar Group OldInfoVariable NewInfoVariable");
+                    sender.sendMessage("- /mchat group edit ival Group InfoVariable NewValue");
+                    sender.sendMessage("- /mchat group edit world Group OldWorld NewWorld");
+                    sender.sendMessage("- /mchat group edit wvar Group World OldInfoVariable NewInfoVariable");
+                    return true;
+                } else if (args[2].equalsIgnoreCase("n")
+                        || args[2].equalsIgnoreCase("name")) {
 					if (sender instanceof Player)
 						if (!plugin.mAPI.checkPermissions(player, "mchat.group.edit.name")) {
                             sender.sendMessage(formatMessage("You don't have Permission to do that."));
@@ -468,8 +515,15 @@ public class MCommandSender implements CommandExecutor {
                 }
             } else if (args[1].equalsIgnoreCase("r")
                     || args[1].equalsIgnoreCase("remove")) {
-               if (args[2].equalsIgnoreCase("g")
-                || args[2].equalsIgnoreCase("group")) {
+                if (args.length == 2) {
+                    sender.sendMessage(formatMessage("Usage for '/mchat group remove':"));
+                    sender.sendMessage("- /mchat group remove Group");
+                    sender.sendMessage("- /mchat group remove Group InfoVariable");
+                    sender.sendMessage("- /mchat group remove Group World");
+                    sender.sendMessage("- /mchat group remove Group World InfoVariable");
+                    return true;
+                } else if (args[2].equalsIgnoreCase("g")
+                        || args[2].equalsIgnoreCase("group")) {
 					if (sender instanceof Player)
 						if (!plugin.mAPI.checkPermissions(player, "mchat.group.remove.group")) {
                             sender.sendMessage(formatMessage("You don't have Permission to do that."));
