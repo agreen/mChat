@@ -29,81 +29,47 @@ public class MCommandSender implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("reload")) {
             if (args[1].equalsIgnoreCase("config")) {
-                if (sender instanceof Player) {
-                    if (plugin.mAPI.checkPermissions(player, "mchat.reload.config")) {
-                        plugin.cListener.checkConfig();
-                        plugin.cListener.loadConfig();
-                        sender.sendMessage(formatMessage("Config Reloaded."));
-                    } else {
+                if (sender instanceof Player)
+                    if (!plugin.mAPI.checkPermissions(player, "mchat.reload.config")) {
                         sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
+                        return true;
                     }
-
-                    return true;
-                } else {
-                    plugin.cListener.checkConfig();
-                    plugin.cListener.loadConfig();
-                    plugin.mAPI.log(formatMessage("Config Reloaded."));
-
-                    return true;
-                }
+                plugin.cListener.checkConfig();
+                plugin.cListener.loadConfig();
+                sender.sendMessage(formatMessage("Config Reloaded."));
+                return true;
             } else if (args[1].equalsIgnoreCase("info")) {
-                if (sender instanceof Player) {
-                    if (plugin.mAPI.checkPermissions(player, "mchat.reload.info")) {
-                        plugin.mIListener.checkConfig();
-                        plugin.mIListener.loadConfig();
-                        sender.sendMessage(formatMessage("Info Reloaded."));
-                    } else {
+                if (sender instanceof Player)
+                    if (!plugin.mAPI.checkPermissions(player, "mchat.reload.info")) {
                         sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
+                        return true;
                     }
-
-                    return true;
-                } else {
-                    plugin.mIListener.checkConfig();
-                    plugin.mIListener.loadConfig();
-                    plugin.mAPI.log(formatMessage("Info Reloaded."));
-
-                    return true;
-                }
+                plugin.mIListener.checkConfig();
+                plugin.mIListener.loadConfig();
+                sender.sendMessage(formatMessage("Info Reloaded."));
+                return true;
             } else if (args[1].equalsIgnoreCase("censor")) {
-                if (sender instanceof Player) {
-                    if (plugin.mAPI.checkPermissions(player, "mchat.reload.censor")) {
-                        plugin.mCListener.loadConfig();
-                        sender.sendMessage(formatMessage("Censor Reloaded."));
-                    } else {
+                if (sender instanceof Player)
+                    if (!plugin.mAPI.checkPermissions(player, "mchat.reload.censor")) {
                         sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
+                        return true;
                     }
-
-                    return true;
-                } else {
-                    plugin.mCListener.loadConfig();
-                    plugin.mAPI.log(formatMessage("Censor Reloaded."));
-
-                    return true;
-                }
+                plugin.mCListener.loadConfig();
+                sender.sendMessage(formatMessage("Censor Reloaded."));
+                return true;
             } else if (args[1].equalsIgnoreCase("all")) {
-                if (sender instanceof Player) {
-                    if (plugin.mAPI.checkPermissions(player, "mchat.reload.all")) {
-                        plugin.mCListener.loadConfig();
-                        plugin.cListener.checkConfig();
-                        plugin.cListener.loadConfig();
-                        plugin.mIListener.checkConfig();
-                        plugin.mIListener.loadConfig();
-                        sender.sendMessage(formatMessage("All Config's Reloaded."));
-                    } else {
+                if (sender instanceof Player)
+                    if (!plugin.mAPI.checkPermissions(player, "mchat.reload.all")) {
                         sender.sendMessage(formatMessage("You are not allowed to reload mChat."));
+                        return true;
                     }
-
-                    return true;
-                } else {
-                    plugin.mCListener.loadConfig();
-                    plugin.cListener.checkConfig();
-                    plugin.cListener.loadConfig();
-                    plugin.mIListener.checkConfig();
-                    plugin.mIListener.loadConfig();
-                    plugin.mAPI.log(formatMessage("All Config's Reloaded."));
-
-                    return true;
-                }
+                plugin.mCListener.loadConfig();
+                plugin.cListener.checkConfig();
+                plugin.cListener.loadConfig();
+                plugin.mIListener.checkConfig();
+                plugin.mIListener.loadConfig();
+                sender.sendMessage(formatMessage("All Config's Reloaded."));
+                return true;
             }
         } else if (args[0].equalsIgnoreCase("u")
                 || args[0].equalsIgnoreCase("user")) {
